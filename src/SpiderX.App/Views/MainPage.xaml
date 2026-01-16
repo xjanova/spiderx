@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
+             x:Class="SpiderX.App.Views.MainPage"
+             x:DataType="vm:MainViewModel"
+             Title="SpiderX"
+             BackgroundColor="{StaticResource SpiderBackground}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Share ID" Command="{Binding ShareIdCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- Header with status -->
+        <Frame Grid.Row="0"
+               BackgroundColor="{StaticResource SpiderSurface}"
+               Padding="16"
+               CornerRadius="0"
+               HasShadow="False">
+            <Grid ColumnDefinitions="*,Auto">
+                <VerticalStackLayout>
+                    <Label Text="Your SpiderX ID"
+                           FontSize="12"
+                           TextColor="{StaticResource SpiderTextSecondary}" />
+                    <Label Text="{Binding LocalId}"
+                           FontSize="14"
+                           TextColor="{StaticResource SpiderText}"
+                           FontFamily="Monospace"
+                           LineBreakMode="MiddleTruncation" />
+                </VerticalStackLayout>
+
+                <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                    <Frame BackgroundColor="{StaticResource SpiderOnline}"
+                           WidthRequest="10"
+                           HeightRequest="10"
+                           CornerRadius="5"
+                           HasShadow="False"
+                           IsVisible="{Binding IsConnected}" />
+                    <Label Text="{Binding PeerCount, StringFormat='{0} peers'}"
+                           TextColor="{StaticResource SpiderTextSecondary}"
+                           VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </Grid>
+        </Frame>
+
+        <!-- Conversations list -->
+        <RefreshView Grid.Row="1"
+                     Command="{Binding RefreshCommand}"
+                     IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Conversations}"
+                            SelectionMode="Single"
+                            BackgroundColor="Transparent">
+
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center"
+                                         HorizontalOptions="Center"
+                                         Spacing="16"
+                                         Padding="32">
+                        <Label Text="No conversations yet"
+                               FontSize="18"
+                               TextColor="{StaticResource SpiderTextSecondary}"
+                               HorizontalTextAlignment="Center" />
+                        <Label Text="Add contacts and start chatting!"
+                               FontSize="14"
+                               TextColor="{StaticResource SpiderTextSecondary}"
+                               HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:ConversationItem">
+                        <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                               Margin="8,4"
+                               Padding="12"
+                               CornerRadius="12"
+                               HasShadow="False">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MainViewModel}}, Path=OpenChatCommand}"
+                                    CommandParameter="{Binding PeerId}" />
+                            </Frame.GestureRecognizers>
+
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                <!-- Avatar with online indicator -->
+                                <Grid>
+                                    <Frame BackgroundColor="{StaticResource SpiderPrimary}"
+                                           WidthRequest="48"
+                                           HeightRequest="48"
+                                           CornerRadius="24"
+                                           HasShadow="False">
+                                        <Label Text="{Binding DisplayName, Converter={StaticResource InitialsConverter}}"
+                                               FontSize="18"
+                                               TextColor="White"
+                                               HorizontalOptions="Center"
+                                               VerticalOptions="Center" />
+                                    </Frame>
+                                    <Frame BackgroundColor="{StaticResource SpiderOnline}"
+                                           WidthRequest="14"
+                                           HeightRequest="14"
+                                           CornerRadius="7"
+                                           HasShadow="False"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="End"
+                                           IsVisible="{Binding IsOnline}" />
+                                </Grid>
+
+                                <!-- Name and last message -->
+                                <VerticalStackLayout Grid.Column="1"
+                                                     VerticalOptions="Center"
+                                                     Spacing="4">
+                                    <Label Text="{Binding DisplayName}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource SpiderText}" />
+                                    <Label Text="{Binding LastMessage}"
+                                           FontSize="14"
+                                           TextColor="{StaticResource SpiderTextSecondary}"
+                                           LineBreakMode="TailTruncation"
+                                           MaxLines="1" />
+                                </VerticalStackLayout>
+
+                                <!-- Time and unread count -->
+                                <VerticalStackLayout Grid.Column="2"
+                                                     VerticalOptions="Center"
+                                                     HorizontalOptions="End"
+                                                     Spacing="4">
+                                    <Label Text="{Binding TimeDisplay}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource SpiderTextSecondary}"
+                                           HorizontalTextAlignment="End" />
+                                    <Frame BackgroundColor="{StaticResource SpiderPrimary}"
+                                           Padding="6,2"
+                                           CornerRadius="10"
+                                           HasShadow="False"
+                                           HorizontalOptions="End"
+                                           IsVisible="{Binding UnreadCount, Converter={StaticResource IntToBoolConverter}}">
+                                        <Label Text="{Binding UnreadCount}"
+                                               FontSize="12"
+                                               TextColor="White" />
+                                    </Frame>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

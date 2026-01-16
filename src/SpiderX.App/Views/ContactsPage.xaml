@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
+             x:Class="SpiderX.App.Views.ContactsPage"
+             x:DataType="vm:ContactsViewModel"
+             Title="Contacts"
+             BackgroundColor="{StaticResource SpiderBackground}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AddContactCommand}" />
+        <ToolbarItem Text="Scan" Command="{Binding ScanQrCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <RefreshView Command="{Binding RefreshCommand}"
+                 IsRefreshing="{Binding IsRefreshing}">
+        <ScrollView>
+            <VerticalStackLayout Spacing="8" Padding="8">
+
+                <!-- Pending Requests Section -->
+                <VerticalStackLayout IsVisible="{Binding PendingRequests.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <Label Text="Pending Requests"
+                           FontSize="14"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SpiderTextSecondary}"
+                           Margin="8,8,8,4" />
+
+                    <CollectionView ItemsSource="{Binding PendingRequests}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ContactItem">
+                                <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                                       Margin="0,4"
+                                       Padding="12"
+                                       CornerRadius="12"
+                                       HasShadow="False">
+                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="12">
+                                        <!-- Avatar -->
+                                        <Frame BackgroundColor="{StaticResource SpiderSecondary}"
+                                               WidthRequest="48"
+                                               HeightRequest="48"
+                                               CornerRadius="24"
+                                               HasShadow="False">
+                                            <Label Text="?"
+                                                   FontSize="20"
+                                                   TextColor="White"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                        </Frame>
+
+                                        <!-- Name -->
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
+                                            <Label Text="{Binding DisplayName}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource SpiderText}" />
+                                            <Label Text="Wants to connect"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource SpiderTextSecondary}" />
+                                        </VerticalStackLayout>
+
+                                        <!-- Accept button -->
+                                        <Button Grid.Column="2"
+                                                Text="Accept"
+                                                BackgroundColor="{StaticResource SpiderOnline}"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                Padding="12,8"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ContactsViewModel}}, Path=AcceptRequestCommand}"
+                                                CommandParameter="{Binding .}" />
+
+                                        <!-- Reject button -->
+                                        <Button Grid.Column="3"
+                                                Text="Reject"
+                                                BackgroundColor="{StaticResource SpiderOffline}"
+                                                TextColor="White"
+                                                CornerRadius="8"
+                                                Padding="12,8"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ContactsViewModel}}, Path=RejectRequestCommand}"
+                                                CommandParameter="{Binding .}" />
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+
+                <!-- Contacts Section -->
+                <Label Text="My Contacts"
+                       FontSize="14"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource SpiderTextSecondary}"
+                       Margin="8,16,8,4" />
+
+                <CollectionView ItemsSource="{Binding Contacts}">
+                    <CollectionView.EmptyView>
+                        <VerticalStackLayout VerticalOptions="Center"
+                                             HorizontalOptions="Center"
+                                             Spacing="16"
+                                             Padding="32">
+                            <Label Text="No contacts yet"
+                                   FontSize="18"
+                                   TextColor="{StaticResource SpiderTextSecondary}"
+                                   HorizontalTextAlignment="Center" />
+                            <Label Text="Tap + to add a contact"
+                                   FontSize="14"
+                                   TextColor="{StaticResource SpiderTextSecondary}"
+                                   HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </CollectionView.EmptyView>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ContactItem">
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItems>
+                                        <SwipeItem Text="Block"
+                                                   BackgroundColor="{StaticResource SpiderOffline}"
+                                                   Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ContactsViewModel}}, Path=BlockContactCommand}"
+                                                   CommandParameter="{Binding .}" />
+                                    </SwipeItems>
+                                </SwipeView.RightItems>
+
+                                <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                                       Margin="0,4"
+                                       Padding="12"
+                                       CornerRadius="12"
+                                       HasShadow="False">
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                        <!-- Avatar with online indicator -->
+                                        <Grid>
+                                            <Frame BackgroundColor="{StaticResource SpiderPrimary}"
+                                                   WidthRequest="48"
+                                                   HeightRequest="48"
+                                                   CornerRadius="24"
+                                                   HasShadow="False">
+                                                <Label Text="{Binding DisplayName, Converter={StaticResource InitialsConverter}}"
+                                                       FontSize="18"
+                                                       TextColor="White"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Frame>
+                                            <Frame BackgroundColor="{StaticResource SpiderOnline}"
+                                                   WidthRequest="14"
+                                                   HeightRequest="14"
+                                                   CornerRadius="7"
+                                                   HasShadow="False"
+                                                   HorizontalOptions="End"
+                                                   VerticalOptions="End"
+                                                   IsVisible="{Binding IsOnline}" />
+                                        </Grid>
+
+                                        <!-- Name and status -->
+                                        <VerticalStackLayout Grid.Column="1"
+                                                             VerticalOptions="Center"
+                                                             Spacing="4">
+                                            <Label Text="{Binding DisplayName}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   TextColor="{StaticResource SpiderText}" />
+                                            <Label Text="{Binding StatusText}"
+                                                   FontSize="12"
+                                                   TextColor="{StaticResource SpiderTextSecondary}" />
+                                        </VerticalStackLayout>
+
+                                        <!-- Actions -->
+                                        <HorizontalStackLayout Grid.Column="2" Spacing="8">
+                                            <ImageButton Source="chat_icon.png"
+                                                         WidthRequest="40"
+                                                         HeightRequest="40"
+                                                         BackgroundColor="Transparent" />
+                                            <ImageButton Source="call_icon.png"
+                                                         WidthRequest="40"
+                                                         HeightRequest="40"
+                                                         BackgroundColor="Transparent" />
+                                        </HorizontalStackLayout>
+                                    </Grid>
+                                </Frame>
+                            </SwipeView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>
