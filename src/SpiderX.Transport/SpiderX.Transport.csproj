@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <Description>SpiderX Network Transport Layer (UDP, TCP, Bluetooth, WiFi Direct)</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteNetLib" Version="1.2.0" />
+    <PackageReference Include="Makaretu.Dns.Multicast" Version="0.27.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpiderX.Crypto\SpiderX.Crypto.csproj" />
+  </ItemGroup>
+
+</Project>

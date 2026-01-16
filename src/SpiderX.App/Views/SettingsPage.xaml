@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
+             x:Class="SpiderX.App.Views.SettingsPage"
+             x:DataType="vm:SettingsViewModel"
+             Title="Settings"
+             BackgroundColor="{StaticResource SpiderBackground}">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="16" Padding="16">
+
+            <!-- Identity Section -->
+            <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                   Padding="16"
+                   CornerRadius="12"
+                   HasShadow="False">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="YOUR IDENTITY"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SpiderTextSecondary}" />
+
+                    <!-- ID Display -->
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="SpiderX ID"
+                               FontSize="12"
+                               TextColor="{StaticResource SpiderTextSecondary}" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                            <Label Text="{Binding LocalId}"
+                                   FontSize="14"
+                                   TextColor="{StaticResource SpiderText}"
+                                   FontFamily="Monospace"
+                                   LineBreakMode="MiddleTruncation" />
+                            <Button Grid.Column="1"
+                                    Text="Copy"
+                                    BackgroundColor="{StaticResource SpiderPrimary}"
+                                    TextColor="White"
+                                    CornerRadius="8"
+                                    Padding="12,6"
+                                    Command="{Binding CopyIdCommand}" />
+                        </Grid>
+                    </VerticalStackLayout>
+
+                    <!-- QR Code -->
+                    <Button Text="Show QR Code"
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource SpiderPrimary}"
+                            BorderWidth="1"
+                            TextColor="{StaticResource SpiderPrimary}"
+                            CornerRadius="8"
+                            Command="{Binding ShowQrCodeCommand}" />
+
+                    <!-- Share -->
+                    <Button Text="Share ID"
+                            BackgroundColor="{StaticResource SpiderPrimary}"
+                            TextColor="White"
+                            CornerRadius="8"
+                            Command="{Binding ShareIdCommand}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Connection Status -->
+            <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                   Padding="16"
+                   CornerRadius="12"
+                   HasShadow="False">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="CONNECTION STATUS"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SpiderTextSecondary}" />
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Status"
+                               TextColor="{StaticResource SpiderText}" />
+                        <HorizontalStackLayout Grid.Column="1" Spacing="8">
+                            <Frame BackgroundColor="{Binding IsConnected, Converter={StaticResource BoolToColorConverter}}"
+                                   WidthRequest="10"
+                                   HeightRequest="10"
+                                   CornerRadius="5"
+                                   HasShadow="False" />
+                            <Label Text="{Binding IsConnected, Converter={StaticResource BoolToConnectedTextConverter}}"
+                                   TextColor="{StaticResource SpiderText}" />
+                        </HorizontalStackLayout>
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Connected Peers"
+                               TextColor="{StaticResource SpiderText}" />
+                        <Label Grid.Column="1"
+                               Text="{Binding ConnectedPeers}"
+                               TextColor="{StaticResource SpiderText}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Profile Section -->
+            <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                   Padding="16"
+                   CornerRadius="12"
+                   HasShadow="False">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="PROFILE"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SpiderTextSecondary}" />
+
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Display Name"
+                               FontSize="12"
+                               TextColor="{StaticResource SpiderTextSecondary}" />
+                        <Entry Text="{Binding DisplayName}"
+                               Placeholder="Enter your name..."
+                               PlaceholderColor="{StaticResource SpiderTextSecondary}"
+                               TextColor="{StaticResource SpiderText}"
+                               BackgroundColor="{StaticResource SpiderBackground}"
+                               Completed="OnDisplayNameCompleted" />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Network Settings -->
+            <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                   Padding="16"
+                   CornerRadius="12"
+                   HasShadow="False">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="NETWORK"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SpiderTextSecondary}" />
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="LAN Discovery"
+                               TextColor="{StaticResource SpiderText}"
+                               VerticalOptions="Center" />
+                        <Switch Grid.Column="1"
+                                IsToggled="{Binding EnableLanDiscovery}"
+                                OnColor="{StaticResource SpiderPrimary}" />
+                    </Grid>
+
+                    <Grid ColumnDefinitions="*,Auto">
+                        <Label Text="Notifications"
+                               TextColor="{StaticResource SpiderText}"
+                               VerticalOptions="Center" />
+                        <Switch Grid.Column="1"
+                                IsToggled="{Binding EnableNotifications}"
+                                OnColor="{StaticResource SpiderPrimary}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Security Section -->
+            <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                   Padding="16"
+                   CornerRadius="12"
+                   HasShadow="False">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="SECURITY"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SpiderTextSecondary}" />
+
+                    <Button Text="Export Identity (Backup)"
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource SpiderAccent}"
+                            BorderWidth="1"
+                            TextColor="{StaticResource SpiderAccent}"
+                            CornerRadius="8"
+                            Command="{Binding ExportIdentityCommand}" />
+
+                    <Button Text="Import Identity"
+                            BackgroundColor="Transparent"
+                            BorderColor="{StaticResource SpiderTextSecondary}"
+                            BorderWidth="1"
+                            TextColor="{StaticResource SpiderTextSecondary}"
+                            CornerRadius="8"
+                            Command="{Binding ImportIdentityCommand}" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- About -->
+            <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                   Padding="16"
+                   CornerRadius="12"
+                   HasShadow="False">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="ABOUT"
+                           FontSize="12"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SpiderTextSecondary}" />
+
+                    <Label Text="SpiderX - P2P Mesh Network"
+                           TextColor="{StaticResource SpiderText}"
+                           FontSize="16" />
+                    <Label Text="{Binding Version, StringFormat='Version {0}'}"
+                           TextColor="{StaticResource SpiderTextSecondary}"
+                           FontSize="12" />
+                    <Label Text="Decentralized. Secure. Private."
+                           TextColor="{StaticResource SpiderTextSecondary}"
+                           FontSize="12" />
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xaml-comp compile="true" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- Converters -->
+    <local:IntToBoolConverter x:Key="IntToBoolConverter"
+        xmlns:local="clr-namespace:SpiderX.App.Converters" />
+    <local:InvertBoolConverter x:Key="InvertBoolConverter"
+        xmlns:local="clr-namespace:SpiderX.App.Converters" />
+    <local:StringToBoolConverter x:Key="StringToBoolConverter"
+        xmlns:local="clr-namespace:SpiderX.App.Converters" />
+    <local:InitialsConverter x:Key="InitialsConverter"
+        xmlns:local="clr-namespace:SpiderX.App.Converters" />
+    <local:OnlineStatusConverter x:Key="OnlineStatusConverter"
+        xmlns:local="clr-namespace:SpiderX.App.Converters" />
+    <local:BoolToColorConverter x:Key="BoolToColorConverter"
+        xmlns:local="clr-namespace:SpiderX.App.Converters" />
+    <local:BoolToConnectedTextConverter x:Key="BoolToConnectedTextConverter"
+        xmlns:local="clr-namespace:SpiderX.App.Converters" />
+
+    <!-- Button Styles -->
+    <Style TargetType="Button">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{StaticResource SpiderPrimary}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderColor" Value="{StaticResource SpiderPrimary}" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="TextColor" Value="{StaticResource SpiderPrimary}" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="16,12" />
+        <Setter Property="CornerRadius" Value="8" />
+    </Style>
+
+    <!-- Entry Styles -->
+    <Style TargetType="Entry">
+        <Setter Property="TextColor" Value="{StaticResource SpiderText}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource SpiderTextSecondary}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource SpiderBackground}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <!-- Label Styles -->
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource SpiderText}" />
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="Headline" TargetType="Label">
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource SpiderText}" />
+    </Style>
+
+    <Style x:Key="Subheadline" TargetType="Label">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontAttributes" Value="Bold" />
+        <Setter Property="TextColor" Value="{StaticResource SpiderText}" />
+    </Style>
+
+    <Style x:Key="Caption" TargetType="Label">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="{StaticResource SpiderTextSecondary}" />
+    </Style>
+
+    <!-- Page Styles -->
+    <Style TargetType="Page" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{StaticResource SpiderBackground}" />
+    </Style>
+
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource SpiderSurface}" />
+        <Setter Property="Shell.ForegroundColor" Value="{StaticResource SpiderText}" />
+        <Setter Property="Shell.TitleColor" Value="{StaticResource SpiderText}" />
+        <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource SpiderSurface}" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource SpiderText}" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource SpiderText}" />
+        <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource SpiderTextSecondary}" />
+    </Style>
+
+    <!-- Frame Styles -->
+    <Style x:Key="CardFrame" TargetType="Frame">
+        <Setter Property="BackgroundColor" Value="{StaticResource SpiderSurface}" />
+        <Setter Property="Padding" Value="16" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="HasShadow" Value="False" />
+    </Style>
+
+</ResourceDictionary>

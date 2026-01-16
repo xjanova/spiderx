@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
+             x:Class="SpiderX.App.Views.ChatPage"
+             x:DataType="vm:ChatViewModel"
+             Title="{Binding PeerName}"
+             BackgroundColor="{StaticResource SpiderBackground}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Call" Command="{Binding StartCallCommand}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- Header -->
+        <Frame Grid.Row="0"
+               BackgroundColor="{StaticResource SpiderSurface}"
+               Padding="12"
+               CornerRadius="0"
+               HasShadow="False">
+            <HorizontalStackLayout Spacing="8">
+                <Frame BackgroundColor="{StaticResource SpiderOnline}"
+                       WidthRequest="10"
+                       HeightRequest="10"
+                       CornerRadius="5"
+                       HasShadow="False"
+                       IsVisible="{Binding IsOnline}"
+                       VerticalOptions="Center" />
+                <Label Text="{Binding IsOnline, Converter={StaticResource OnlineStatusConverter}}"
+                       TextColor="{StaticResource SpiderTextSecondary}"
+                       FontSize="12"
+                       VerticalOptions="Center" />
+            </HorizontalStackLayout>
+        </Frame>
+
+        <!-- Messages -->
+        <CollectionView Grid.Row="1"
+                        ItemsSource="{Binding Messages}"
+                        ItemsUpdatingScrollMode="KeepLastItemInView"
+                        BackgroundColor="Transparent">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:MessageItem">
+                    <Grid Padding="8,4">
+                        <!-- Outgoing message (right aligned) -->
+                        <Frame BackgroundColor="{StaticResource SpiderPrimary}"
+                               Padding="12,8"
+                               CornerRadius="16"
+                               HasShadow="False"
+                               HorizontalOptions="End"
+                               MaximumWidthRequest="280"
+                               IsVisible="{Binding IsOutgoing}">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Content}"
+                                       TextColor="White"
+                                       FontSize="15" />
+                                <HorizontalStackLayout Spacing="4" HorizontalOptions="End">
+                                    <Label Text="{Binding TimeText}"
+                                           TextColor="White"
+                                           FontSize="10"
+                                           Opacity="0.7" />
+                                    <Label Text="{Binding Status}"
+                                           TextColor="White"
+                                           FontSize="10"
+                                           Opacity="0.7"
+                                           IsVisible="{Binding Status, Converter={StaticResource StringToBoolConverter}}" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+
+                        <!-- Incoming message (left aligned) -->
+                        <Frame BackgroundColor="{StaticResource SpiderSurface}"
+                               Padding="12,8"
+                               CornerRadius="16"
+                               HasShadow="False"
+                               HorizontalOptions="Start"
+                               MaximumWidthRequest="280"
+                               IsVisible="{Binding IsOutgoing, Converter={StaticResource InvertBoolConverter}}">
+                            <VerticalStackLayout Spacing="4">
+                                <Label Text="{Binding Content}"
+                                       TextColor="{StaticResource SpiderText}"
+                                       FontSize="15" />
+                                <Label Text="{Binding TimeText}"
+                                       TextColor="{StaticResource SpiderTextSecondary}"
+                                       FontSize="10"
+                                       HorizontalOptions="End" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout VerticalOptions="Center"
+                                     HorizontalOptions="Center"
+                                     Padding="32">
+                    <Label Text="No messages yet"
+                           FontSize="16"
+                           TextColor="{StaticResource SpiderTextSecondary}"
+                           HorizontalTextAlignment="Center" />
+                    <Label Text="Say hello!"
+                           FontSize="14"
+                           TextColor="{StaticResource SpiderTextSecondary}"
+                           HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+        </CollectionView>
+
+        <!-- Input area -->
+        <Frame Grid.Row="2"
+               BackgroundColor="{StaticResource SpiderSurface}"
+               Padding="8"
+               CornerRadius="0"
+               HasShadow="False">
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="8">
+                <!-- Attach file button -->
+                <ImageButton Source="attach_icon.png"
+                             WidthRequest="44"
+                             HeightRequest="44"
+                             BackgroundColor="Transparent"
+                             Command="{Binding SendFileCommand}" />
+
+                <!-- Text input -->
+                <Frame Grid.Column="1"
+                       BackgroundColor="{StaticResource SpiderBackground}"
+                       Padding="12,8"
+                       CornerRadius="20"
+                       HasShadow="False">
+                    <Entry Text="{Binding MessageText}"
+                           Placeholder="Type a message..."
+                           PlaceholderColor="{StaticResource SpiderTextSecondary}"
+                           TextColor="{StaticResource SpiderText}"
+                           BackgroundColor="Transparent"
+                           ReturnType="Send"
+                           ReturnCommand="{Binding SendMessageCommand}" />
+                </Frame>
+
+                <!-- Send button -->
+                <Button Grid.Column="2"
+                        Text="Send"
+                        BackgroundColor="{StaticResource SpiderPrimary}"
+                        TextColor="White"
+                        CornerRadius="20"
+                        Padding="16,8"
+                        Command="{Binding SendMessageCommand}" />
+            </Grid>
+        </Frame>
+    </Grid>
+</ContentPage>
