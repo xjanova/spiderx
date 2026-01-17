@@ -454,4 +454,4 @@ internal enum PacketType : byte
     Punch = 9
 }
 
-internal record PendingPacket(byte[] Data, DateTime SentTime);
+internal record PendingPacket(byte[] data, DateTime sentTime);
