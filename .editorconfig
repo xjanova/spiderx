@@ -99,6 +99,20 @@ dotnet_diagnostic.SA1009.severity = none
 dotnet_diagnostic.SA1111.severity = none
 # SA1118: Parameter should not span multiple lines
 dotnet_diagnostic.SA1118.severity = none
+# SA1611: Element parameters should be documented
+dotnet_diagnostic.SA1611.severity = none
+# SA1612: Element parameter documentation should match element parameters
+dotnet_diagnostic.SA1612.severity = none
+# SA1513: Closing brace should be followed by blank line
+dotnet_diagnostic.SA1513.severity = none
+# SA1010: Opening square brackets should be spaced correctly
+dotnet_diagnostic.SA1010.severity = none
+# SA1011: Closing square brackets should be spaced correctly
+dotnet_diagnostic.SA1011.severity = none
+# SA1515: Single-line comment should be preceded by blank line
+dotnet_diagnostic.SA1515.severity = none
+# SA1512: Single-line comments should not be followed by blank line
+dotnet_diagnostic.SA1512.severity = none
 
 # Expression-level preferences
 csharp_style_var_for_built_in_types = false:suggestion
