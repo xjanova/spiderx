@@ -71,7 +71,6 @@ public class TcpTransport : ITransport
             }
             catch (OperationCanceledException)
             {
-                // Expected
             }
         }
     }
@@ -242,11 +241,9 @@ public class TcpConnection : IConnection
         }
         catch (OperationCanceledException)
         {
-            // Expected on shutdown
         }
         catch (IOException)
         {
-            // Connection error
         }
         finally
         {

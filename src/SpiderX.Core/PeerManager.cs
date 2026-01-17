@@ -300,13 +300,13 @@ public class PeerManager : IDisposable
 
         // Wait for response
         var tcs = new TaskCompletionSource<byte[]>();
-        void handler(object? s, DataReceivedEventArgs e) => tcs.TrySetResult(e.Data);
+        void Handler(object? s, DataReceivedEventArgs e) => tcs.TrySetResult(e.Data);
 
-        connection.DataReceived += handler;
+        connection.DataReceived += Handler;
         try
         {
             var responseData = await tcs.Task.WaitAsync(TimeSpan.FromSeconds(10), cancellationToken);
-            connection.DataReceived -= handler;
+            connection.DataReceived -= Handler;
 
             var response = Message.Deserialize(responseData);
             if (response is not HandshakeAckMessage ack || !ack.Accepted)
@@ -359,13 +359,13 @@ public class PeerManager : IDisposable
     {
         // Wait for handshake
         var tcs = new TaskCompletionSource<byte[]>();
-        void handler(object? s, DataReceivedEventArgs e) => tcs.TrySetResult(e.Data);
+        void Handler(object? s, DataReceivedEventArgs e) => tcs.TrySetResult(e.Data);
 
-        connection.DataReceived += handler;
+        connection.DataReceived += Handler;
         try
         {
             var data = await tcs.Task.WaitAsync(TimeSpan.FromSeconds(10));
-            connection.DataReceived -= handler;
+            connection.DataReceived -= Handler;
 
             var message = Message.Deserialize(data);
             if (message is not HandshakeMessage handshake)
