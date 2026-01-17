@@ -39,12 +39,8 @@ public class P2PFileSharingService : IDisposable
     public P2PFileSharingService(SpiderNode node, string? sharedFolder = null, string? downloadFolder = null)
     {
         _node = node;
-        _sharedFolder = sharedFolder ?? Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            "SpiderX", "Shared");
-        _downloadFolder = downloadFolder ?? Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            "SpiderX", "Downloads");
+        _sharedFolder = sharedFolder ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SpiderX", "Shared");
+        _downloadFolder = downloadFolder ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "SpiderX", "Downloads");
 
         Directory.CreateDirectory(_sharedFolder);
         Directory.CreateDirectory(_downloadFolder);
@@ -219,10 +215,15 @@ public class P2PFileSharingService : IDisposable
         {
             download.State = DownloadState.Cancelled;
 
-            // Clean up partial file
             if (File.Exists(download.DestinationPath))
             {
-                try { File.Delete(download.DestinationPath); } catch { }
+                try
+                {
+                    File.Delete(download.DestinationPath);
+                }
+                catch
+                {
+                }
             }
         }
     }
