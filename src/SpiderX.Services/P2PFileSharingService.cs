@@ -63,7 +63,8 @@ public class P2PFileSharingService : IDisposable
 
     public Task StopAsync()
     {
-        if (!_isRunning) return Task.CompletedTask;
+        if (!_isRunning)
+            return Task.CompletedTask;
 
         _cts?.Cancel();
         _isRunning = false;
@@ -750,7 +751,8 @@ internal class SpeedTracker
     public double GetSpeed()
     {
         Cleanup();
-        if (_samples.Count < 2) return 0;
+        if (_samples.Count < 2)
+            return 0;
 
         var totalBytes = _samples.Sum(s => s.Bytes);
         var duration = (DateTime.UtcNow - _samples.Peek().Time).TotalSeconds;
