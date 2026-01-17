@@ -1,0 +1,60 @@
+name: ❓ Question
+description: Ask a question about SpiderX
+title: "[Question]: "
+labels: ["question"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question? We're here to help!
+
+        Before asking, please check:
+        - [Documentation](../docs/)
+        - [Existing issues](https://github.com/search?type=issues)
+        - [Discussions](https://github.com/discussions) (if available)
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What is your question about?
+      options:
+        - Getting Started / Installation
+        - Configuration
+        - API Usage
+        - P2P Networking
+        - Security / Encryption
+        - Performance
+        - Deployment
+        - Contributing
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: Please describe your question in detail
+      placeholder: What would you like to know?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Provide any relevant context that might help us answer your question
+      placeholder: |
+        - What are you trying to achieve?
+        - What have you tried so far?
+        - What documentation have you already read?
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Code Sample
+      description: If relevant, provide a code sample
+      render: csharp

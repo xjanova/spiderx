@@ -1,0 +1,152 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# .NET
+*.dll
+*.exe
+*.pdb
+*.cache
+*.mdb
+.nuget/
+
+# Test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.trx
+*.log
+coverage/
+*.coverage
+*.coveragexml
+coverage*.json
+coverage*.xml
+*.lcov
+
+# MAUI / Xamarin
+*.apk
+*.aab
+*.ipa
+*.app
+*.dSYM.zip
+*.dSYM/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.directory
+
+# Backup files
+*.bak
+*.swp
+*.tmp
+*.temp
+
+# Secrets and credentials
+*.pfx
+*.snk
+*.key
+*.pem
+*.p12
+secrets.json
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json.example
+
+# Local environment
+.env
+.env.*
+!.env.example
+local.settings.json
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Publish output
+publish/
+PublishOutput/
+
+# Microsoft Azure
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# StyleCop
+StyleCopReport.xml
+
+# BenchmarkDotNet
+BenchmarkDotNet.Artifacts/
+
+# Generated files
+**/Generated/
+**/*.Generated.cs
+
+# MAUI specific
+platforms/*/obj/
+platforms/*/bin/
+*.mauiassets
+
+# Android specific
+*.keystore
+google-services.json
+
+# iOS specific
+*.mobileprovision
+*.xcuserdata/
+*.xcworkspace/
+
+# Crash logs
+crash*.json
+```
