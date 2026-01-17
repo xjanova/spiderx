@@ -14,37 +14,37 @@ public class Peer : IDisposable
     private bool _disposed;
 
     /// <summary>
-    /// Unique identifier of this peer
+    /// Gets the unique identifier of this peer.
     /// </summary>
     public SpiderId Id { get; }
 
     /// <summary>
-    /// Peer's public key for encryption
+    /// Gets the peer's public key for encryption.
     /// </summary>
     public byte[] PublicKey { get; }
 
     /// <summary>
-    /// Display name (if known)
+    /// Gets or sets the display name (if known).
     /// </summary>
     public string? DisplayName { get; set; }
 
     /// <summary>
-    /// Connection status
+    /// Gets the connection status.
     /// </summary>
     public PeerStatus Status { get; private set; } = PeerStatus.Disconnected;
 
     /// <summary>
-    /// Whether this peer is authorized to communicate
+    /// Gets or sets a value indicating whether this peer is authorized to communicate.
     /// </summary>
     public bool IsAuthorized { get; set; }
 
     /// <summary>
-    /// Permission level for this peer
+    /// Gets or sets the permission level for this peer.
     /// </summary>
     public PermissionLevel Permissions { get; set; } = PermissionLevel.None;
 
     /// <summary>
-    /// Last time this peer was seen online
+    /// Gets the last time this peer was seen online.
     /// </summary>
     public DateTime LastSeen
     {
@@ -53,7 +53,7 @@ public class Peer : IDisposable
     }
 
     /// <summary>
-    /// Current latency to this peer in milliseconds
+    /// Gets the current latency to this peer in milliseconds.
     /// </summary>
     public int Latency { get; internal set; }
 
@@ -197,7 +197,8 @@ public class Peer : IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
 
         lock (_connectionLock)
