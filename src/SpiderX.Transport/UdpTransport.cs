@@ -348,6 +348,13 @@ public class UdpConnection : IConnection
         IsConnected = true;
     }
 
+    internal async Task SendPingAsync()
+    {
+        _lastPingTime = DateTime.UtcNow;
+        byte[] packet = [(byte)PacketType.Ping, .. BitConverter.GetBytes(_lastPingTime.Ticks)];
+        await _client.SendAsync(packet, _remoteEndpoint);
+    }
+
     internal async Task SendPongAsync()
     {
         byte[] packet = [(byte)PacketType.Pong, .. BitConverter.GetBytes(DateTime.UtcNow.Ticks)];
