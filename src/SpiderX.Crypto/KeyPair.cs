@@ -37,7 +37,9 @@ public sealed class KeyPair : IDisposable
     public static KeyPair FromPrivateKey(byte[] privateKey)
     {
         if (privateKey.Length != 32)
+        {
             throw new ArgumentException("Private key must be 32 bytes", nameof(privateKey));
+        }
 
         using var ed25519 = Ed25519KeyPair.FromSeed(privateKey);
         return new KeyPair(privateKey.ToArray(), ed25519.PublicKey);
@@ -114,7 +116,9 @@ public sealed class KeyPair : IDisposable
     private void ThrowIfDisposed()
     {
         if (_disposed)
+        {
             throw new ObjectDisposedException(nameof(KeyPair));
+        }
     }
 
     public void Dispose()
@@ -148,7 +152,9 @@ internal sealed class Ed25519KeyPair : IDisposable
 
         // Normalize to 32 bytes for compatibility
         if (PublicKey.Length > 32)
+        {
             PublicKey = SHA256.HashData(PublicKey);
+        }
     }
 
     private Ed25519KeyPair(byte[] seed)

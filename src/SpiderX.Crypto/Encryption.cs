@@ -18,7 +18,9 @@ public static class Encryption
     public static byte[] Encrypt(byte[] plaintext, byte[] sharedSecret, byte[]? associatedData = null)
     {
         if (sharedSecret.Length != KeySize)
+        {
             throw new ArgumentException($"Shared secret must be {KeySize} bytes", nameof(sharedSecret));
+        }
 
         byte[] nonce = RandomNumberGenerator.GetBytes(NonceSize);
         byte[] ciphertext = new byte[plaintext.Length];
@@ -42,10 +44,14 @@ public static class Encryption
     public static byte[] Decrypt(byte[] encrypted, byte[] sharedSecret, byte[]? associatedData = null)
     {
         if (sharedSecret.Length != KeySize)
+        {
             throw new ArgumentException($"Shared secret must be {KeySize} bytes", nameof(sharedSecret));
+        }
 
         if (encrypted.Length < NonceSize + TagSize)
+        {
             throw new ArgumentException("Encrypted data is too short", nameof(encrypted));
+        }
 
         byte[] nonce = encrypted.AsSpan(0, NonceSize).ToArray();
         byte[] tag = encrypted.AsSpan(NonceSize, TagSize).ToArray();
@@ -128,7 +134,9 @@ public static class Encryption
     {
         // Verify signature
         if (!KeyPair.Verify(envelope.SenderPublicKey, envelope.EncryptedData, envelope.Signature))
+        {
             throw new CryptographicException("Invalid signature");
+        }
 
         // Compute shared secret
         byte[] sharedSecret = recipient.ComputeSharedSecret(envelope.SenderPublicKey);

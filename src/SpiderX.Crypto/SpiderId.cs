@@ -21,7 +21,9 @@ public sealed class SpiderId : IEquatable<SpiderId>
     private SpiderId(byte[] hash)
     {
         if (hash.Length != HashLength)
+        {
             throw new ArgumentException($"Hash must be {HashLength} bytes", nameof(hash));
+        }
 
         _hash = hash.ToArray();
         Address = Prefix + Base58.Bitcoin.Encode(AddChecksum(_hash));
@@ -47,23 +49,31 @@ public sealed class SpiderId : IEquatable<SpiderId>
     public static SpiderId Parse(string address)
     {
         if (string.IsNullOrEmpty(address))
+        {
             throw new ArgumentException("Address cannot be empty", nameof(address));
+        }
 
         if (!address.StartsWith(Prefix))
+        {
             throw new FormatException($"Invalid SpiderId format. Must start with '{Prefix}'");
+        }
 
         string encoded = address[Prefix.Length..];
         byte[] decoded = Base58.Bitcoin.Decode(encoded);
 
         if (decoded.Length != HashLength + 4)
+        {
             throw new FormatException("Invalid SpiderId length");
+        }
 
         byte[] hash = decoded.AsSpan(0, HashLength).ToArray();
         byte[] checksum = decoded.AsSpan(HashLength, 4).ToArray();
 
         byte[] expectedChecksum = ComputeChecksum(hash);
         if (!checksum.SequenceEqual(expectedChecksum))
+        {
             throw new FormatException("Invalid SpiderId checksum");
+        }
 
         return new SpiderId(hash);
     }
@@ -133,9 +143,13 @@ public sealed class SpiderId : IEquatable<SpiderId>
         for (int i = 7; i >= 0; i--)
         {
             if ((b & (1 << i)) == 0)
+            {
                 count++;
+            }
             else
+            {
                 break;
+            }
         }
         return count;
     }
