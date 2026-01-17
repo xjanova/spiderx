@@ -156,7 +156,7 @@ public class P2PFileSharingService : IDisposable
     /// <summary>
     /// Start downloading a file from the network (BitTorrent-style)
     /// </summary>
-    public async Task<FileDownload> StartDownloadAsync(SharedFile file, string? destinationPath = null)
+    public Task<FileDownload> StartDownloadAsync(SharedFile file, string? destinationPath = null)
     {
         var destPath = destinationPath ?? Path.Combine(_downloadFolder, file.Name);
 
@@ -180,7 +180,7 @@ public class P2PFileSharingService : IDisposable
         // Start download task
         _ = Task.Run(() => DownloadFileAsync(download, _cts!.Token));
 
-        return download;
+        return Task.FromResult(download);
     }
 
     /// <summary>
@@ -274,7 +274,8 @@ public class P2PFileSharingService : IDisposable
 
                 await _downloadSemaphore.WaitAsync(ct);
 
-                chunkTasks.Add(Task.Run(async () =>
+                chunkTasks.Add(
+                    Task.Run(async () =>
                 {
                     try
                     {
@@ -309,7 +310,8 @@ public class P2PFileSharingService : IDisposable
                         download.ChunksInProgress[chunkIndex] = false;
                         _downloadSemaphore.Release();
                     }
-                }, ct));
+                },
+                ct));
 
                 // Limit concurrent chunk downloads
                 if (chunkTasks.Count >= 10)
