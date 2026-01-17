@@ -30,6 +30,16 @@ public interface ISpiderXService
     VoiceService? Voice { get; }
 
     /// <summary>
+    /// Virtual LAN service for LAN game support
+    /// </summary>
+    VirtualLanService? VirtualLan { get; }
+
+    /// <summary>
+    /// P2P file sharing service
+    /// </summary>
+    P2PFileSharingService? FileSharing { get; }
+
+    /// <summary>
     /// Whether the node is running
     /// </summary>
     bool IsRunning { get; }
@@ -69,12 +79,16 @@ public class SpiderXService : ISpiderXService, IDisposable
     private ChatService? _chatService;
     private FileTransferService? _fileTransferService;
     private VoiceService? _voiceService;
+    private VirtualLanService? _virtualLanService;
+    private P2PFileSharingService? _fileSharingService;
     private KeyPair? _keyPair;
 
     public SpiderNode? Node => _node;
     public ChatService? Chat => _chatService;
     public FileTransferService? FileTransfer => _fileTransferService;
     public VoiceService? Voice => _voiceService;
+    public VirtualLanService? VirtualLan => _virtualLanService;
+    public P2PFileSharingService? FileSharing => _fileSharingService;
     public bool IsRunning => _node?.IsRunning ?? false;
     public SpiderId? LocalId => _node?.Id;
 
@@ -108,6 +122,8 @@ public class SpiderXService : ISpiderXService, IDisposable
         _fileTransferService = new FileTransferService(_node, downloadPath);
 
         _voiceService = new VoiceService(_node);
+        _virtualLanService = new VirtualLanService(_node);
+        _fileSharingService = new P2PFileSharingService(_node);
 
         // Subscribe to events
         _node.Started += OnNodeStarted;
@@ -126,11 +142,15 @@ public class SpiderXService : ISpiderXService, IDisposable
         _chatService?.Dispose();
         _fileTransferService?.Dispose();
         _voiceService?.Dispose();
+        _virtualLanService?.Dispose();
+        _fileSharingService?.Dispose();
         _node.Dispose();
 
         _chatService = null;
         _fileTransferService = null;
         _voiceService = null;
+        _virtualLanService = null;
+        _fileSharingService = null;
         _node = null;
     }
 

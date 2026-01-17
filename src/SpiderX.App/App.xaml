@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:SpiderX.App.Converters"
              x:Class="SpiderX.App.App">
     <Application.Resources>
         <ResourceDictionary>
@@ -19,6 +20,17 @@
             <Color x:Key="SpiderTextSecondary">#94A3B8</Color>
             <Color x:Key="SpiderOnline">#22C55E</Color>
             <Color x:Key="SpiderOffline">#EF4444</Color>
+
+            <!-- Converters -->
+            <converters:IntToBoolConverter x:Key="IntToBoolConverter" />
+            <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
+            <converters:StringToBoolConverter x:Key="StringToBoolConverter" />
+            <converters:InitialsConverter x:Key="InitialsConverter" />
+            <converters:OnlineStatusConverter x:Key="OnlineStatusConverter" />
+            <converters:BoolToColorConverter x:Key="BoolToColorConverter" />
+            <converters:BoolToConnectedTextConverter x:Key="BoolToConnectedTextConverter" />
+            <converters:IntToDoubleConverter x:Key="IntToDoubleConverter" />
+            <converters:ProgressToWidthConverter x:Key="ProgressToWidthConverter" />
 
         </ResourceDictionary>
     </Application.Resources>

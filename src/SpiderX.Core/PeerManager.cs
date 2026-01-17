@@ -86,13 +86,23 @@ public class PeerManager : IDisposable
     /// </summary>
     public async Task StartLanDiscoveryAsync(int servicePort)
     {
-        _lanDiscovery = new LanDiscovery(LocalId, servicePort);
-        _lanDiscovery.PeerDiscovered += OnLanPeerDiscovered;
-        _lanDiscovery.PeerLost += OnLanPeerLost;
+        try
+        {
+            _lanDiscovery = new LanDiscovery(LocalId, servicePort);
+            _lanDiscovery.PeerDiscovered += OnLanPeerDiscovered;
+            _lanDiscovery.PeerLost += OnLanPeerLost;
 
-        await _lanDiscovery.StartAsync();
-        await _lanDiscovery.AnnounceAsync();
-        await _lanDiscovery.SearchAsync();
+            await _lanDiscovery.StartAsync();
+            await _lanDiscovery.AnnounceAsync();
+            await _lanDiscovery.SearchAsync();
+        }
+        catch (System.Net.Sockets.SocketException)
+        {
+            // LAN discovery failed (port in use, firewall, or permission issue)
+            // Continue without LAN discovery - peer connections can still work via direct connection
+            _lanDiscovery?.Dispose();
+            _lanDiscovery = null;
+        }
     }
 
     /// <summary>

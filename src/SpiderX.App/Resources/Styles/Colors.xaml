@@ -4,35 +4,78 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <!-- SpiderX Brand Colors -->
-    <Color x:Key="SpiderPrimary">#6366F1</Color>
-    <Color x:Key="SpiderPrimaryDark">#4F46E5</Color>
-    <Color x:Key="SpiderSecondary">#8B5CF6</Color>
-    <Color x:Key="SpiderAccent">#22D3EE</Color>
+    <!-- SpiderX Brand Colors - Cyberpunk/Neon Theme -->
+    <Color x:Key="SpiderPrimary">#7C3AED</Color>
+    <Color x:Key="SpiderPrimaryLight">#A78BFA</Color>
+    <Color x:Key="SpiderPrimaryDark">#5B21B6</Color>
+    <Color x:Key="SpiderSecondary">#EC4899</Color>
+    <Color x:Key="SpiderSecondaryLight">#F472B6</Color>
+    <Color x:Key="SpiderAccent">#06B6D4</Color>
+    <Color x:Key="SpiderAccentLight">#22D3EE</Color>
+    <Color x:Key="SpiderNeon">#00FF88</Color>
+    <Color x:Key="SpiderNeonPink">#FF00FF</Color>
+    <Color x:Key="SpiderNeonBlue">#00FFFF</Color>
 
-    <!-- Background Colors -->
-    <Color x:Key="SpiderBackground">#0F172A</Color>
-    <Color x:Key="SpiderSurface">#1E293B</Color>
-    <Color x:Key="SpiderSurfaceLight">#334155</Color>
+    <!-- Background Colors - Deep Dark with Blue Tint -->
+    <Color x:Key="SpiderBackground">#0A0A1A</Color>
+    <Color x:Key="SpiderBackgroundAlt">#0D0D24</Color>
+    <Color x:Key="SpiderSurface">#12122A</Color>
+    <Color x:Key="SpiderSurfaceLight">#1A1A3A</Color>
+    <Color x:Key="SpiderSurfaceElevated">#222244</Color>
+    <Color x:Key="SpiderCard">#161630</Color>
+    <Color x:Key="SpiderCardHover">#1E1E42</Color>
+
+    <!-- Gradient Colors -->
+    <Color x:Key="GradientStart">#7C3AED</Color>
+    <Color x:Key="GradientMiddle">#EC4899</Color>
+    <Color x:Key="GradientEnd">#06B6D4</Color>
+
+    <!-- Glass Effect Colors -->
+    <Color x:Key="GlassBackground">#20FFFFFF</Color>
+    <Color x:Key="GlassBorder">#40FFFFFF</Color>
+    <Color x:Key="GlassHighlight">#60FFFFFF</Color>
 
     <!-- Text Colors -->
-    <Color x:Key="SpiderText">#F8FAFC</Color>
-    <Color x:Key="SpiderTextSecondary">#94A3B8</Color>
-    <Color x:Key="SpiderTextMuted">#64748B</Color>
+    <Color x:Key="SpiderText">#FFFFFF</Color>
+    <Color x:Key="SpiderTextSecondary">#A1A1C7</Color>
+    <Color x:Key="SpiderTextMuted">#6B6B8D</Color>
+    <Color x:Key="SpiderTextAccent">#A78BFA</Color>
 
-    <!-- Status Colors -->
-    <Color x:Key="SpiderOnline">#22C55E</Color>
-    <Color x:Key="SpiderOffline">#EF4444</Color>
-    <Color x:Key="SpiderWarning">#F59E0B</Color>
-    <Color x:Key="SpiderInfo">#3B82F6</Color>
+    <!-- Status Colors - Neon Style -->
+    <Color x:Key="SpiderOnline">#00FF88</Color>
+    <Color x:Key="SpiderOnlineGlow">#40FF88</Color>
+    <Color x:Key="SpiderOffline">#FF4757</Color>
+    <Color x:Key="SpiderOfflineGlow">#FF6B7A</Color>
+    <Color x:Key="SpiderWarning">#FFD93D</Color>
+    <Color x:Key="SpiderInfo">#4DABF7</Color>
+    <Color x:Key="SpiderSuccess">#51CF66</Color>
+    <Color x:Key="SpiderError">#FF6B6B</Color>
+
+    <!-- Button Colors -->
+    <Color x:Key="ButtonPrimary">#7C3AED</Color>
+    <Color x:Key="ButtonPrimaryHover">#8B5CF6</Color>
+    <Color x:Key="ButtonSecondary">#EC4899</Color>
+    <Color x:Key="ButtonDanger">#EF4444</Color>
+    <Color x:Key="ButtonSuccess">#22C55E</Color>
+
+    <!-- Border Colors -->
+    <Color x:Key="BorderDefault">#2A2A4A</Color>
+    <Color x:Key="BorderLight">#3A3A5A</Color>
+    <Color x:Key="BorderAccent">#7C3AED</Color>
+    <Color x:Key="BorderGlow">#A78BFA</Color>
+
+    <!-- Shadow Colors -->
+    <Color x:Key="ShadowPrimary">#407C3AED</Color>
+    <Color x:Key="ShadowSecondary">#40EC4899</Color>
+    <Color x:Key="ShadowDark">#80000000</Color>
 
     <!-- System Colors -->
-    <Color x:Key="Primary">#6366F1</Color>
-    <Color x:Key="PrimaryDark">#4F46E5</Color>
+    <Color x:Key="Primary">#7C3AED</Color>
+    <Color x:Key="PrimaryDark">#5B21B6</Color>
     <Color x:Key="PrimaryDarkText">White</Color>
-    <Color x:Key="Secondary">#8B5CF6</Color>
+    <Color x:Key="Secondary">#EC4899</Color>
     <Color x:Key="SecondaryDarkText">White</Color>
-    <Color x:Key="Tertiary">#22D3EE</Color>
+    <Color x:Key="Tertiary">#06B6D4</Color>
     <Color x:Key="TertiaryDarkText">Black</Color>
 
     <Color x:Key="White">White</Color>

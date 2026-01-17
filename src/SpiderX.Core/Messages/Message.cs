@@ -19,6 +19,13 @@ namespace SpiderX.Core.Messages;
 [JsonDerivedType(typeof(VoiceDataMessage), "voice_data")]
 [JsonDerivedType(typeof(PermissionRequestMessage), "permission_request")]
 [JsonDerivedType(typeof(PermissionResponseMessage), "permission_response")]
+[JsonDerivedType(typeof(VirtualLanAnnounceMessage), "vlan_announce")]
+[JsonDerivedType(typeof(VirtualLanPacketMessage), "vlan_packet")]
+[JsonDerivedType(typeof(CatalogRequestMessage), "catalog_request")]
+[JsonDerivedType(typeof(CatalogResponseMessage), "catalog_response")]
+[JsonDerivedType(typeof(P2PChunkRequestMessage), "p2p_chunk_request")]
+[JsonDerivedType(typeof(P2PChunkResponseMessage), "p2p_chunk_response")]
+[JsonDerivedType(typeof(FileAvailabilityMessage), "file_availability")]
 public abstract class Message
 {
     [JsonPropertyName("type")]
@@ -274,6 +281,228 @@ public class PermissionResponseMessage : Message
 
     [JsonPropertyName("expires_at")]
     public long? ExpiresAt { get; set; }
+}
+
+/// <summary>
+/// Virtual LAN announcement message
+/// </summary>
+public class VirtualLanAnnounceMessage : Message
+{
+    public override string Type => "vlan_announce";
+
+    [JsonPropertyName("virtual_ip")]
+    public required string VirtualIp { get; set; }
+
+    [JsonPropertyName("is_joining")]
+    public bool IsJoining { get; set; }
+
+    [JsonPropertyName("hostname")]
+    public required string Hostname { get; set; }
+
+    [JsonPropertyName("capabilities")]
+    public VlanCapabilities Capabilities { get; set; }
+}
+
+/// <summary>
+/// Virtual LAN packet message for tunneling network traffic
+/// </summary>
+public class VirtualLanPacketMessage : Message
+{
+    public override string Type => "vlan_packet";
+
+    [JsonPropertyName("source_ip")]
+    public required string SourceIp { get; set; }
+
+    [JsonPropertyName("destination_ip")]
+    public required string DestinationIp { get; set; }
+
+    [JsonPropertyName("packet_data")]
+    public required byte[] PacketData { get; set; }
+
+    [JsonPropertyName("packet_type")]
+    public VlanPacketType PacketType { get; set; }
+
+    [JsonPropertyName("source_port")]
+    public int SourcePort { get; set; }
+
+    [JsonPropertyName("destination_port")]
+    public int DestinationPort { get; set; }
+}
+
+/// <summary>
+/// VLAN capabilities flags
+/// </summary>
+[Flags]
+public enum VlanCapabilities
+{
+    None = 0,
+    BroadcastRelay = 1,
+    GameDiscovery = 2,
+    TapAdapter = 4,
+    FullTunnel = 8
+}
+
+/// <summary>
+/// VLAN packet types
+/// </summary>
+public enum VlanPacketType
+{
+    Unicast,
+    Broadcast,
+    BroadcastRelay,
+    Multicast
+}
+
+// ============================================
+// P2P File Sharing Messages
+// ============================================
+
+/// <summary>
+/// Request a peer's file catalog
+/// </summary>
+public class CatalogRequestMessage : Message
+{
+    public override string Type => "catalog_request";
+
+    [JsonPropertyName("category_filter")]
+    public int? CategoryFilter { get; set; }
+
+    [JsonPropertyName("search_query")]
+    public string? SearchQuery { get; set; }
+
+    [JsonPropertyName("page")]
+    public int Page { get; set; } = 0;
+
+    [JsonPropertyName("page_size")]
+    public int PageSize { get; set; } = 50;
+}
+
+/// <summary>
+/// Response with the peer's file catalog
+/// </summary>
+public class CatalogResponseMessage : Message
+{
+    public override string Type => "catalog_response";
+
+    [JsonPropertyName("request_id")]
+    public required string RequestId { get; set; }
+
+    [JsonPropertyName("peer_name")]
+    public string? PeerName { get; set; }
+
+    [JsonPropertyName("files")]
+    public List<SharedFileInfo> Files { get; set; } = [];
+
+    [JsonPropertyName("total_files")]
+    public int TotalFiles { get; set; }
+
+    [JsonPropertyName("total_size")]
+    public long TotalSize { get; set; }
+}
+
+/// <summary>
+/// Minimal file info for catalog transfer
+/// </summary>
+public class SharedFileInfo
+{
+    [JsonPropertyName("hash")]
+    public required string FileHash { get; set; }
+
+    [JsonPropertyName("name")]
+    public required string Name { get; set; }
+
+    [JsonPropertyName("ext")]
+    public required string Extension { get; set; }
+
+    [JsonPropertyName("size")]
+    public required long Size { get; set; }
+
+    [JsonPropertyName("desc")]
+    public string? Description { get; set; }
+
+    [JsonPropertyName("cat")]
+    public int Category { get; set; }
+
+    [JsonPropertyName("tags")]
+    public List<string> Tags { get; set; } = [];
+
+    [JsonPropertyName("thumb")]
+    public string? ThumbnailBase64 { get; set; }
+
+    [JsonPropertyName("thumb_mime")]
+    public string? ThumbnailMimeType { get; set; }
+
+    [JsonPropertyName("chunk_size")]
+    public int ChunkSize { get; set; }
+
+    [JsonPropertyName("chunks")]
+    public int TotalChunks { get; set; }
+
+    [JsonPropertyName("chunk_hashes")]
+    public List<string> ChunkHashes { get; set; } = [];
+
+    [JsonPropertyName("shared_at")]
+    public long SharedAt { get; set; }
+}
+
+/// <summary>
+/// Request a specific chunk from a peer (for multi-peer downloads)
+/// </summary>
+public class P2PChunkRequestMessage : Message
+{
+    public override string Type => "p2p_chunk_request";
+
+    [JsonPropertyName("file_hash")]
+    public required string FileHash { get; set; }
+
+    [JsonPropertyName("chunk_indices")]
+    public required List<int> ChunkIndices { get; set; }
+}
+
+/// <summary>
+/// Response with chunk data
+/// </summary>
+public class P2PChunkResponseMessage : Message
+{
+    public override string Type => "p2p_chunk_response";
+
+    [JsonPropertyName("request_id")]
+    public required string RequestId { get; set; }
+
+    [JsonPropertyName("file_hash")]
+    public required string FileHash { get; set; }
+
+    [JsonPropertyName("chunk_index")]
+    public required int ChunkIndex { get; set; }
+
+    [JsonPropertyName("data")]
+    public required byte[] Data { get; set; }
+
+    [JsonPropertyName("hash")]
+    public required string ChunkHash { get; set; }
+
+    [JsonPropertyName("has_more")]
+    public bool HasMore { get; set; }
+}
+
+/// <summary>
+/// Announce which chunks of a file we have (for swarming)
+/// </summary>
+public class FileAvailabilityMessage : Message
+{
+    public override string Type => "file_availability";
+
+    [JsonPropertyName("file_hash")]
+    public required string FileHash { get; set; }
+
+    [JsonPropertyName("available_chunks")]
+    public required List<int> AvailableChunks { get; set; }
+
+    [JsonPropertyName("total_chunks")]
+    public required int TotalChunks { get; set; }
+
+    [JsonPropertyName("is_seeder")]
+    public bool IsSeeder { get; set; }
 }
 
 /// <summary>

@@ -10,13 +10,13 @@ public partial class ContactsPage : ContentPage
         BindingContext = viewModel;
     }
 
-    protected override async void OnAppearing()
+    protected override void OnAppearing()
     {
         base.OnAppearing();
 
         if (BindingContext is ContactsViewModel vm)
         {
-            await vm.InitializeCommand.ExecuteAsync(null);
+            vm.InitializeCommand.Execute(null);
         }
     }
 }

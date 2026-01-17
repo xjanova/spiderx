@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using SpiderX.App.Services;
 using SpiderX.Crypto;
 using SpiderX.Services;
@@ -8,43 +9,77 @@ using SpiderX.Services;
 namespace SpiderX.App.ViewModels;
 
 [QueryProperty(nameof(PeerId), "peerId")]
-public partial class ChatViewModel : ObservableObject
+public class ChatViewModel : INotifyPropertyChanged
 {
     private readonly ISpiderXService _spiderXService;
     private SpiderId? _peerSpiderId;
 
-    [ObservableProperty]
     private string _peerId = "";
-
-    [ObservableProperty]
     private string _peerName = "";
-
-    [ObservableProperty]
     private bool _isOnline;
-
-    [ObservableProperty]
     private string _messageText = "";
-
-    [ObservableProperty]
     private ObservableCollection<MessageItem> _messages = [];
-
-    [ObservableProperty]
     private bool _isLoading;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public string PeerId
+    {
+        get => _peerId;
+        set
+        {
+            if (SetProperty(ref _peerId, value) && !string.IsNullOrEmpty(value))
+            {
+                _ = LoadChatAsync();
+            }
+        }
+    }
+
+    public string PeerName
+    {
+        get => _peerName;
+        set => SetProperty(ref _peerName, value);
+    }
+
+    public bool IsOnline
+    {
+        get => _isOnline;
+        set => SetProperty(ref _isOnline, value);
+    }
+
+    public string MessageText
+    {
+        get => _messageText;
+        set => SetProperty(ref _messageText, value);
+    }
+
+    public ObservableCollection<MessageItem> Messages
+    {
+        get => _messages;
+        set => SetProperty(ref _messages, value);
+    }
+
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set => SetProperty(ref _isLoading, value);
+    }
+
+    public ICommand LoadChatCommand { get; }
+    public ICommand SendMessageCommand { get; }
+    public ICommand SendFileCommand { get; }
+    public ICommand StartCallCommand { get; }
 
     public ChatViewModel(ISpiderXService spiderXService)
     {
         _spiderXService = spiderXService;
+
+        LoadChatCommand = new Command(async () => await LoadChatAsync());
+        SendMessageCommand = new Command(async () => await SendMessageAsync());
+        SendFileCommand = new Command(async () => await SendFileAsync());
+        StartCallCommand = new Command(async () => await StartCallAsync());
     }
 
-    partial void OnPeerIdChanged(string value)
-    {
-        if (!string.IsNullOrEmpty(value))
-        {
-            _ = LoadChatAsync();
-        }
-    }
-
-    [RelayCommand]
     private async Task LoadChatAsync()
     {
         if (string.IsNullOrEmpty(PeerId)) return;
@@ -75,9 +110,10 @@ public partial class ChatViewModel : ObservableObject
         {
             IsLoading = false;
         }
+
+        await Task.CompletedTask;
     }
 
-    [RelayCommand]
     private async Task SendMessageAsync()
     {
         if (string.IsNullOrWhiteSpace(MessageText) || _peerSpiderId == null)
@@ -92,11 +128,10 @@ public partial class ChatViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Application.Current!.MainPage!.DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current!.Windows[0].Page!.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
-    [RelayCommand]
     private async Task SendFileAsync()
     {
         if (_peerSpiderId == null) return;
@@ -121,11 +156,10 @@ public partial class ChatViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Application.Current!.MainPage!.DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current!.Windows[0].Page!.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
-    [RelayCommand]
     private async Task StartCallAsync()
     {
         if (_peerSpiderId == null) return;
@@ -133,7 +167,7 @@ public partial class ChatViewModel : ObservableObject
         try
         {
             var call = await _spiderXService.Voice!.CallAsync(_peerSpiderId);
-            await Application.Current!.MainPage!.DisplayAlert(
+            await Application.Current!.Windows[0].Page!.DisplayAlert(
                 "Calling",
                 $"Calling {PeerName}...",
                 "End Call");
@@ -142,7 +176,7 @@ public partial class ChatViewModel : ObservableObject
         }
         catch (Exception ex)
         {
-            await Application.Current!.MainPage!.DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current!.Windows[0].Page!.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
@@ -213,6 +247,14 @@ public partial class ChatViewModel : ObservableObject
         MessageStatus.Failed => "Failed",
         _ => ""
     };
+
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        return true;
+    }
 }
 
 public class MessageItem

@@ -113,3 +113,38 @@ public class BoolToConnectedTextConverter : IValueConverter
         throw new NotImplementedException();
     }
 }
+
+public class IntToDoubleConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is int intValue)
+            return intValue / 100.0;
+        return 0.0;
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is double doubleValue)
+            return (int)(doubleValue * 100);
+        return 0;
+    }
+}
+
+public class ProgressToWidthConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        if (value is double progress)
+        {
+            // Assuming max width of ~300 for the progress bar
+            return Math.Max(4, progress * 3);
+        }
+        return 4.0;
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        throw new NotImplementedException();
+    }
+}

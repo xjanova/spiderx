@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
+             x:Class="SpiderX.App.Views.NearbyDiscoveryPage"
+             x:DataType="vm:NearbyDiscoveryViewModel"
+             Title="Nearby Peers">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0A0A1A" Offset="0.0" />
+            <GradientStop Color="#0A1A1A" Offset="0.5" />
+            <GradientStop Color="#1A1A0A" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16" RowSpacing="16">
+
+        <!-- Hero Header -->
+        <Border Grid.Row="0" StrokeThickness="0" Padding="24">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#1A2540" Offset="0.0" />
+                    <GradientStop Color="#102030" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="24" />
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="#06B6D4" Offset="0,10" Radius="25" Opacity="0.3" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Spacing="16">
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="14">
+                    <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#06B6D4" Offset="0.0" />
+                                <GradientStop Color="#22C55E" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#06B6D4" Offset="0,4" Radius="12" Opacity="0.5" />
+                        </Border.Shadow>
+                        <Label Text="📡" FontSize="28" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <VerticalStackLayout VerticalOptions="Center">
+                        <Label Text="Discover Nearby Peers" FontSize="22" FontAttributes="Bold" TextColor="#F8FAFC" />
+                        <Label Text="{Binding StatusMessage}" FontSize="14" TextColor="#94A3B8" />
+                    </VerticalStackLayout>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Scan Progress with Neon Effect -->
+        <Border Grid.Row="1" IsVisible="{Binding IsScanning}" Padding="16" StrokeThickness="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                    <GradientStop Color="#0A1A2A" Offset="0.0" />
+                    <GradientStop Color="#1A0A2A" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="14" />
+            </Border.StrokeShape>
+
+            <VerticalStackLayout Spacing="12">
+                <!-- Progress Bar Container -->
+                <Grid>
+                    <Border HeightRequest="10" BackgroundColor="#1A1A2E" StrokeThickness="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+                    </Border>
+                    <Border HeightRequest="10" HorizontalOptions="Start" StrokeThickness="0"
+                            WidthRequest="{Binding ScanProgress, Converter={StaticResource ProgressToWidthConverter}}">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#06B6D4" Offset="0.0" />
+                                <GradientStop Color="#22C55E" Offset="0.5" />
+                                <GradientStop Color="#00FF88" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="5" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#00FF88" Offset="0,0" Radius="10" Opacity="0.6" />
+                        </Border.Shadow>
+                    </Border>
+                </Grid>
+
+                <HorizontalStackLayout HorizontalOptions="Center" Spacing="10">
+                    <ActivityIndicator IsRunning="True" Color="#06B6D4" WidthRequest="22" HeightRequest="22" />
+                    <Label Text="Scanning network..." FontSize="14" TextColor="#94A3B8" VerticalOptions="Center" />
+                    <Label Text="{Binding ScanProgress, StringFormat='{0}%'}" FontSize="14" FontAttributes="Bold" TextColor="#00FF88" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Nearby Peers List -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding NearbyPeers}" SelectionMode="None">
+
+            <CollectionView.EmptyView>
+                <Border Padding="40" BackgroundColor="#12121F" StrokeThickness="1" Stroke="#2A2A4A" Margin="0,20">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+                        <Border WidthRequest="80" HeightRequest="80" StrokeThickness="0" HorizontalOptions="Center">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#1A2A4A" Offset="0.0" />
+                                    <GradientStop Color="#2A1A4A" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="24" />
+                            </Border.StrokeShape>
+                            <Label Text="📡" FontSize="40" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="No peers found yet" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" HorizontalTextAlignment="Center" />
+                        <Label Text="Tap 'Scan' to discover peers on your network" FontSize="14" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Border>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:NearbyPeerItem">
+                    <Border Margin="0,6" Padding="16" StrokeThickness="1" Stroke="#2A3A4A" BackgroundColor="#12182F">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="16" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+
+                            <!-- Signal Icon with Status -->
+                            <Grid WidthRequest="56" HeightRequest="56">
+                                <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                            <GradientStop Color="#06B6D4" Offset="0.0" />
+                                            <GradientStop Color="#3B82F6" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="16" />
+                                    </Border.StrokeShape>
+                                    <Border.Shadow>
+                                        <Shadow Brush="#06B6D4" Offset="0,3" Radius="8" Opacity="0.4" />
+                                    </Border.Shadow>
+                                    <Label Text="📶" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                                <!-- Connected indicator -->
+                                <Border WidthRequest="20" HeightRequest="20" StrokeThickness="2" Stroke="#12182F"
+                                        HorizontalOptions="End" VerticalOptions="End" IsVisible="{Binding IsConnected}">
+                                    <Border.Background>
+                                        <SolidColorBrush Color="#22C55E" />
+                                    </Border.Background>
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Border.Shadow>
+                                        <Shadow Brush="#22C55E" Offset="0,0" Radius="6" Opacity="0.8" />
+                                    </Border.Shadow>
+                                    <Label Text="✓" FontSize="10" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                                </Border>
+                            </Grid>
+
+                            <!-- Peer Info -->
+                            <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="6">
+                                <Label Text="{Binding DisplayName}" FontSize="16" FontAttributes="Bold" TextColor="#F8FAFC" LineBreakMode="MiddleTruncation" />
+                                <Label Text="{Binding AddressDisplay}" FontSize="13" TextColor="#06B6D4" />
+                                <HorizontalStackLayout Spacing="8">
+                                    <Border Padding="8,3" BackgroundColor="#1A2A4A" StrokeThickness="0">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="6" />
+                                        </Border.StrokeShape>
+                                        <Label Text="{Binding DiscoverySource}" FontSize="11" TextColor="#3B82F6" FontAttributes="Bold" />
+                                    </Border>
+                                    <Label Text="{Binding StatusText}" FontSize="12" TextColor="#64748B" VerticalOptions="Center" />
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+
+                            <!-- Connect Button Area -->
+                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                <!-- Connect button -->
+                                <Border StrokeThickness="0" Padding="0" IsVisible="{Binding CanConnect}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#7C3AED" Offset="0.0" />
+                                            <GradientStop Color="#EC4899" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <Border.Shadow>
+                                        <Shadow Brush="#7C3AED" Offset="0,3" Radius="8" Opacity="0.4" />
+                                    </Border.Shadow>
+                                    <Border.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:NearbyDiscoveryViewModel}}, Path=ConnectCommand}" CommandParameter="{Binding .}" />
+                                    </Border.GestureRecognizers>
+                                    <HorizontalStackLayout Padding="16,10" Spacing="6">
+                                        <Label Text="🔗" FontSize="14" />
+                                        <Label Text="Connect" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                                    </HorizontalStackLayout>
+                                </Border>
+
+                                <!-- Connecting indicator -->
+                                <Border Padding="14,8" BackgroundColor="#1A1A2E" StrokeThickness="1" Stroke="#3A3A5A"
+                                        IsVisible="{Binding IsConnecting}">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <HorizontalStackLayout Spacing="8">
+                                        <ActivityIndicator IsRunning="True" Color="#7C3AED" WidthRequest="18" HeightRequest="18" />
+                                        <Label Text="Connecting..." FontSize="12" TextColor="#94A3B8" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Border>
+
+                                <!-- Connected indicator -->
+                                <Border Padding="14,8" StrokeThickness="0" IsVisible="{Binding IsConnected}">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                            <GradientStop Color="#166534" Offset="0.0" />
+                                            <GradientStop Color="#15803D" Offset="1.0" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="10" />
+                                    </Border.StrokeShape>
+                                    <HorizontalStackLayout Spacing="6">
+                                        <Label Text="✓" TextColor="#00FF88" FontSize="14" FontAttributes="Bold" VerticalOptions="Center" />
+                                        <Label Text="Connected" TextColor="#00FF88" FontSize="13" FontAttributes="Bold" VerticalOptions="Center" />
+                                    </HorizontalStackLayout>
+                                </Border>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Bottom Actions -->
+        <Grid Grid.Row="3" ColumnDefinitions="*,*" ColumnSpacing="12">
+            <!-- Scan Button -->
+            <Border StrokeThickness="0" Padding="0" HeightRequest="56" IsEnabled="{Binding CanScan}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#06B6D4" Offset="0.0" />
+                        <GradientStop Color="#22C55E" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#22C55E" Offset="0,5" Radius="12" Opacity="0.4" />
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ScanCommand}" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="🔄" FontSize="20" />
+                    <Label Text="Scan" FontSize="17" FontAttributes="Bold" TextColor="White" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Stop Button (when scanning) -->
+            <Border Grid.Column="1" StrokeThickness="0" Padding="0" HeightRequest="56" IsVisible="{Binding IsScanning}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#EF4444" Offset="0.0" />
+                        <GradientStop Color="#DC2626" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#EF4444" Offset="0,5" Radius="12" Opacity="0.4" />
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding StopScanCommand}" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="⏹" FontSize="20" />
+                    <Label Text="Stop" FontSize="17" FontAttributes="Bold" TextColor="White" />
+                </HorizontalStackLayout>
+            </Border>
+
+            <!-- Refresh Button (when not scanning) -->
+            <Border Grid.Column="1" StrokeThickness="0" Padding="0" HeightRequest="56" IsVisible="{Binding CanScan}">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#8B5CF6" Offset="0.0" />
+                        <GradientStop Color="#A855F7" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="14" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#8B5CF6" Offset="0,5" Radius="12" Opacity="0.4" />
+                </Border.Shadow>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RefreshCommand}" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="10">
+                    <Label Text="🔃" FontSize="20" />
+                    <Label Text="Refresh" FontSize="17" FontAttributes="Bold" TextColor="White" />
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>
