@@ -121,6 +121,20 @@ dotnet_diagnostic.SA1615.severity = none
 dotnet_diagnostic.SA1616.severity = none
 # SA1617: Void return value should not be documented
 dotnet_diagnostic.SA1617.severity = none
+# SA1204: Static elements should appear before instance elements
+dotnet_diagnostic.SA1204.severity = none
+# SA1206: Declaration keywords should follow order
+dotnet_diagnostic.SA1206.severity = none
+# SA1207: Protected should come before internal
+dotnet_diagnostic.SA1207.severity = none
+# SA1214: Readonly fields should appear before non-readonly fields
+dotnet_diagnostic.SA1214.severity = none
+# SA1407: Arithmetic expressions should declare precedence
+dotnet_diagnostic.SA1407.severity = none
+# SA1413: Use trailing comma in multi-line initializers
+dotnet_diagnostic.SA1413.severity = none
+# IDE0055: Fix formatting
+dotnet_diagnostic.IDE0055.severity = suggestion
 
 # Expression-level preferences
 csharp_style_var_for_built_in_types = false:suggestion
