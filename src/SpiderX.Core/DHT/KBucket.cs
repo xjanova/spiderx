@@ -166,10 +166,29 @@ public class KBucket
 /// </summary>
 public class DhtNode
 {
+    /// <summary>
+    /// Gets the unique identifier of this node.
+    /// </summary>
     public required SpiderId Id { get; init; }
+
+    /// <summary>
+    /// Gets the IP address of this node.
+    /// </summary>
     public required string Address { get; init; }
+
+    /// <summary>
+    /// Gets the port number of this node.
+    /// </summary>
     public required int Port { get; init; }
+
+    /// <summary>
+    /// Gets or sets the last time this node was seen.
+    /// </summary>
     public DateTime LastSeen { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Gets or sets the number of consecutive failures.
+    /// </summary>
     public int FailCount { get; set; }
 
     /// <summary>
