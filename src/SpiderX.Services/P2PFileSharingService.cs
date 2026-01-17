@@ -666,14 +666,15 @@ public class P2PFileSharingService : IDisposable
         {
             // Read first 100KB for thumbnail generation
             var buffer = new byte[Math.Min(100 * 1024, file.Size)];
+            int bytesRead;
             using (var fs = File.OpenRead(filePath))
             {
-                await fs.ReadAsync(buffer);
+                bytesRead = await fs.ReadAsync(buffer);
             }
 
             // For simplicity, just use the first part of the image as thumbnail
             // In a real app, you'd use an image processing library to resize
-            file.ThumbnailBase64 = Convert.ToBase64String(buffer);
+            file.ThumbnailBase64 = Convert.ToBase64String(buffer, 0, bytesRead);
             file.ThumbnailMimeType = GetMimeType(file.Extension);
         }
         catch
