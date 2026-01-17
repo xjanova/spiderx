@@ -208,14 +208,12 @@ public class TcpConnection : IConnection
                 int bytesRead = await _stream.ReadAsync(lengthBuffer, _cts.Token);
                 if (bytesRead == 0)
                 {
-                    // Connection closed
                     break;
                 }
 
                 int dataLength = BitConverter.ToInt32(lengthBuffer);
-                if (dataLength <= 0 || dataLength > 100 * 1024 * 1024) // Max 100MB
+                if (dataLength <= 0 || dataLength > 100 * 1024 * 1024)
                 {
-                    // Invalid length
                     break;
                 }
 

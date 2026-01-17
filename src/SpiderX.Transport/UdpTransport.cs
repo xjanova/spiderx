@@ -103,7 +103,9 @@ public class UdpTransport : ITransport
     /// <summary>
     /// Attempts NAT punch-through to establish connection through NAT
     /// </summary>
-    public async Task<IConnection?> PunchThroughAsync(EndpointInfo endpoint, EndpointInfo? rendezvousServer = null,
+    public async Task<IConnection?> PunchThroughAsync(
+        EndpointInfo endpoint,
+        EndpointInfo? rendezvousServer = null,
         CancellationToken cancellationToken = default)
     {
         if (_udpClient == null)
