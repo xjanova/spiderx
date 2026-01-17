@@ -155,9 +155,6 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore
-        run: dotnet restore
-
       - name: Pack
         run: |
           dotnet pack src/SpiderX.Crypto/SpiderX.Crypto.csproj -c Release -p:PackageVersion=${{ needs.create-release.outputs.version }} -o ./nupkg
