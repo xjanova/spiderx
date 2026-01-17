@@ -6,7 +6,7 @@ on:
       - 'v*.*.*'
 
 env:
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: '9.0.x'
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 
@@ -76,7 +76,7 @@ jobs:
         run: |
           dotnet publish src/SpiderX.App/SpiderX.App.csproj `
             -c Release `
-            -f net8.0-windows10.0.19041.0 `
+            -f net9.0-windows10.0.19041.0 `
             -r win-x64 `
             -p:PublishSingleFile=true `
             -p:SelfContained=true `
@@ -118,7 +118,7 @@ jobs:
         run: |
           dotnet publish src/SpiderX.App/SpiderX.App.csproj \
             -c Release \
-            -f net8.0-maccatalyst \
+            -f net9.0-maccatalyst \
             -p:Version=${{ needs.create-release.outputs.version }} \
             -o ./publish/macos
 
@@ -165,7 +165,7 @@ jobs:
         run: |
           dotnet publish src/SpiderX.App/SpiderX.App.csproj \
             -c Release \
-            -f net8.0-android \
+            -f net9.0-android \
             -p:AndroidPackageFormat=apk \
             -p:Version=${{ needs.create-release.outputs.version }} \
             -o ./publish/android
