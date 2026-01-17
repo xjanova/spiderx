@@ -363,20 +363,25 @@ public class FileDownload
 
     private static string FormatSpeed(double bytesPerSecond)
     {
-        if (bytesPerSecond < 1024) return $"{bytesPerSecond:0} B/s";
-        if (bytesPerSecond < 1024 * 1024) return $"{bytesPerSecond / 1024:0.#} KB/s";
+        if (bytesPerSecond < 1024)
+            return $"{bytesPerSecond:0} B/s";
+        if (bytesPerSecond < 1024 * 1024)
+            return $"{bytesPerSecond / 1024:0.#} KB/s";
         return $"{bytesPerSecond / 1024 / 1024:0.##} MB/s";
     }
 
     private string CalculateEta()
     {
-        if (SpeedBytesPerSecond <= 0) return "Calculating...";
+        if (SpeedBytesPerSecond <= 0)
+            return "Calculating...";
 
         var remainingBytes = File.Size - BytesDownloaded;
         var seconds = remainingBytes / SpeedBytesPerSecond;
 
-        if (seconds < 60) return $"{seconds:0}s";
-        if (seconds < 3600) return $"{seconds / 60:0}m {seconds % 60:0}s";
+        if (seconds < 60)
+            return $"{seconds:0}s";
+        if (seconds < 3600)
+            return $"{seconds / 60:0}m {seconds % 60:0}s";
         return $"{seconds / 3600:0}h {(seconds % 3600) / 60:0}m";
     }
 }

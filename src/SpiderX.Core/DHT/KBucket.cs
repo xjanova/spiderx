@@ -153,8 +153,10 @@ public class KBucket
 
         for (int i = 0; i < distA.Length; i++)
         {
-            if (distA[i] < distB[i]) return -1;
-            if (distA[i] > distB[i]) return 1;
+            if (distA[i] < distB[i])
+                return -1;
+            if (distA[i] > distB[i])
+                return 1;
         }
 
         return 0;
