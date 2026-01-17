@@ -15,11 +15,29 @@ public class TcpTransport : ITransport
     private Task? _acceptTask;
     private readonly ConcurrentDictionary<string, TcpConnection> _connections = new();
 
+    /// <summary>
+    /// Gets the transport type.
+    /// </summary>
     public TransportType Type => TransportType.Tcp;
+
+    /// <summary>
+    /// Gets a value indicating whether the transport is active.
+    /// </summary>
     public bool IsActive => _listener != null;
+
+    /// <summary>
+    /// Gets the local endpoint information.
+    /// </summary>
     public EndpointInfo? LocalEndpoint { get; private set; }
 
+    /// <summary>
+    /// Event raised when a connection is received.
+    /// </summary>
     public event EventHandler<ConnectionEventArgs>? ConnectionReceived;
+
+    /// <summary>
+    /// Event raised when a connection is lost.
+    /// </summary>
     public event EventHandler<ConnectionEventArgs>? ConnectionLost;
 
     public Task StartAsync(int port, CancellationToken cancellationToken = default)
@@ -164,14 +182,44 @@ public class TcpConnection : IConnection
     private CancellationTokenSource? _cts;
     private bool _disposed;
 
+    /// <summary>
+    /// Gets the unique connection identifier.
+    /// </summary>
     public string ConnectionId { get; }
+
+    /// <summary>
+    /// Gets or sets the remote peer's SpiderId.
+    /// </summary>
     public SpiderId? RemotePeerId { get; set; }
+
+    /// <summary>
+    /// Gets the remote endpoint information.
+    /// </summary>
     public EndpointInfo RemoteEndpoint { get; }
+
+    /// <summary>
+    /// Gets the transport type.
+    /// </summary>
     public TransportType TransportType => TransportType.Tcp;
+
+    /// <summary>
+    /// Gets a value indicating whether the connection is active.
+    /// </summary>
     public bool IsConnected => _client.Connected && !_disposed;
+
+    /// <summary>
+    /// Gets the round-trip latency in milliseconds.
+    /// </summary>
     public int Latency { get; private set; }
 
+    /// <summary>
+    /// Event raised when data is received.
+    /// </summary>
     public event EventHandler<DataReceivedEventArgs>? DataReceived;
+
+    /// <summary>
+    /// Event raised when the connection is closed.
+    /// </summary>
     public event EventHandler? Disconnected;
 
     internal TcpConnection(string connectionId, EndpointInfo remoteEndpoint, TcpClient client)
