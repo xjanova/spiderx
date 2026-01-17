@@ -15,22 +15,21 @@ namespace SpiderX.Services;
 /// </summary>
 public class VirtualLanService : IDisposable
 {
+    private const int VirtualLanPort = 45680;
+    private const int BroadcastRelayPort = 45681;
+
     private readonly SpiderNode _node;
     private readonly ConcurrentDictionary<SpiderId, VirtualLanPeer> _vlanPeers = new();
     private readonly ConcurrentDictionary<IPAddress, SpiderId> _ipToPeerMap = new();
+    private readonly IPAddress _virtualSubnet = IPAddress.Parse("10.147.0.0");
+    private readonly IPAddress _virtualNetmask = IPAddress.Parse("255.255.0.0");
 
     private UdpClient? _broadcastRelayClient;
     private CancellationTokenSource? _cts;
     private Task? _relayTask;
     private bool _isRunning;
     private bool _disposed;
-
-    // Virtual LAN settings
     private IPAddress? _virtualIp;
-    private readonly IPAddress _virtualSubnet = IPAddress.Parse("10.147.0.0");
-    private readonly IPAddress _virtualNetmask = IPAddress.Parse("255.255.0.0");
-    private const int VirtualLanPort = 45680;
-    private const int BroadcastRelayPort = 45681;
 
     /// <summary>
     /// Whether the Virtual LAN is active
@@ -217,7 +216,7 @@ public class VirtualLanService : IDisposable
         return _vlanPeers.TryGetValue(peerId, out var peer) ? peer.VirtualIp : null;
     }
 
-    private async Task StartBroadcastRelayAsync(CancellationToken cancellationToken)
+    private Task StartBroadcastRelayAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -230,25 +229,26 @@ public class VirtualLanService : IDisposable
         }
         catch (SocketException)
         {
-            // Broadcast relay not available
         }
+
+        return Task.CompletedTask;
     }
 
     private async Task ListenForBroadcastsAsync(CancellationToken cancellationToken)
     {
         if (_broadcastRelayClient == null) return;
 
-        // Common LAN game ports to monitor
-        var gamePorts = new[] {
-            27015, 27016, // Source engine games (CS, TF2, etc.)
-            7777, 7778,   // Unreal engine games
-            25565,        // Minecraft
-            6112,         // Blizzard games
-            47624,        // DirectPlay
-            2302, 2303,   // Arma/DayZ
-            28960,        // Call of Duty
-            3074,         // Xbox Live
-            3478, 3479, 3480 // PlayStation Network
+        var gamePorts = new[]
+        {
+            27015, 27016,
+            7777, 7778,
+            25565,
+            6112,
+            47624,
+            2302, 2303,
+            28960,
+            3074,
+            3478, 3479, 3480
         };
 
         // Create listeners for common game ports
