@@ -38,7 +38,7 @@ public class KBucket
     public bool IsFull => Count >= K;
 
     /// <summary>
-    /// Last time this bucket was updated
+    /// Gets the last time this bucket was updated.
     /// </summary>
     public DateTime LastUpdated { get; private set; } = DateTime.UtcNow;
 
@@ -173,7 +173,7 @@ public class DhtNode
     public int FailCount { get; set; }
 
     /// <summary>
-    /// Whether this node is considered stale (not responding)
+    /// Gets a value indicating whether this node is considered stale (not responding).
     /// </summary>
     public bool IsStale => FailCount > 2 || (DateTime.UtcNow - LastSeen).TotalMinutes > 15;
 }
