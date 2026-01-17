@@ -21,12 +21,15 @@
     <PackageTags>p2p;mesh;network;decentralized;encryption;chat</PackageTags>
 
     <!-- Build settings -->
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningLevel>5</WarningLevel>
+
+    <!-- Enable building Windows-targeting projects on non-Windows platforms -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
 
     <!-- Code analysis -->
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
