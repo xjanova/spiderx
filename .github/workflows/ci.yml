@@ -38,7 +38,8 @@ jobs:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install MAUI workloads
-        run: dotnet workload restore
+        if: matrix.os == 'windows-latest'
+        run: dotnet workload install maui-windows
 
       - name: Cache NuGet packages
         uses: actions/cache@v5
@@ -48,14 +49,34 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Restore dependencies
+      - name: Restore dependencies (Windows - full solution)
+        if: matrix.os == 'windows-latest'
         run: dotnet restore
 
-      - name: Build
+      - name: Restore dependencies (non-Windows - exclude MAUI app)
+        if: matrix.os != 'windows-latest'
+        run: |
+          dotnet restore src/SpiderX.Crypto
+          dotnet restore src/SpiderX.Transport
+          dotnet restore src/SpiderX.Core
+          dotnet restore src/SpiderX.Services
+          dotnet restore tests/SpiderX.Tests
+
+      - name: Build (Windows - full solution)
+        if: matrix.os == 'windows-latest'
         run: dotnet build --configuration Release --no-restore
 
+      - name: Build (non-Windows - exclude MAUI app)
+        if: matrix.os != 'windows-latest'
+        run: |
+          dotnet build src/SpiderX.Crypto --configuration Release --no-restore
+          dotnet build src/SpiderX.Transport --configuration Release --no-restore
+          dotnet build src/SpiderX.Core --configuration Release --no-restore
+          dotnet build src/SpiderX.Services --configuration Release --no-restore
+          dotnet build tests/SpiderX.Tests --configuration Release --no-restore
+
       - name: Test
-        run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+        run: dotnet test tests/SpiderX.Tests --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
 
       - name: Upload coverage to Codecov
         if: matrix.os == 'ubuntu-latest'
@@ -77,14 +98,21 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install MAUI workloads
-        run: dotnet workload restore
+      - name: Restore dependencies (exclude MAUI app)
+        run: |
+          dotnet restore src/SpiderX.Crypto
+          dotnet restore src/SpiderX.Transport
+          dotnet restore src/SpiderX.Core
+          dotnet restore src/SpiderX.Services
+          dotnet restore tests/SpiderX.Tests
 
-      - name: Restore dependencies
-        run: dotnet restore
-
-      - name: Check formatting
-        run: dotnet format --verify-no-changes --verbosity diagnostic
+      - name: Check formatting (exclude MAUI app)
+        run: |
+          dotnet format src/SpiderX.Crypto --verify-no-changes --verbosity diagnostic
+          dotnet format src/SpiderX.Transport --verify-no-changes --verbosity diagnostic
+          dotnet format src/SpiderX.Core --verify-no-changes --verbosity diagnostic
+          dotnet format src/SpiderX.Services --verify-no-changes --verbosity diagnostic
+          dotnet format tests/SpiderX.Tests --verify-no-changes --verbosity diagnostic
 
   security:
     name: Security Scan
@@ -99,15 +127,21 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install MAUI workloads
-        run: dotnet workload restore
-
-      - name: Restore dependencies
-        run: dotnet restore
+      - name: Restore dependencies (exclude MAUI app)
+        run: |
+          dotnet restore src/SpiderX.Crypto
+          dotnet restore src/SpiderX.Transport
+          dotnet restore src/SpiderX.Core
+          dotnet restore src/SpiderX.Services
+          dotnet restore tests/SpiderX.Tests
 
       - name: Run security scan
         run: |
-          dotnet list package --vulnerable --include-transitive 2>&1 | tee vulnerability-report.txt
+          echo "# Security Vulnerability Report" > vulnerability-report.txt
+          for project in src/SpiderX.Crypto src/SpiderX.Transport src/SpiderX.Core src/SpiderX.Services tests/SpiderX.Tests; do
+            echo "## $project" >> vulnerability-report.txt
+            dotnet list $project package --vulnerable --include-transitive 2>&1 | tee -a vulnerability-report.txt
+          done
           if grep -q "has the following vulnerable packages" vulnerability-report.txt; then
             echo "::warning::Vulnerable packages detected"
           fi
