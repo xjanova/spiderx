@@ -113,6 +113,14 @@ dotnet_diagnostic.SA1011.severity = none
 dotnet_diagnostic.SA1515.severity = none
 # SA1512: Single-line comments should not be followed by blank line
 dotnet_diagnostic.SA1512.severity = none
+# SA1629: Documentation text should end with a period
+dotnet_diagnostic.SA1629.severity = none
+# SA1615: Element return value should be documented
+dotnet_diagnostic.SA1615.severity = none
+# SA1616: Element return value documentation should have text
+dotnet_diagnostic.SA1616.severity = none
+# SA1617: Void return value should not be documented
+dotnet_diagnostic.SA1617.severity = none
 
 # Expression-level preferences
 csharp_style_var_for_built_in_types = false:suggestion
