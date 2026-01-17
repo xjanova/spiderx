@@ -522,7 +522,8 @@ public class PeerManager : IDisposable
 
     private void OnLanPeerDiscovered(object? sender, PeerDiscoveredEventArgs e)
     {
-        if (e.PeerId == LocalId) return;
+        if (e.PeerId == LocalId)
+            return;
 
         // Try to connect
         _ = ConnectAsync(e.Endpoint);
