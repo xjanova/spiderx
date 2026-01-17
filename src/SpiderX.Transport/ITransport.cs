@@ -8,17 +8,17 @@ namespace SpiderX.Transport;
 public interface ITransport : IDisposable
 {
     /// <summary>
-    /// Transport type identifier
+    /// Gets the transport type identifier.
     /// </summary>
     TransportType Type { get; }
 
     /// <summary>
-    /// Whether the transport is currently active
+    /// Gets a value indicating whether the transport is currently active.
     /// </summary>
     bool IsActive { get; }
 
     /// <summary>
-    /// Local endpoint information
+    /// Gets the local endpoint information.
     /// </summary>
     EndpointInfo? LocalEndpoint { get; }
 
@@ -54,32 +54,32 @@ public interface ITransport : IDisposable
 public interface IConnection : IDisposable
 {
     /// <summary>
-    /// Unique connection identifier
+    /// Gets the unique connection identifier.
     /// </summary>
     string ConnectionId { get; }
 
     /// <summary>
-    /// Remote peer's SpiderId (if authenticated)
+    /// Gets or sets the remote peer's SpiderId (if authenticated).
     /// </summary>
     SpiderId? RemotePeerId { get; set; }
 
     /// <summary>
-    /// Remote endpoint information
+    /// Gets the remote endpoint information.
     /// </summary>
     EndpointInfo RemoteEndpoint { get; }
 
     /// <summary>
-    /// Transport type of this connection
+    /// Gets the transport type of this connection.
     /// </summary>
     TransportType TransportType { get; }
 
     /// <summary>
-    /// Whether the connection is active
+    /// Gets a value indicating whether the connection is active.
     /// </summary>
     bool IsConnected { get; }
 
     /// <summary>
-    /// Round-trip time in milliseconds
+    /// Gets the round-trip time in milliseconds.
     /// </summary>
     int Latency { get; }
 
