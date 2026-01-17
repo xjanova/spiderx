@@ -49,60 +49,60 @@ public class SharedFile
     public string? ThumbnailBase64 { get; set; }
 
     /// <summary>
-    /// MIME type of the thumbnail
+    /// Gets or sets the MIME type of the thumbnail.
     /// </summary>
     public string? ThumbnailMimeType { get; set; }
 
     /// <summary>
-    /// Size of each chunk in bytes (default 256KB)
+    /// Gets or sets the size of each chunk in bytes (default 256KB).
     /// </summary>
     public int ChunkSize { get; set; } = 256 * 1024;
 
     /// <summary>
-    /// Total number of chunks
+    /// Gets or sets the total number of chunks.
     /// </summary>
     public int TotalChunks { get; set; }
 
     /// <summary>
-    /// Hash of each chunk for verification
+    /// Gets or sets the hash of each chunk for verification.
     /// </summary>
     public List<string> ChunkHashes { get; set; } = [];
 
     /// <summary>
-    /// When the file was shared
+    /// Gets or sets when the file was shared.
     /// </summary>
     public DateTime SharedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Owner's peer ID who originally shared this file
+    /// Gets or sets the owner's peer ID who originally shared this file.
     /// </summary>
     public required string OwnerPeerId { get; set; }
 
     /// <summary>
-    /// Owner's display name
+    /// Gets or sets the owner's display name.
     /// </summary>
     public string? OwnerName { get; set; }
 
     /// <summary>
-    /// Local file path (only set if we have the file locally)
+    /// Gets or sets the local file path (only set if we have the file locally).
     /// </summary>
     [JsonIgnore]
     public string? LocalPath { get; set; }
 
     /// <summary>
-    /// Formatted file size for display
+    /// Gets the formatted file size for display.
     /// </summary>
     [JsonIgnore]
     public string SizeDisplay => FormatBytes(Size);
 
     /// <summary>
-    /// Category display name
+    /// Gets the category display name.
     /// </summary>
     [JsonIgnore]
     public string CategoryDisplay => Category.ToString();
 
     /// <summary>
-    /// Icon based on file type
+    /// Gets the icon based on file type.
     /// </summary>
     [JsonIgnore]
     public string Icon => GetIconForCategory();
@@ -228,39 +228,39 @@ public enum FileCategory
 public class SharedCatalog
 {
     /// <summary>
-    /// Peer ID of the catalog owner
+    /// Gets or sets the peer ID of the catalog owner.
     /// </summary>
     public required string PeerId { get; set; }
 
     /// <summary>
-    /// Display name of the catalog owner
+    /// Gets or sets the display name of the catalog owner.
     /// </summary>
     public string? PeerName { get; set; }
 
     /// <summary>
-    /// List of shared files
+    /// Gets or sets the list of shared files.
     /// </summary>
     public List<SharedFile> Files { get; set; } = [];
 
     /// <summary>
-    /// When this catalog was last updated
+    /// Gets or sets when this catalog was last updated.
     /// </summary>
     public DateTime LastUpdated { get; set; } = DateTime.UtcNow;
 
     /// <summary>
-    /// Total size of all files
+    /// Gets the total size of all files.
     /// </summary>
     [JsonIgnore]
     public long TotalSize => Files.Sum(f => f.Size);
 
     /// <summary>
-    /// Formatted total size
+    /// Gets the formatted total size.
     /// </summary>
     [JsonIgnore]
     public string TotalSizeDisplay => FormatBytes(TotalSize);
 
     /// <summary>
-    /// Number of files
+    /// Gets the number of files.
     /// </summary>
     [JsonIgnore]
     public int FileCount => Files.Count;
@@ -287,77 +287,77 @@ public class SharedCatalog
 public class FileDownload
 {
     /// <summary>
-    /// The file being downloaded
+    /// Gets or sets the file being downloaded.
     /// </summary>
     public required SharedFile File { get; set; }
 
     /// <summary>
-    /// Download state
+    /// Gets or sets the download state.
     /// </summary>
     public DownloadState State { get; set; } = DownloadState.Pending;
 
     /// <summary>
-    /// Peers we're downloading from
+    /// Gets or sets the peers we're downloading from.
     /// </summary>
     public List<string> SourcePeers { get; set; } = [];
 
     /// <summary>
-    /// Which chunks have been downloaded
+    /// Gets or sets which chunks have been downloaded.
     /// </summary>
     public bool[] ChunksCompleted { get; set; } = [];
 
     /// <summary>
-    /// Which chunks are currently being downloaded
+    /// Gets or sets which chunks are currently being downloaded.
     /// </summary>
     public bool[] ChunksInProgress { get; set; } = [];
 
     /// <summary>
-    /// Bytes downloaded
+    /// Gets or sets the bytes downloaded.
     /// </summary>
     public long BytesDownloaded { get; set; }
 
     /// <summary>
-    /// Download speed in bytes per second
+    /// Gets or sets the download speed in bytes per second.
     /// </summary>
     public double SpeedBytesPerSecond { get; set; }
 
     /// <summary>
-    /// When download started
+    /// Gets or sets when download started.
     /// </summary>
     public DateTime StartedAt { get; set; }
 
     /// <summary>
-    /// Local path where the file is being saved
+    /// Gets or sets the local path where the file is being saved.
     /// </summary>
     public required string DestinationPath { get; set; }
 
     /// <summary>
-    /// Error message if failed
+    /// Gets or sets the error message if failed.
     /// </summary>
     public string? ErrorMessage { get; set; }
 
     /// <summary>
-    /// Progress percentage (0-100)
+    /// Gets the progress percentage (0-100).
     /// </summary>
     public double Progress => File.Size > 0 ? (double)BytesDownloaded / File.Size * 100 : 0;
 
     /// <summary>
-    /// Formatted progress
+    /// Gets the formatted progress.
     /// </summary>
     public string ProgressDisplay => $"{Progress:0.#}%";
 
     /// <summary>
-    /// Formatted speed
+    /// Gets the formatted speed.
     /// </summary>
     public string SpeedDisplay => FormatSpeed(SpeedBytesPerSecond);
 
     /// <summary>
-    /// Estimated time remaining
+    /// Gets the estimated time remaining.
     /// </summary>
     public string EtaDisplay => CalculateEta();
 
     /// <summary>
-    /// Number of completed chunks
+    /// Gets the number of completed chunks.
     /// </summary>
     public int CompletedChunks => ChunksCompleted.Count(c => c);
 
