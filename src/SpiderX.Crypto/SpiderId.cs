@@ -86,9 +86,9 @@ public sealed class SpiderId : IEquatable<SpiderId>
     }
 
     /// <summary>
-    /// Creates a SpiderId directly from a hash (for internal use)
+    /// Creates a SpiderId directly from a hash (for DHT operations)
     /// </summary>
-    internal static SpiderId FromHash(byte[] hash) => new(hash);
+    public static SpiderId FromHash(byte[] hash) => new(hash);
 
     /// <summary>
     /// Computes XOR distance between two SpiderIds (for DHT routing)

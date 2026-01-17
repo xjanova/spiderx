@@ -30,12 +30,18 @@ public static class MauiProgram
         builder.Services.AddSingleton<ContactsViewModel>();
         builder.Services.AddSingleton<ChatViewModel>();
         builder.Services.AddTransient<SettingsViewModel>();
+        builder.Services.AddTransient<NearbyDiscoveryViewModel>();
+        builder.Services.AddSingleton<VirtualLanViewModel>();
+        builder.Services.AddSingleton<FileSharingViewModel>();
 
         // Register Views
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<ContactsPage>();
         builder.Services.AddSingleton<ChatPage>();
         builder.Services.AddTransient<SettingsPage>();
+        builder.Services.AddTransient<NearbyDiscoveryPage>();
+        builder.Services.AddSingleton<VirtualLanPage>();
+        builder.Services.AddSingleton<FileSharingPage>();
 
 #if DEBUG
         builder.Logging.AddDebug();

@@ -1,35 +1,64 @@
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using SpiderX.App.Services;
 using SpiderX.Core;
 using SpiderX.Services;
 
 namespace SpiderX.App.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public class MainViewModel : INotifyPropertyChanged
 {
     private readonly ISpiderXService _spiderXService;
 
-    [ObservableProperty]
     private bool _isConnected;
-
-    [ObservableProperty]
     private string _localId = "Not connected";
-
-    [ObservableProperty]
     private int _peerCount;
-
-    [ObservableProperty]
     private ObservableCollection<ConversationItem> _conversations = [];
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public bool IsConnected
+    {
+        get => _isConnected;
+        set => SetProperty(ref _isConnected, value);
+    }
+
+    public string LocalId
+    {
+        get => _localId;
+        set => SetProperty(ref _localId, value);
+    }
+
+    public int PeerCount
+    {
+        get => _peerCount;
+        set => SetProperty(ref _peerCount, value);
+    }
+
+    public ObservableCollection<ConversationItem> Conversations
+    {
+        get => _conversations;
+        set => SetProperty(ref _conversations, value);
+    }
+
+    public ICommand InitializeCommand { get; }
+    public ICommand RefreshCommand { get; }
+    public ICommand CopyIdCommand { get; }
+    public ICommand ShareIdCommand { get; }
 
     public MainViewModel(ISpiderXService spiderXService)
     {
         _spiderXService = spiderXService;
         _spiderXService.ConnectionStatusChanged += OnConnectionStatusChanged;
+
+        InitializeCommand = new Command(async () => await InitializeAsync());
+        RefreshCommand = new Command(async () => await RefreshAsync());
+        CopyIdCommand = new Command(async () => await CopyIdAsync());
+        ShareIdCommand = new Command(async () => await ShareIdAsync());
     }
 
-    [RelayCommand]
     private async Task InitializeAsync()
     {
         await _spiderXService.StartAsync();
@@ -47,14 +76,12 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task RefreshAsync()
     {
         LoadConversations();
         await Task.CompletedTask;
     }
 
-    [RelayCommand]
     private async Task CopyIdAsync()
     {
         if (_spiderXService.LocalId != null)
@@ -63,7 +90,6 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task ShareIdAsync()
     {
         if (_spiderXService.Node != null)
@@ -125,6 +151,14 @@ public partial class MainViewModel : ObservableObject
     private void UpdatePeerCount()
     {
         PeerCount = _spiderXService.Node?.Peers.ConnectedCount ?? 0;
+    }
+
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        return true;
     }
 }
 

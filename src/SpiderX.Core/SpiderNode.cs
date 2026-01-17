@@ -24,6 +24,11 @@ public class SpiderNode : IDisposable
     public SpiderId Id => _keyPair.Id;
 
     /// <summary>
+    /// Local ID (alias for Id)
+    /// </summary>
+    public SpiderId LocalId => _keyPair.Id;
+
+    /// <summary>
     /// Public key for sharing with other peers
     /// </summary>
     public byte[] PublicKey => _keyPair.PublicKey;
@@ -32,6 +37,14 @@ public class SpiderNode : IDisposable
     /// Peer manager for handling connections
     /// </summary>
     public PeerManager Peers { get; }
+
+    /// <summary>
+    /// List of currently connected peer IDs
+    /// </summary>
+    public IReadOnlyList<SpiderId> ConnectedPeers => Peers.Peers
+        .Where(p => p.IsConnected)
+        .Select(p => p.Id)
+        .ToList();
 
     /// <summary>
     /// Whether the node is currently running
@@ -47,6 +60,11 @@ public class SpiderNode : IDisposable
     /// Event raised when the node stops
     /// </summary>
     public event EventHandler? Stopped;
+
+    /// <summary>
+    /// Event raised when a message is received from any peer
+    /// </summary>
+    public event EventHandler<(SpiderId Sender, Message Message)>? MessageReceived;
 
     /// <summary>
     /// Creates a new SpiderX node with a random identity
@@ -70,6 +88,7 @@ public class SpiderNode : IDisposable
         Peers.PeerDiscovered += OnPeerDiscovered;
         Peers.PeerConnected += OnPeerConnected;
         Peers.PeerDisconnected += OnPeerDisconnected;
+        Peers.DataReceived += OnDataReceived;
     }
 
     /// <summary>
@@ -170,6 +189,14 @@ public class SpiderNode : IDisposable
     public async Task<Peer?> ConnectAsync(SpiderId peerId, CancellationToken cancellationToken = default)
     {
         return await Peers.ConnectByIdAsync(peerId, cancellationToken);
+    }
+
+    /// <summary>
+    /// Sends a message to a peer
+    /// </summary>
+    public async Task SendMessageAsync(SpiderId peerId, Message message)
+    {
+        await Peers.SendAsync(peerId, message);
     }
 
     /// <summary>
@@ -283,6 +310,11 @@ public class SpiderNode : IDisposable
         _logger.LogInformation("Disconnected from peer: {PeerId}", e.Peer.Id.Address);
     }
 
+    private void OnDataReceived(object? sender, PeerDataEventArgs e)
+    {
+        MessageReceived?.Invoke(this, (e.Peer.Id, e.Message));
+    }
+
     public void Dispose()
     {
         if (_disposed) return;
@@ -293,6 +325,7 @@ public class SpiderNode : IDisposable
         Peers.PeerDiscovered -= OnPeerDiscovered;
         Peers.PeerConnected -= OnPeerConnected;
         Peers.PeerDisconnected -= OnPeerDisconnected;
+        Peers.DataReceived -= OnDataReceived;
         Peers.Dispose();
 
         _keyPair.Dispose();

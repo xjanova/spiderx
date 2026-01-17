@@ -1,31 +1,62 @@
 using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using SpiderX.App.Services;
 using SpiderX.Core;
 using SpiderX.Crypto;
 
 namespace SpiderX.App.ViewModels;
 
-public partial class ContactsViewModel : ObservableObject
+public class ContactsViewModel : INotifyPropertyChanged
 {
     private readonly ISpiderXService _spiderXService;
 
-    [ObservableProperty]
     private ObservableCollection<ContactItem> _contacts = [];
-
-    [ObservableProperty]
     private ObservableCollection<ContactItem> _pendingRequests = [];
-
-    [ObservableProperty]
     private bool _isRefreshing;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public ObservableCollection<ContactItem> Contacts
+    {
+        get => _contacts;
+        set => SetProperty(ref _contacts, value);
+    }
+
+    public ObservableCollection<ContactItem> PendingRequests
+    {
+        get => _pendingRequests;
+        set => SetProperty(ref _pendingRequests, value);
+    }
+
+    public bool IsRefreshing
+    {
+        get => _isRefreshing;
+        set => SetProperty(ref _isRefreshing, value);
+    }
+
+    public ICommand InitializeCommand { get; }
+    public ICommand RefreshCommand { get; }
+    public ICommand AddContactCommand { get; }
+    public ICommand AcceptRequestCommand { get; }
+    public ICommand RejectRequestCommand { get; }
+    public ICommand BlockContactCommand { get; }
+    public ICommand ScanQrCommand { get; }
 
     public ContactsViewModel(ISpiderXService spiderXService)
     {
         _spiderXService = spiderXService;
+
+        InitializeCommand = new Command(async () => await InitializeAsync());
+        RefreshCommand = new Command(async () => await RefreshAsync());
+        AddContactCommand = new Command(async () => await AddContactAsync());
+        AcceptRequestCommand = new Command<ContactItem>(async (contact) => await AcceptRequestAsync(contact));
+        RejectRequestCommand = new Command<ContactItem>(async (contact) => await RejectRequestAsync(contact));
+        BlockContactCommand = new Command<ContactItem>(async (contact) => await BlockContactAsync(contact));
+        ScanQrCommand = new Command(async () => await ScanQrAsync());
     }
 
-    [RelayCommand]
     private async Task InitializeAsync()
     {
         if (_spiderXService.Node != null)
@@ -39,7 +70,6 @@ public partial class ContactsViewModel : ObservableObject
         await RefreshAsync();
     }
 
-    [RelayCommand]
     private async Task RefreshAsync()
     {
         IsRefreshing = true;
@@ -55,7 +85,6 @@ public partial class ContactsViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task AddContactAsync()
     {
         var result = await Application.Current!.MainPage!.DisplayPromptAsync(
@@ -92,7 +121,6 @@ public partial class ContactsViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task AcceptRequestAsync(ContactItem contact)
     {
         try
@@ -111,7 +139,6 @@ public partial class ContactsViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task RejectRequestAsync(ContactItem contact)
     {
         try
@@ -127,7 +154,6 @@ public partial class ContactsViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task BlockContactAsync(ContactItem contact)
     {
         var confirm = await Application.Current!.MainPage!.DisplayAlert(
@@ -143,7 +169,6 @@ public partial class ContactsViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task ScanQrAsync()
     {
         // TODO: Implement QR scanning
@@ -202,6 +227,14 @@ public partial class ContactsViewModel : ObservableObject
                 });
             });
         }
+    }
+
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        return true;
     }
 }
 

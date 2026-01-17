@@ -22,6 +22,21 @@
             Icon="contacts_icon.png" />
 
         <ShellContent
+            Title="Nearby"
+            ContentTemplate="{DataTemplate views:NearbyDiscoveryPage}"
+            Icon="radar_icon.png" />
+
+        <ShellContent
+            Title="LAN"
+            ContentTemplate="{DataTemplate views:VirtualLanPage}"
+            Icon="lan_icon.png" />
+
+        <ShellContent
+            Title="Files"
+            ContentTemplate="{DataTemplate views:FileSharingPage}"
+            Icon="files_icon.png" />
+
+        <ShellContent
             Title="Settings"
             ContentTemplate="{DataTemplate views:SettingsPage}"
             Icon="settings_icon.png" />

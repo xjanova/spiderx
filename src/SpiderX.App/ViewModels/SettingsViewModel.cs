@@ -1,43 +1,102 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using SpiderX.App.Services;
 
 namespace SpiderX.App.ViewModels;
 
-public partial class SettingsViewModel : ObservableObject
+public class SettingsViewModel : INotifyPropertyChanged
 {
     private readonly ISpiderXService _spiderXService;
 
-    [ObservableProperty]
     private string _localId = "";
-
-    [ObservableProperty]
     private string _shareableAddress = "";
-
-    [ObservableProperty]
     private bool _isConnected;
-
-    [ObservableProperty]
     private int _connectedPeers;
-
-    [ObservableProperty]
     private bool _enableLanDiscovery = true;
-
-    [ObservableProperty]
     private bool _enableNotifications = true;
-
-    [ObservableProperty]
     private string _displayName = "";
 
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public string LocalId
+    {
+        get => _localId;
+        set => SetProperty(ref _localId, value);
+    }
+
+    public string ShareableAddress
+    {
+        get => _shareableAddress;
+        set => SetProperty(ref _shareableAddress, value);
+    }
+
+    public bool IsConnected
+    {
+        get => _isConnected;
+        set => SetProperty(ref _isConnected, value);
+    }
+
+    public int ConnectedPeers
+    {
+        get => _connectedPeers;
+        set => SetProperty(ref _connectedPeers, value);
+    }
+
+    public bool EnableLanDiscovery
+    {
+        get => _enableLanDiscovery;
+        set
+        {
+            if (SetProperty(ref _enableLanDiscovery, value))
+            {
+                Preferences.Default.Set("enable_lan_discovery", value);
+            }
+        }
+    }
+
+    public bool EnableNotifications
+    {
+        get => _enableNotifications;
+        set
+        {
+            if (SetProperty(ref _enableNotifications, value))
+            {
+                Preferences.Default.Set("enable_notifications", value);
+            }
+        }
+    }
+
+    public string DisplayName
+    {
+        get => _displayName;
+        set => SetProperty(ref _displayName, value);
+    }
+
     public string Version => "1.0.0";
+
+    public ICommand InitializeCommand { get; }
+    public ICommand CopyIdCommand { get; }
+    public ICommand ShareIdCommand { get; }
+    public ICommand ShowQrCodeCommand { get; }
+    public ICommand ExportIdentityCommand { get; }
+    public ICommand ImportIdentityCommand { get; }
+    public ICommand SaveDisplayNameCommand { get; }
 
     public SettingsViewModel(ISpiderXService spiderXService)
     {
         _spiderXService = spiderXService;
         _spiderXService.ConnectionStatusChanged += OnConnectionStatusChanged;
+
+        InitializeCommand = new Command(() => Initialize());
+        CopyIdCommand = new Command(async () => await CopyIdAsync());
+        ShareIdCommand = new Command(async () => await ShareIdAsync());
+        ShowQrCodeCommand = new Command(async () => await ShowQrCodeAsync());
+        ExportIdentityCommand = new Command(async () => await ExportIdentityAsync());
+        ImportIdentityCommand = new Command(async () => await ImportIdentityAsync());
+        SaveDisplayNameCommand = new Command(() => SaveDisplayName());
     }
 
-    [RelayCommand]
     private void Initialize()
     {
         if (_spiderXService.Node != null)
@@ -54,14 +113,12 @@ public partial class SettingsViewModel : ObservableObject
         EnableNotifications = Preferences.Default.Get("enable_notifications", true);
     }
 
-    [RelayCommand]
     private async Task CopyIdAsync()
     {
         await Clipboard.Default.SetTextAsync(LocalId);
         await Application.Current!.MainPage!.DisplayAlert("Copied", "ID copied to clipboard", "OK");
     }
 
-    [RelayCommand]
     private async Task ShareIdAsync()
     {
         await Share.Default.RequestAsync(new ShareTextRequest
@@ -71,7 +128,6 @@ public partial class SettingsViewModel : ObservableObject
         });
     }
 
-    [RelayCommand]
     private async Task ShowQrCodeAsync()
     {
         // TODO: Implement QR code display
@@ -81,7 +137,6 @@ public partial class SettingsViewModel : ObservableObject
             "OK");
     }
 
-    [RelayCommand]
     private async Task ExportIdentityAsync()
     {
         var confirm = await Application.Current!.MainPage!.DisplayAlert(
@@ -109,7 +164,6 @@ public partial class SettingsViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private async Task ImportIdentityAsync()
     {
         var privateKeyHex = await Application.Current!.MainPage!.DisplayPromptAsync(
@@ -140,20 +194,9 @@ public partial class SettingsViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private void SaveDisplayName()
     {
         Preferences.Default.Set("display_name", DisplayName);
-    }
-
-    partial void OnEnableLanDiscoveryChanged(bool value)
-    {
-        Preferences.Default.Set("enable_lan_discovery", value);
-    }
-
-    partial void OnEnableNotificationsChanged(bool value)
-    {
-        Preferences.Default.Set("enable_notifications", value);
     }
 
     private void OnConnectionStatusChanged(object? sender, bool isConnected)
@@ -166,5 +209,13 @@ public partial class SettingsViewModel : ObservableObject
                 ConnectedPeers = _spiderXService.Node.Peers.ConnectedCount;
             }
         });
+    }
+
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        return true;
     }
 }

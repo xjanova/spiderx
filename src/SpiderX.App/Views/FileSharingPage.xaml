@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
+             x:Class="SpiderX.App.Views.FileSharingPage"
+             x:DataType="vm:FileSharingViewModel"
+             Title="File Sharing">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0A0A1A" Offset="0.0" />
+            <GradientStop Color="#1A0A2E" Offset="0.5" />
+            <GradientStop Color="#0F1A2A" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <Grid RowDefinitions="Auto,*">
+        <!-- Header with Glass Effect -->
+        <Border Grid.Row="0"
+                StrokeThickness="0"
+                Padding="20"
+                Margin="16,16,16,8">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#2A1A3E" Offset="0.0" />
+                    <GradientStop Color="#1E1030" Offset="1.0" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="20" />
+            </Border.StrokeShape>
+            <Border.Shadow>
+                <Shadow Brush="#7C3AED" Offset="0,8" Radius="20" Opacity="0.3" />
+            </Border.Shadow>
+
+            <VerticalStackLayout Spacing="16">
+                <!-- Title Row -->
+                <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="12">
+                    <VerticalStackLayout>
+                        <HorizontalStackLayout Spacing="12">
+                            <Border WidthRequest="48" HeightRequest="48" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#7C3AED" Offset="0.0" />
+                                        <GradientStop Color="#EC4899" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="14" />
+                                </Border.StrokeShape>
+                                <Label Text="📁" FontSize="24" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <VerticalStackLayout Spacing="2">
+                                <Label Text="P2P File Sharing" FontSize="22" FontAttributes="Bold" TextColor="#F8FAFC" />
+                                <Label Text="{Binding StatusMessage}" FontSize="13" TextColor="#94A3B8" />
+                            </VerticalStackLayout>
+                        </HorizontalStackLayout>
+                    </VerticalStackLayout>
+
+                    <!-- Share Button with Gradient -->
+                    <Border Grid.Column="1" StrokeThickness="0" Padding="0" HeightRequest="44">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#7C3AED" Offset="0.0" />
+                                <GradientStop Color="#EC4899" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#EC4899" Offset="0,4" Radius="12" Opacity="0.4" />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShareFileCommand}" />
+                        </Border.GestureRecognizers>
+                        <HorizontalStackLayout Padding="16,0" Spacing="8" VerticalOptions="Center">
+                            <Label Text="📤" FontSize="16" VerticalOptions="Center" />
+                            <Label Text="Share File" FontSize="14" FontAttributes="Bold" TextColor="White" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <!-- Refresh Button -->
+                    <Border Grid.Column="2" WidthRequest="44" HeightRequest="44" StrokeThickness="1" Stroke="#3A2A5E">
+                        <Border.Background>
+                            <SolidColorBrush Color="#1A1030" />
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding RefreshCatalogsCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="🔄" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                </Grid>
+
+                <!-- Search Bar with Glass Effect -->
+                <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                    <Border StrokeThickness="1" Stroke="#3A2A5E" Padding="12,0" BackgroundColor="#15102A">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="🔍" FontSize="16" VerticalOptions="Center" TextColor="#64748B" />
+                            <Entry Placeholder="Search files..."
+                                   Text="{Binding SearchQuery}"
+                                   TextColor="#F8FAFC"
+                                   PlaceholderColor="#64748B"
+                                   BackgroundColor="Transparent"
+                                   VerticalOptions="Center"
+                                   WidthRequest="200" />
+                        </HorizontalStackLayout>
+                    </Border>
+
+                    <Border Grid.Column="1" StrokeThickness="1" Stroke="#3A2A5E" Padding="8,0" BackgroundColor="#15102A">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Picker ItemsSource="{Binding Categories}"
+                                ItemDisplayBinding="{Binding Name}"
+                                SelectedItem="{Binding SelectedCategoryOption}"
+                                TextColor="#F8FAFC"
+                                BackgroundColor="Transparent"
+                                WidthRequest="130" />
+                    </Border>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <!-- Scrollable Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout Padding="16,8,16,16" Spacing="16">
+
+                <!-- Active Downloads Section -->
+                <Border StrokeThickness="0" Padding="20"
+                        IsVisible="{Binding ActiveDownloads.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#1A2040" Offset="0.0" />
+                            <GradientStop Color="#151530" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#06B6D4" Offset="0,6" Radius="16" Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="16">
+                        <!-- Section Header -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Border WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#06B6D4" Offset="0.0" />
+                                        <GradientStop Color="#3B82F6" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="⬇️" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Active Downloads" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                            <Border BackgroundColor="#06B6D4" Padding="10,4" StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="{Binding ActiveDownloads.Count}" FontSize="12" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Downloads List -->
+                        <CollectionView ItemsSource="{Binding ActiveDownloads}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:DownloadItem">
+                                    <Border Margin="0,6" Padding="16" StrokeThickness="1" Stroke="#2A2A4A" BackgroundColor="#12121F">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="14" />
+                                        </Border.StrokeShape>
+                                        <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto" RowSpacing="12">
+                                            <!-- File Info -->
+                                            <VerticalStackLayout Spacing="4">
+                                                <Label Text="{Binding Name}" FontSize="15" FontAttributes="Bold" TextColor="#F8FAFC" LineBreakMode="TailTruncation" />
+                                                <HorizontalStackLayout Spacing="8">
+                                                    <Label Text="{Binding SizeDisplay}" FontSize="12" TextColor="#94A3B8" />
+                                                    <Label Text="•" TextColor="#64748B" />
+                                                    <Label Text="{Binding SpeedDisplay}" FontSize="12" TextColor="#00FF88" FontAttributes="Bold" />
+                                                    <Label Text="•" TextColor="#64748B" />
+                                                    <Label Text="{Binding EtaDisplay}" FontSize="12" TextColor="#94A3B8" />
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+
+                                            <!-- Control Buttons -->
+                                            <HorizontalStackLayout Grid.Column="1" Spacing="6">
+                                                <Border WidthRequest="36" HeightRequest="36" StrokeThickness="1" Stroke="#3A3A5A" BackgroundColor="#1A1A2E"
+                                                        IsVisible="{Binding CanPause}">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="10" />
+                                                    </Border.StrokeShape>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileSharingViewModel}}, Path=PauseDownloadCommand}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <Label Text="⏸️" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" />
+                                                </Border>
+                                                <Border WidthRequest="36" HeightRequest="36" StrokeThickness="1" Stroke="#3A3A5A" BackgroundColor="#1A1A2E"
+                                                        IsVisible="{Binding CanResume}">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="10" />
+                                                    </Border.StrokeShape>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileSharingViewModel}}, Path=ResumeDownloadCommand}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <Label Text="▶️" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" />
+                                                </Border>
+                                                <Border WidthRequest="36" HeightRequest="36" StrokeThickness="1" Stroke="#5A2A3A" BackgroundColor="#2A1A1E"
+                                                        IsVisible="{Binding CanCancel}">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="10" />
+                                                    </Border.StrokeShape>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileSharingViewModel}}, Path=CancelDownloadCommand}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <Label Text="❌" FontSize="16" HorizontalOptions="Center" VerticalOptions="Center" />
+                                                </Border>
+                                            </HorizontalStackLayout>
+
+                                            <!-- Neon Progress Bar -->
+                                            <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                                                <Border HeightRequest="8" BackgroundColor="#1A1A2E" StrokeThickness="0">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="4" />
+                                                    </Border.StrokeShape>
+                                                </Border>
+                                                <Border HeightRequest="8" HorizontalOptions="Start" StrokeThickness="0"
+                                                        WidthRequest="{Binding Progress, Converter={StaticResource ProgressToWidthConverter}}">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Color="#06B6D4" Offset="0.0" />
+                                                            <GradientStop Color="#00FF88" Offset="1.0" />
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="4" />
+                                                    </Border.StrokeShape>
+                                                    <Border.Shadow>
+                                                        <Shadow Brush="#00FF88" Offset="0,0" Radius="8" Opacity="0.6" />
+                                                    </Border.Shadow>
+                                                </Border>
+                                            </Grid>
+
+                                            <!-- Stats Row -->
+                                            <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2" Spacing="16">
+                                                <Label Text="{Binding ProgressDisplay}" FontSize="13" FontAttributes="Bold" TextColor="#00FF88" />
+                                                <Label Text="{Binding ChunksDisplay, StringFormat='Chunks: {0}'}" FontSize="12" TextColor="#64748B" />
+                                                <Label Text="{Binding PeerCount, StringFormat='{0} peers'}" FontSize="12" TextColor="#64748B" />
+                                                <Border Padding="8,2" BackgroundColor="#1A2A2A" StrokeThickness="0">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="6" />
+                                                    </Border.StrokeShape>
+                                                    <Label Text="{Binding StateDisplay}" FontSize="11" TextColor="#06B6D4" />
+                                                </Border>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- My Shared Files Section -->
+                <Border StrokeThickness="0" Padding="20">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#1A2540" Offset="0.0" />
+                            <GradientStop Color="#152030" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#22C55E" Offset="0,6" Radius="16" Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="16">
+                        <!-- Section Header -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Border WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#22C55E" Offset="0.0" />
+                                        <GradientStop Color="#10B981" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="📤" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="My Shared Files" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                            <Border BackgroundColor="#22C55E" Padding="10,4" StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="{Binding MySharedFiles.Count}" FontSize="12" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Shared Files List -->
+                        <CollectionView ItemsSource="{Binding MySharedFiles}">
+                            <CollectionView.EmptyView>
+                                <Border Padding="30" BackgroundColor="#12121F" StrokeThickness="1" Stroke="#2A2A4A">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="14" />
+                                    </Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                                        <Label Text="📂" FontSize="48" HorizontalOptions="Center" />
+                                        <Label Text="No files shared yet" FontSize="16" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                                        <Label Text="Click 'Share File' to share files with your contacts" FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SharedFileItem">
+                                    <Border Margin="0,6" Padding="14" StrokeThickness="1" Stroke="#2A3A4A" BackgroundColor="#12182F">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="14" />
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                            <!-- File Icon with Gradient -->
+                                            <Border WidthRequest="52" HeightRequest="52" StrokeThickness="0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#7C3AED" Offset="0.0" />
+                                                        <GradientStop Color="#EC4899" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="14" />
+                                                </Border.StrokeShape>
+                                                <Border.Shadow>
+                                                    <Shadow Brush="#7C3AED" Offset="0,3" Radius="8" Opacity="0.4" />
+                                                </Border.Shadow>
+                                                <Label Text="{Binding Icon}" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" />
+                                            </Border>
+
+                                            <!-- File Details -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                                <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" LineBreakMode="TailTruncation" />
+                                                <HorizontalStackLayout Spacing="8">
+                                                    <Label Text="{Binding SizeDisplay}" FontSize="12" TextColor="#94A3B8" />
+                                                    <Label Text="•" TextColor="#64748B" />
+                                                    <Border Padding="6,2" BackgroundColor="#2A1A3E" StrokeThickness="0">
+                                                        <Border.StrokeShape>
+                                                            <RoundRectangle CornerRadius="6" />
+                                                        </Border.StrokeShape>
+                                                        <Label Text="{Binding CategoryDisplay}" FontSize="11" TextColor="#EC4899" />
+                                                    </Border>
+                                                </HorizontalStackLayout>
+                                                <Label Text="{Binding SharedAtDisplay, StringFormat='Shared: {0}'}" FontSize="11" TextColor="#64748B" />
+                                            </VerticalStackLayout>
+
+                                            <!-- Action Buttons -->
+                                            <HorizontalStackLayout Grid.Column="2" Spacing="8" VerticalOptions="Center">
+                                                <Border WidthRequest="40" HeightRequest="40" StrokeThickness="1" Stroke="#3A3A5A" BackgroundColor="#1A1A2E">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="10" />
+                                                    </Border.StrokeShape>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileSharingViewModel}}, Path=OpenFolderCommand}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <Label Text="📂" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                                                </Border>
+                                                <Border WidthRequest="40" HeightRequest="40" StrokeThickness="1" Stroke="#5A2A3A" BackgroundColor="#2A1A1E">
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="10" />
+                                                    </Border.StrokeShape>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileSharingViewModel}}, Path=UnshareFileCommand}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <Label Text="🗑️" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                                                </Border>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Available Files from Peers -->
+                <Border StrokeThickness="0" Padding="20">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#1A1040" Offset="0.0" />
+                            <GradientStop Color="#150A30" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#8B5CF6" Offset="0,6" Radius="16" Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="16">
+                        <!-- Section Header -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Border WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#8B5CF6" Offset="0.0" />
+                                        <GradientStop Color="#A855F7" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="🌐" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Available from Peers" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                            <Border BackgroundColor="#8B5CF6" Padding="10,4" StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="{Binding AvailableFiles.Count}" FontSize="12" FontAttributes="Bold" TextColor="White" />
+                            </Border>
+                        </HorizontalStackLayout>
+
+                        <!-- Available Files List -->
+                        <CollectionView ItemsSource="{Binding AvailableFiles}">
+                            <CollectionView.EmptyView>
+                                <Border Padding="30" BackgroundColor="#12121F" StrokeThickness="1" Stroke="#2A2A4A">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="14" />
+                                    </Border.StrokeShape>
+                                    <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                                        <Label Text="🌐" FontSize="48" HorizontalOptions="Center" />
+                                        <Label Text="No files available yet" FontSize="16" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                                        <Label Text="Click refresh to fetch catalogs from your contacts" FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                                    </VerticalStackLayout>
+                                </Border>
+                            </CollectionView.EmptyView>
+
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SharedFileItem">
+                                    <Border Margin="0,6" Padding="14" StrokeThickness="1" Stroke="#2A2A4A" BackgroundColor="#12101F">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="14" />
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                            <!-- Thumbnail/Icon -->
+                                            <Border WidthRequest="60" HeightRequest="60" StrokeThickness="1" Stroke="#3A3A5A" BackgroundColor="#1A1A2E">
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="12" />
+                                                </Border.StrokeShape>
+                                                <Grid>
+                                                    <Image Source="{Binding ThumbnailSource}" IsVisible="{Binding HasThumbnail}" Aspect="AspectFill" />
+                                                    <Label Text="{Binding Icon}" FontSize="30" HorizontalOptions="Center" VerticalOptions="Center"
+                                                           IsVisible="{Binding HasThumbnail, Converter={StaticResource InvertBoolConverter}}" />
+                                                </Grid>
+                                            </Border>
+
+                                            <!-- File Details -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                                <Label Text="{Binding Name}" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" LineBreakMode="TailTruncation" />
+                                                <Label Text="{Binding Description}" FontSize="12" TextColor="#94A3B8" LineBreakMode="TailTruncation"
+                                                       IsVisible="{Binding Description, Converter={StaticResource StringToBoolConverter}}" />
+                                                <HorizontalStackLayout Spacing="6">
+                                                    <Label Text="{Binding SizeDisplay}" FontSize="12" TextColor="#94A3B8" />
+                                                    <Label Text="•" TextColor="#64748B" />
+                                                    <Border Padding="6,2" BackgroundColor="#2A1A3E" StrokeThickness="0">
+                                                        <Border.StrokeShape>
+                                                            <RoundRectangle CornerRadius="6" />
+                                                        </Border.StrokeShape>
+                                                        <Label Text="{Binding CategoryDisplay}" FontSize="11" TextColor="#A855F7" />
+                                                    </Border>
+                                                    <Label Text="•" TextColor="#64748B" />
+                                                    <Label Text="{Binding OwnerDisplay, StringFormat='From: {0}'}" FontSize="11" TextColor="#64748B" />
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+
+                                            <!-- Download/Open Button -->
+                                            <VerticalStackLayout Grid.Column="2" VerticalOptions="Center">
+                                                <Border StrokeThickness="0" Padding="0" IsVisible="{Binding HasLocalFile, Converter={StaticResource InvertBoolConverter}}">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Color="#7C3AED" Offset="0.0" />
+                                                            <GradientStop Color="#EC4899" Offset="1.0" />
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="10" />
+                                                    </Border.StrokeShape>
+                                                    <Border.Shadow>
+                                                        <Shadow Brush="#7C3AED" Offset="0,3" Radius="8" Opacity="0.4" />
+                                                    </Border.Shadow>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileSharingViewModel}}, Path=DownloadFileCommand}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <HorizontalStackLayout Padding="14,10" Spacing="6">
+                                                        <Label Text="⬇️" FontSize="14" />
+                                                        <Label Text="Download" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                                <Border StrokeThickness="0" Padding="0" IsVisible="{Binding HasLocalFile}">
+                                                    <Border.Background>
+                                                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                            <GradientStop Color="#22C55E" Offset="0.0" />
+                                                            <GradientStop Color="#10B981" Offset="1.0" />
+                                                        </LinearGradientBrush>
+                                                    </Border.Background>
+                                                    <Border.StrokeShape>
+                                                        <RoundRectangle CornerRadius="10" />
+                                                    </Border.StrokeShape>
+                                                    <Border.GestureRecognizers>
+                                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:FileSharingViewModel}}, Path=OpenFileCommand}" CommandParameter="{Binding .}" />
+                                                    </Border.GestureRecognizers>
+                                                    <HorizontalStackLayout Padding="14,10" Spacing="6">
+                                                        <Label Text="📂" FontSize="14" />
+                                                        <Label Text="Open" FontSize="13" FontAttributes="Bold" TextColor="White" />
+                                                    </HorizontalStackLayout>
+                                                </Border>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Connected Peers Section -->
+                <Border StrokeThickness="0" Padding="20"
+                        IsVisible="{Binding PeerCatalogs.Count, Converter={StaticResource IntToBoolConverter}}">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#1A3040" Offset="0.0" />
+                            <GradientStop Color="#152530" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <Border.Shadow>
+                        <Shadow Brush="#F59E0B" Offset="0,6" Radius="16" Opacity="0.2" />
+                    </Border.Shadow>
+
+                    <VerticalStackLayout Spacing="16">
+                        <!-- Section Header -->
+                        <HorizontalStackLayout Spacing="12">
+                            <Border WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#F59E0B" Offset="0.0" />
+                                        <GradientStop Color="#EAB308" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Label Text="👥" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Connected Peers" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+
+                        <!-- Peers List -->
+                        <CollectionView ItemsSource="{Binding PeerCatalogs}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="vm:PeerCatalogItem">
+                                    <Border Margin="0,6" Padding="14" StrokeThickness="1" Stroke="#3A4A3A" BackgroundColor="#12201F">
+                                        <Border.StrokeShape>
+                                            <RoundRectangle CornerRadius="14" />
+                                        </Border.StrokeShape>
+                                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                                            <!-- Avatar -->
+                                            <Border WidthRequest="48" HeightRequest="48" StrokeThickness="0">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                                        <GradientStop Color="#F59E0B" Offset="0.0" />
+                                                        <GradientStop Color="#22C55E" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Border.StrokeShape>
+                                                    <RoundRectangle CornerRadius="24" />
+                                                </Border.StrokeShape>
+                                                <Border.Shadow>
+                                                    <Shadow Brush="#22C55E" Offset="0,2" Radius="6" Opacity="0.4" />
+                                                </Border.Shadow>
+                                                <Label Text="👤" FontSize="22" HorizontalOptions="Center" VerticalOptions="Center" />
+                                            </Border>
+
+                                            <!-- Peer Details -->
+                                            <VerticalStackLayout Grid.Column="1" Spacing="4" VerticalOptions="Center">
+                                                <Label Text="{Binding PeerName}" FontSize="15" FontAttributes="Bold" TextColor="#F8FAFC" />
+                                                <HorizontalStackLayout Spacing="10">
+                                                    <HorizontalStackLayout Spacing="4">
+                                                        <Label Text="📄" FontSize="12" />
+                                                        <Label Text="{Binding FileCount, StringFormat='{0} files'}" FontSize="12" TextColor="#94A3B8" />
+                                                    </HorizontalStackLayout>
+                                                    <Label Text="•" TextColor="#64748B" />
+                                                    <Label Text="{Binding TotalSizeDisplay}" FontSize="12" TextColor="#00FF88" FontAttributes="Bold" />
+                                                </HorizontalStackLayout>
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- How It Works Section -->
+                <Border StrokeThickness="0" Padding="20">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#161630" Offset="0.0" />
+                            <GradientStop Color="#101025" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+
+                    <VerticalStackLayout Spacing="20">
+                        <HorizontalStackLayout Spacing="12">
+                            <Label Text="💡" FontSize="24" />
+                            <Label Text="How It Works" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+
+                        <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto,Auto,Auto" RowSpacing="16" ColumnSpacing="16">
+                            <!-- Step 1 -->
+                            <Border WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#7C3AED" Offset="0.0" />
+                                        <GradientStop Color="#EC4899" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="18" />
+                                </Border.StrokeShape>
+                                <Label Text="1" FontSize="16" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Grid.Column="1" Text="Share files from your device" TextColor="#F8FAFC" FontSize="14" VerticalOptions="Center" />
+
+                            <!-- Step 2 -->
+                            <Border Grid.Row="1" WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#EC4899" Offset="0.0" />
+                                        <GradientStop Color="#F59E0B" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="18" />
+                                </Border.StrokeShape>
+                                <Label Text="2" FontSize="16" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Grid.Row="1" Grid.Column="1" Text="Your contacts can browse your catalog" TextColor="#F8FAFC" FontSize="14" VerticalOptions="Center" />
+
+                            <!-- Step 3 -->
+                            <Border Grid.Row="2" WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#F59E0B" Offset="0.0" />
+                                        <GradientStop Color="#22C55E" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="18" />
+                                </Border.StrokeShape>
+                                <Label Text="3" FontSize="16" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Grid.Row="2" Grid.Column="1" Text="Downloads use BitTorrent-style multi-peer transfer" TextColor="#F8FAFC" FontSize="14" VerticalOptions="Center" />
+
+                            <!-- Step 4 -->
+                            <Border Grid.Row="3" WidthRequest="36" HeightRequest="36" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#22C55E" Offset="0.0" />
+                                        <GradientStop Color="#06B6D4" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="18" />
+                                </Border.StrokeShape>
+                                <Label Text="4" FontSize="16" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Grid.Row="3" Grid.Column="1" Text="Downloaded files automatically become available to share" TextColor="#F8FAFC" FontSize="14" VerticalOptions="Center" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Loading Overlay -->
+        <Border Grid.RowSpan="2" BackgroundColor="#CC000000" IsVisible="{Binding IsLoading}" StrokeThickness="0">
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="16">
+                <ActivityIndicator IsRunning="{Binding IsLoading}" Color="#7C3AED" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Loading..." FontSize="16" TextColor="#F8FAFC" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

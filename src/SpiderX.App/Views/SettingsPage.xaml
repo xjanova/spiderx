@@ -4,204 +4,362 @@
              xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
              x:Class="SpiderX.App.Views.SettingsPage"
              x:DataType="vm:SettingsViewModel"
-             Title="Settings"
-             BackgroundColor="{StaticResource SpiderBackground}">
+             Title="Settings">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#0A0A1A" Offset="0.0" />
+            <GradientStop Color="#1A0A1A" Offset="0.5" />
+            <GradientStop Color="#0A1A1A" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
 
     <ScrollView>
         <VerticalStackLayout Spacing="16" Padding="16">
 
             <!-- Identity Section -->
-            <Frame BackgroundColor="{StaticResource SpiderSurface}"
-                   Padding="16"
-                   CornerRadius="12"
-                   HasShadow="False">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="YOUR IDENTITY"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource SpiderTextSecondary}" />
+            <Border StrokeThickness="0" Padding="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#2A1A4A" Offset="0.0" />
+                        <GradientStop Color="#1A2A4A" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#7C3AED" Offset="0,6" Radius="16" Opacity="0.3" />
+                </Border.Shadow>
+
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="12">
+                        <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#7C3AED" Offset="0.0" />
+                                    <GradientStop Color="#EC4899" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Label Text="🔑" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="YOUR IDENTITY" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
 
                     <!-- ID Display -->
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="SpiderX ID"
-                               FontSize="12"
-                               TextColor="{StaticResource SpiderTextSecondary}" />
-                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
-                            <Label Text="{Binding LocalId}"
-                                   FontSize="14"
-                                   TextColor="{StaticResource SpiderText}"
-                                   FontFamily="Monospace"
-                                   LineBreakMode="MiddleTruncation" />
-                            <Button Grid.Column="1"
-                                    Text="Copy"
-                                    BackgroundColor="{StaticResource SpiderPrimary}"
-                                    TextColor="White"
-                                    CornerRadius="8"
-                                    Padding="12,6"
-                                    Command="{Binding CopyIdCommand}" />
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="SpiderX ID" FontSize="12" TextColor="#64748B" />
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                            <Border Padding="14" StrokeThickness="1" Stroke="#3A2A5A" BackgroundColor="#15102A">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Label Text="{Binding LocalId}" FontSize="13" TextColor="#06B6D4" LineBreakMode="MiddleTruncation" />
+                            </Border>
+                            <Border Grid.Column="1" StrokeThickness="0" Padding="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                        <GradientStop Color="#06B6D4" Offset="0.0" />
+                                        <GradientStop Color="#3B82F6" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CopyIdCommand}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="📋 Copy" FontSize="13" FontAttributes="Bold" TextColor="White" Padding="14,12" />
+                            </Border>
                         </Grid>
                     </VerticalStackLayout>
 
-                    <!-- QR Code -->
-                    <Button Text="Show QR Code"
-                            BackgroundColor="Transparent"
-                            BorderColor="{StaticResource SpiderPrimary}"
-                            BorderWidth="1"
-                            TextColor="{StaticResource SpiderPrimary}"
-                            CornerRadius="8"
-                            Command="{Binding ShowQrCodeCommand}" />
+                    <!-- QR Code Button -->
+                    <Border StrokeThickness="1" Stroke="#7C3AED" BackgroundColor="Transparent" Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowQrCodeCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="📱 Show QR Code" FontSize="14" FontAttributes="Bold" TextColor="#7C3AED" Padding="16,14" HorizontalOptions="Center" />
+                    </Border>
 
-                    <!-- Share -->
-                    <Button Text="Share ID"
-                            BackgroundColor="{StaticResource SpiderPrimary}"
-                            TextColor="White"
-                            CornerRadius="8"
-                            Command="{Binding ShareIdCommand}" />
+                    <!-- Share Button -->
+                    <Border StrokeThickness="0" Padding="0">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#7C3AED" Offset="0.0" />
+                                <GradientStop Color="#EC4899" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#EC4899" Offset="0,4" Radius="10" Opacity="0.3" />
+                        </Border.Shadow>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShareIdCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="🔗 Share ID" FontSize="14" FontAttributes="Bold" TextColor="White" Padding="16,14" HorizontalOptions="Center" />
+                    </Border>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- Connection Status -->
-            <Frame BackgroundColor="{StaticResource SpiderSurface}"
-                   Padding="16"
-                   CornerRadius="12"
-                   HasShadow="False">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="CONNECTION STATUS"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource SpiderTextSecondary}" />
+            <Border StrokeThickness="0" Padding="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#1A2540" Offset="0.0" />
+                        <GradientStop Color="#152030" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#22C55E" Offset="0,6" Radius="16" Opacity="0.2" />
+                </Border.Shadow>
 
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Status"
-                               TextColor="{StaticResource SpiderText}" />
-                        <HorizontalStackLayout Grid.Column="1" Spacing="8">
-                            <Frame BackgroundColor="{Binding IsConnected, Converter={StaticResource BoolToColorConverter}}"
-                                   WidthRequest="10"
-                                   HeightRequest="10"
-                                   CornerRadius="5"
-                                   HasShadow="False" />
-                            <Label Text="{Binding IsConnected, Converter={StaticResource BoolToConnectedTextConverter}}"
-                                   TextColor="{StaticResource SpiderText}" />
-                        </HorizontalStackLayout>
-                    </Grid>
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="12">
+                        <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#22C55E" Offset="0.0" />
+                                    <GradientStop Color="#10B981" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Label Text="📡" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="CONNECTION STATUS" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
 
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Connected Peers"
-                               TextColor="{StaticResource SpiderText}" />
-                        <Label Grid.Column="1"
-                               Text="{Binding ConnectedPeers}"
-                               TextColor="{StaticResource SpiderText}" />
-                    </Grid>
+                    <Border Padding="16" StrokeThickness="1" Stroke="#2A3A4A" BackgroundColor="#12182F">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="14" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Status" TextColor="#F8FAFC" FontSize="15" VerticalOptions="Center" />
+                            <HorizontalStackLayout Grid.Column="1" Spacing="10">
+                                <Border WidthRequest="12" HeightRequest="12" BackgroundColor="{Binding IsConnected, Converter={StaticResource BoolToColorConverter}}" StrokeThickness="0">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="6" />
+                                    </Border.StrokeShape>
+                                    <Border.Shadow>
+                                        <Shadow Brush="{Binding IsConnected, Converter={StaticResource BoolToColorConverter}}" Offset="0,0" Radius="6" Opacity="0.8" />
+                                    </Border.Shadow>
+                                </Border>
+                                <Label Text="{Binding IsConnected, Converter={StaticResource BoolToConnectedTextConverter}}" TextColor="#F8FAFC" FontSize="14" FontAttributes="Bold" />
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="16" StrokeThickness="1" Stroke="#2A3A4A" BackgroundColor="#12182F">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="14" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Connected Peers" TextColor="#F8FAFC" FontSize="15" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="{Binding ConnectedPeers}" TextColor="#00FF88" FontSize="16" FontAttributes="Bold" />
+                        </Grid>
+                    </Border>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- Profile Section -->
-            <Frame BackgroundColor="{StaticResource SpiderSurface}"
-                   Padding="16"
-                   CornerRadius="12"
-                   HasShadow="False">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="PROFILE"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource SpiderTextSecondary}" />
+            <Border StrokeThickness="0" Padding="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#1A1A40" Offset="0.0" />
+                        <GradientStop Color="#151530" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#8B5CF6" Offset="0,6" Radius="16" Opacity="0.2" />
+                </Border.Shadow>
 
-                    <VerticalStackLayout Spacing="4">
-                        <Label Text="Display Name"
-                               FontSize="12"
-                               TextColor="{StaticResource SpiderTextSecondary}" />
-                        <Entry Text="{Binding DisplayName}"
-                               Placeholder="Enter your name..."
-                               PlaceholderColor="{StaticResource SpiderTextSecondary}"
-                               TextColor="{StaticResource SpiderText}"
-                               BackgroundColor="{StaticResource SpiderBackground}"
-                               Completed="OnDisplayNameCompleted" />
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="12">
+                        <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#8B5CF6" Offset="0.0" />
+                                    <GradientStop Color="#A855F7" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Label Text="👤" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="PROFILE" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Display Name" FontSize="12" TextColor="#64748B" />
+                        <Border StrokeThickness="1" Stroke="#3A2A5A" BackgroundColor="#15102A" Padding="4">
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Entry Text="{Binding DisplayName}" Placeholder="Enter your name..." PlaceholderColor="#64748B" TextColor="#F8FAFC" BackgroundColor="Transparent" Completed="OnDisplayNameCompleted" />
+                        </Border>
                     </VerticalStackLayout>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- Network Settings -->
-            <Frame BackgroundColor="{StaticResource SpiderSurface}"
-                   Padding="16"
-                   CornerRadius="12"
-                   HasShadow="False">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="NETWORK"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource SpiderTextSecondary}" />
+            <Border StrokeThickness="0" Padding="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#1A2030" Offset="0.0" />
+                        <GradientStop Color="#101520" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#06B6D4" Offset="0,6" Radius="16" Opacity="0.2" />
+                </Border.Shadow>
 
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="LAN Discovery"
-                               TextColor="{StaticResource SpiderText}"
-                               VerticalOptions="Center" />
-                        <Switch Grid.Column="1"
-                                IsToggled="{Binding EnableLanDiscovery}"
-                                OnColor="{StaticResource SpiderPrimary}" />
-                    </Grid>
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="12">
+                        <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#06B6D4" Offset="0.0" />
+                                    <GradientStop Color="#3B82F6" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Label Text="🌐" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="NETWORK" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
 
-                    <Grid ColumnDefinitions="*,Auto">
-                        <Label Text="Notifications"
-                               TextColor="{StaticResource SpiderText}"
-                               VerticalOptions="Center" />
-                        <Switch Grid.Column="1"
-                                IsToggled="{Binding EnableNotifications}"
-                                OnColor="{StaticResource SpiderPrimary}" />
-                    </Grid>
+                    <Border Padding="16" StrokeThickness="1" Stroke="#2A3A4A" BackgroundColor="#12182F">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="14" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="LAN Discovery" TextColor="#F8FAFC" FontSize="15" VerticalOptions="Center" />
+                            <Switch Grid.Column="1" IsToggled="{Binding EnableLanDiscovery}" OnColor="#7C3AED" />
+                        </Grid>
+                    </Border>
+
+                    <Border Padding="16" StrokeThickness="1" Stroke="#2A3A4A" BackgroundColor="#12182F">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="14" />
+                        </Border.StrokeShape>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="Notifications" TextColor="#F8FAFC" FontSize="15" VerticalOptions="Center" />
+                            <Switch Grid.Column="1" IsToggled="{Binding EnableNotifications}" OnColor="#7C3AED" />
+                        </Grid>
+                    </Border>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- Security Section -->
-            <Frame BackgroundColor="{StaticResource SpiderSurface}"
-                   Padding="16"
-                   CornerRadius="12"
-                   HasShadow="False">
-                <VerticalStackLayout Spacing="12">
-                    <Label Text="SECURITY"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource SpiderTextSecondary}" />
+            <Border StrokeThickness="0" Padding="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#2A1A1A" Offset="0.0" />
+                        <GradientStop Color="#1A1020" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.Shadow>
+                    <Shadow Brush="#F59E0B" Offset="0,6" Radius="16" Opacity="0.2" />
+                </Border.Shadow>
 
-                    <Button Text="Export Identity (Backup)"
-                            BackgroundColor="Transparent"
-                            BorderColor="{StaticResource SpiderAccent}"
-                            BorderWidth="1"
-                            TextColor="{StaticResource SpiderAccent}"
-                            CornerRadius="8"
-                            Command="{Binding ExportIdentityCommand}" />
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="12">
+                        <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#F59E0B" Offset="0.0" />
+                                    <GradientStop Color="#EAB308" Offset="1.0" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="12" />
+                            </Border.StrokeShape>
+                            <Label Text="🔒" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="SECURITY" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" VerticalOptions="Center" />
+                    </HorizontalStackLayout>
 
-                    <Button Text="Import Identity"
-                            BackgroundColor="Transparent"
-                            BorderColor="{StaticResource SpiderTextSecondary}"
-                            BorderWidth="1"
-                            TextColor="{StaticResource SpiderTextSecondary}"
-                            CornerRadius="8"
-                            Command="{Binding ImportIdentityCommand}" />
+                    <Border StrokeThickness="1" Stroke="#F59E0B" BackgroundColor="Transparent" Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ExportIdentityCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="💾 Export Identity (Backup)" FontSize="14" FontAttributes="Bold" TextColor="#F59E0B" Padding="16,14" HorizontalOptions="Center" />
+                    </Border>
+
+                    <Border StrokeThickness="1" Stroke="#64748B" BackgroundColor="Transparent" Padding="0">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ImportIdentityCommand}" />
+                        </Border.GestureRecognizers>
+                        <Label Text="📥 Import Identity" FontSize="14" FontAttributes="Bold" TextColor="#94A3B8" Padding="16,14" HorizontalOptions="Center" />
+                    </Border>
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
             <!-- About -->
-            <Frame BackgroundColor="{StaticResource SpiderSurface}"
-                   Padding="16"
-                   CornerRadius="12"
-                   HasShadow="False">
-                <VerticalStackLayout Spacing="8">
-                    <Label Text="ABOUT"
-                           FontSize="12"
-                           FontAttributes="Bold"
-                           TextColor="{StaticResource SpiderTextSecondary}" />
+            <Border StrokeThickness="0" Padding="20">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#161630" Offset="0.0" />
+                        <GradientStop Color="#101025" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
 
-                    <Label Text="SpiderX - P2P Mesh Network"
-                           TextColor="{StaticResource SpiderText}"
-                           FontSize="16" />
-                    <Label Text="{Binding Version, StringFormat='Version {0}'}"
-                           TextColor="{StaticResource SpiderTextSecondary}"
-                           FontSize="12" />
-                    <Label Text="Decentralized. Secure. Private."
-                           TextColor="{StaticResource SpiderTextSecondary}"
-                           FontSize="12" />
+                <VerticalStackLayout Spacing="12" HorizontalOptions="Center">
+                    <Border WidthRequest="64" HeightRequest="64" StrokeThickness="0" HorizontalOptions="Center">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#7C3AED" Offset="0.0" />
+                                <GradientStop Color="#EC4899" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="18" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#EC4899" Offset="0,4" Radius="12" Opacity="0.4" />
+                        </Border.Shadow>
+                        <Label Text="🕷️" FontSize="32" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+                    <Label Text="SpiderX" FontSize="22" FontAttributes="Bold" TextColor="#F8FAFC" HorizontalTextAlignment="Center" />
+                    <Label Text="P2P Mesh Network" FontSize="14" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                    <Label Text="{Binding Version, StringFormat='Version {0}'}" FontSize="13" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                    <Label Text="Decentralized. Secure. Private." FontSize="12" TextColor="#7C3AED" FontAttributes="Bold" HorizontalTextAlignment="Center" />
                 </VerticalStackLayout>
-            </Frame>
+            </Border>
 
         </VerticalStackLayout>
     </ScrollView>
