@@ -19,27 +19,27 @@ public class SpiderNode : IDisposable
     private bool _disposed;
 
     /// <summary>
-    /// Unique identifier of this node
+    /// Gets the unique identifier of this node.
     /// </summary>
     public SpiderId Id => _keyPair.Id;
 
     /// <summary>
-    /// Local ID (alias for Id)
+    /// Gets the local ID (alias for Id).
     /// </summary>
     public SpiderId LocalId => _keyPair.Id;
 
     /// <summary>
-    /// Public key for sharing with other peers
+    /// Gets the public key for sharing with other peers.
     /// </summary>
     public byte[] PublicKey => _keyPair.PublicKey;
 
     /// <summary>
-    /// Peer manager for handling connections
+    /// Gets the peer manager for handling connections.
     /// </summary>
     public PeerManager Peers { get; }
 
     /// <summary>
-    /// List of currently connected peer IDs
+    /// Gets the list of currently connected peer IDs.
     /// </summary>
     public IReadOnlyList<SpiderId> ConnectedPeers => Peers.Peers
         .Where(p => p.IsConnected)
@@ -47,7 +47,7 @@ public class SpiderNode : IDisposable
         .ToList();
 
     /// <summary>
-    /// Whether the node is currently running
+    /// Gets a value indicating whether the node is currently running.
     /// </summary>
     public bool IsRunning => _isRunning;
 
@@ -317,7 +317,8 @@ public class SpiderNode : IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
 
         StopAsync().GetAwaiter().GetResult();
@@ -340,22 +341,22 @@ public class SpiderNode : IDisposable
 public class SpiderNodeOptions
 {
     /// <summary>
-    /// Enable UDP transport
+    /// Gets or sets a value indicating whether UDP transport is enabled.
     /// </summary>
     public bool EnableUdp { get; set; } = true;
 
     /// <summary>
-    /// UDP port to listen on
+    /// Gets or sets the UDP port to listen on.
     /// </summary>
     public int UdpPort { get; set; } = 45678;
 
     /// <summary>
-    /// Enable TCP transport
+    /// Gets or sets a value indicating whether TCP transport is enabled.
     /// </summary>
     public bool EnableTcp { get; set; } = true;
 
     /// <summary>
-    /// TCP port to listen on
+    /// Gets or sets the TCP port to listen on.
     /// </summary>
     public int TcpPort { get; set; } = 45679;
 
