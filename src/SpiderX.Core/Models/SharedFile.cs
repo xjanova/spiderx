@@ -9,42 +9,42 @@ namespace SpiderX.Core.Models;
 public class SharedFile
 {
     /// <summary>
-    /// Unique identifier for this shared file (SHA256 hash of content)
+    /// Gets or sets the unique identifier for this shared file (SHA256 hash of content).
     /// </summary>
     public required string FileHash { get; set; }
 
     /// <summary>
-    /// Display name of the file
+    /// Gets or sets the display name of the file.
     /// </summary>
     public required string Name { get; set; }
 
     /// <summary>
-    /// File extension (e.g., ".mp4", ".zip")
+    /// Gets or sets the file extension (e.g., ".mp4", ".zip").
     /// </summary>
     public required string Extension { get; set; }
 
     /// <summary>
-    /// Total size in bytes
+    /// Gets or sets the total size in bytes.
     /// </summary>
     public required long Size { get; set; }
 
     /// <summary>
-    /// Description of the file
+    /// Gets or sets the description of the file.
     /// </summary>
     public string? Description { get; set; }
 
     /// <summary>
-    /// Category of the file
+    /// Gets or sets the category of the file.
     /// </summary>
     public FileCategory Category { get; set; } = FileCategory.Other;
 
     /// <summary>
-    /// Tags for searching
+    /// Gets or sets the tags for searching.
     /// </summary>
     public List<string> Tags { get; set; } = [];
 
     /// <summary>
-    /// Base64-encoded thumbnail image (for images/videos)
+    /// Gets or sets the Base64-encoded thumbnail image (for images/videos).
     /// </summary>
     public string? ThumbnailBase64 { get; set; }
 

@@ -18,7 +18,7 @@ public class RoutingTable
     public const int IdBits = 160;
 
     /// <summary>
-    /// Total number of nodes in the routing table
+    /// Gets the total number of nodes in the routing table.
     /// </summary>
     public int Count
     {
@@ -32,7 +32,7 @@ public class RoutingTable
     }
 
     /// <summary>
-    /// Creates a new routing table for the local node
+    /// Initializes a new instance of the <see cref="RoutingTable"/> class for the local node.
     /// </summary>
     public RoutingTable(SpiderId localId)
     {
