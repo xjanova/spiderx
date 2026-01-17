@@ -61,10 +61,10 @@ csharp_preserve_single_line_statements = false
 csharp_preserve_single_line_blocks = true
 
 # Using directives
-csharp_using_directive_placement = outside_namespace:warning
+csharp_using_directive_placement = outside_namespace:suggestion
 
 # Namespace preferences
-csharp_style_namespace_declarations = file_scoped:warning
+csharp_style_namespace_declarations = file_scoped:suggestion
 
 # StyleCop rule suppressions for modern C# style
 # SA1200: Using directives must be placed correctly (conflicts with file-scoped namespaces)
@@ -75,6 +75,30 @@ dotnet_diagnostic.SA1201.severity = none
 dotnet_diagnostic.SA1516.severity = none
 # SA1633: File should have header (not required for this project)
 dotnet_diagnostic.SA1633.severity = none
+# SA1101: Prefix local calls with this (not required)
+dotnet_diagnostic.SA1101.severity = none
+# SA1309: Field names should not begin with underscore (conflicts with our naming convention)
+dotnet_diagnostic.SA1309.severity = none
+# SA1503: Braces should not be omitted (handled by csharp_prefer_braces)
+dotnet_diagnostic.SA1503.severity = none
+# SA1600: Elements should be documented (not required for all elements)
+dotnet_diagnostic.SA1600.severity = none
+# SA1602: Enumeration items should be documented (not required)
+dotnet_diagnostic.SA1602.severity = none
+# SA1128: Put constructor initializers on their own line (not required)
+dotnet_diagnostic.SA1128.severity = none
+# SA1402: File may only contain a single type (allow multiple types per file)
+dotnet_diagnostic.SA1402.severity = none
+# SA1649: File name should match first type name (allow flexibility)
+dotnet_diagnostic.SA1649.severity = none
+# SA1000: Keywords should be spaced correctly (too strict)
+dotnet_diagnostic.SA1000.severity = none
+# SA1009: Closing parenthesis should be spaced correctly
+dotnet_diagnostic.SA1009.severity = none
+# SA1111: Closing parenthesis should be on line of last parameter
+dotnet_diagnostic.SA1111.severity = none
+# SA1118: Parameter should not span multiple lines
+dotnet_diagnostic.SA1118.severity = none
 
 # Expression-level preferences
 csharp_style_var_for_built_in_types = false:suggestion
@@ -115,11 +139,11 @@ csharp_prefer_static_local_function = true:suggestion
 csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:suggestion
 
 # Naming conventions
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
 
-dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.severity = warning
+dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.severity = suggestion
 dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.symbols = private_fields
 dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.style = camel_case_with_underscore
 
