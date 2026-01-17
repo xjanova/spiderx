@@ -82,7 +82,8 @@ public class VirtualLanService : IDisposable
     /// </summary>
     public async Task StartAsync(CancellationToken cancellationToken = default)
     {
-        if (_isRunning) return;
+        if (_isRunning)
+            return;
 
         _cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
 
@@ -103,7 +104,8 @@ public class VirtualLanService : IDisposable
     /// </summary>
     public async Task StopAsync()
     {
-        if (!_isRunning) return;
+        if (!_isRunning)
+            return;
 
         // Announce departure
         await AnnounceVlanDepartureAsync();
@@ -140,7 +142,8 @@ public class VirtualLanService : IDisposable
     /// </summary>
     public async Task SendPacketAsync(IPAddress destinationIp, byte[] data)
     {
-        if (!_isRunning) return;
+        if (!_isRunning)
+            return;
 
         // Check if destination is in our virtual network
         if (!IsInVirtualNetwork(destinationIp))
@@ -166,7 +169,8 @@ public class VirtualLanService : IDisposable
     /// </summary>
     public async Task BroadcastPacketAsync(byte[] data, int sourcePort, int destinationPort)
     {
-        if (!_isRunning) return;
+        if (!_isRunning)
+            return;
 
         var message = new VirtualLanPacketMessage
         {
@@ -190,7 +194,8 @@ public class VirtualLanService : IDisposable
     /// </summary>
     public async Task RelayLocalBroadcastAsync(byte[] data, IPEndPoint sourceEndpoint)
     {
-        if (!_isRunning) return;
+        if (!_isRunning)
+            return;
 
         var message = new VirtualLanPacketMessage
         {
@@ -236,7 +241,8 @@ public class VirtualLanService : IDisposable
 
     private async Task ListenForBroadcastsAsync(CancellationToken cancellationToken)
     {
-        if (_broadcastRelayClient == null) return;
+        if (_broadcastRelayClient == null)
+            return;
 
         var gamePorts = new[]
         {
@@ -435,7 +441,8 @@ public class VirtualLanService : IDisposable
 
     private void HandleVlanPacket(Peer peer, VirtualLanPacketMessage packet)
     {
-        if (!_isRunning) return;
+        if (!_isRunning)
+            return;
 
         TrafficReceived?.Invoke(this, new VirtualLanTrafficEventArgs
         {
@@ -499,7 +506,8 @@ public class VirtualLanService : IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
 
         StopAsync().GetAwaiter().GetResult();

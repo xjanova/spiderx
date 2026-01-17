@@ -48,7 +48,8 @@ public class P2PFileSharingService : IDisposable
 
     public async Task StartAsync()
     {
-        if (_isRunning) return;
+        if (_isRunning)
+            return;
 
         _cts = new CancellationTokenSource();
         _isRunning = true;

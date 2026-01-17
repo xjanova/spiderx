@@ -143,7 +143,8 @@ public class ChatService : IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
 
         _node.Peers.DataReceived -= OnDataReceived;
