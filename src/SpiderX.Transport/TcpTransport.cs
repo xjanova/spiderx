@@ -223,7 +223,8 @@ public class TcpConnection : IConnection
                 while (totalRead < dataLength)
                 {
                     bytesRead = await _stream.ReadAsync(data.AsMemory(totalRead, dataLength - totalRead), _cts.Token);
-                    if (bytesRead == 0) break;
+                    if (bytesRead == 0)
+                        break;
                     totalRead += bytesRead;
                 }
 
@@ -257,7 +258,8 @@ public class TcpConnection : IConnection
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
 
         _cts?.Cancel();
