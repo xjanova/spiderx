@@ -37,10 +37,6 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Install MAUI workloads
-        if: matrix.os == 'windows-latest'
-        run: dotnet workload install maui-windows
-
       - name: Cache NuGet packages
         uses: actions/cache@v5
         with:
@@ -49,12 +45,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-nuget-
 
-      - name: Restore dependencies (Windows - full solution)
-        if: matrix.os == 'windows-latest'
-        run: dotnet restore
-
-      - name: Restore dependencies (non-Windows - exclude MAUI app)
-        if: matrix.os != 'windows-latest'
+      - name: Restore dependencies (library projects only)
         run: |
           dotnet restore src/SpiderX.Crypto
           dotnet restore src/SpiderX.Transport
@@ -62,12 +53,7 @@ jobs:
           dotnet restore src/SpiderX.Services
           dotnet restore tests/SpiderX.Tests
 
-      - name: Build (Windows - full solution)
-        if: matrix.os == 'windows-latest'
-        run: dotnet build --configuration Release --no-restore
-
-      - name: Build (non-Windows - exclude MAUI app)
-        if: matrix.os != 'windows-latest'
+      - name: Build (library projects only)
         run: |
           dotnet build src/SpiderX.Crypto --configuration Release --no-restore
           dotnet build src/SpiderX.Transport --configuration Release --no-restore
