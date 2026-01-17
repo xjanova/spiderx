@@ -58,12 +58,12 @@ public class Peer : IDisposable
     public int Latency { get; internal set; }
 
     /// <summary>
-    /// Known endpoints for this peer
+    /// Gets the known endpoints for this peer.
     /// </summary>
     public List<EndpointInfo> KnownEndpoints { get; } = [];
 
     /// <summary>
-    /// Active connections to this peer
+    /// Gets the active connections to this peer.
     /// </summary>
     public IReadOnlyList<IConnection> Connections
     {
@@ -77,7 +77,7 @@ public class Peer : IDisposable
     }
 
     /// <summary>
-    /// Best connection to use (lowest latency)
+    /// Gets the best connection to use (lowest latency).
     /// </summary>
     public IConnection? BestConnection
     {
@@ -94,7 +94,7 @@ public class Peer : IDisposable
     }
 
     /// <summary>
-    /// Whether there's at least one active connection
+    /// Gets a value indicating whether there's at least one active connection.
     /// </summary>
     public bool IsConnected
     {
@@ -113,7 +113,7 @@ public class Peer : IDisposable
     public event EventHandler<PeerStatusChangedEventArgs>? StatusChanged;
 
     /// <summary>
-    /// Creates a new peer instance
+    /// Initializes a new instance of the <see cref="Peer"/> class.
     /// </summary>
     public Peer(SpiderId id, byte[] publicKey)
     {
