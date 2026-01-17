@@ -15,7 +15,14 @@ public sealed class SpiderId : IEquatable<SpiderId>
 
     private readonly byte[] _hash;
 
+    /// <summary>
+    /// Gets the hash bytes of this SpiderId.
+    /// </summary>
     public byte[] Hash => _hash.ToArray();
+
+    /// <summary>
+    /// Gets the string address representation.
+    /// </summary>
     public string Address { get; }
 
     private SpiderId(byte[] hash)
