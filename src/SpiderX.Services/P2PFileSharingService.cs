@@ -275,43 +275,43 @@ public class P2PFileSharingService : IDisposable
                 await _downloadSemaphore.WaitAsync(ct);
 
                 chunkTasks.Add(
-                    Task.Run(async () =>
-                {
-                    try
-                    {
-                        download.ChunksInProgress[chunkIndex] = true;
-
-                        var chunkData = await RequestChunkAsync(provider, download.File.FileHash, chunkIndex, ct);
-                        if (chunkData != null)
+                    Task.Run(
+                        async () =>
                         {
-                            // Verify chunk hash
-                            var actualHash = Convert.ToHexString(SHA256.HashData(chunkData)).ToLowerInvariant();
-                            if (actualHash == download.File.ChunkHashes[chunkIndex])
+                            try
                             {
-                                // Write chunk to file
-                                lock (fileStream)
+                                download.ChunksInProgress[chunkIndex] = true;
+
+                                var chunkData = await RequestChunkAsync(provider, download.File.FileHash, chunkIndex, ct);
+                                if (chunkData != null)
                                 {
-                                    var offset = (long)chunkIndex * download.File.ChunkSize;
-                                    fileStream.Position = offset;
-                                    fileStream.Write(chunkData);
+                                    // Verify chunk hash
+                                    var actualHash = Convert.ToHexString(SHA256.HashData(chunkData)).ToLowerInvariant();
+                                    if (actualHash == download.File.ChunkHashes[chunkIndex])
+                                    {
+                                        lock (fileStream)
+                                        {
+                                            var offset = (long)chunkIndex * download.File.ChunkSize;
+                                            fileStream.Position = offset;
+                                            fileStream.Write(chunkData);
+                                        }
+
+                                        download.ChunksCompleted[chunkIndex] = true;
+                                        download.BytesDownloaded += chunkData.Length;
+                                        speedTracker.AddBytes(chunkData.Length);
+                                        download.SpeedBytesPerSecond = speedTracker.GetSpeed();
+
+                                        DownloadProgress?.Invoke(this, download);
+                                    }
                                 }
-
-                                download.ChunksCompleted[chunkIndex] = true;
-                                download.BytesDownloaded += chunkData.Length;
-                                speedTracker.AddBytes(chunkData.Length);
-                                download.SpeedBytesPerSecond = speedTracker.GetSpeed();
-
-                                DownloadProgress?.Invoke(this, download);
                             }
-                        }
-                    }
-                    finally
-                    {
-                        download.ChunksInProgress[chunkIndex] = false;
-                        _downloadSemaphore.Release();
-                    }
-                },
-                ct));
+                            finally
+                            {
+                                download.ChunksInProgress[chunkIndex] = false;
+                                _downloadSemaphore.Release();
+                            }
+                        },
+                        ct));
 
                 // Limit concurrent chunk downloads
                 if (chunkTasks.Count >= 10)
