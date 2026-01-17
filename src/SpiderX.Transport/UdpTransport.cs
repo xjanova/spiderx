@@ -150,7 +150,8 @@ public class UdpTransport : ITransport
 
     private void ProcessPacket(byte[] data, IPEndPoint remoteEndpoint)
     {
-        if (data.Length == 0) return;
+        if (data.Length == 0)
+            return;
 
         var packetType = (PacketType)data[0];
         var connectionId = GetConnectionId(remoteEndpoint);
@@ -194,7 +195,8 @@ public class UdpTransport : ITransport
 
     private void HandleHandshake(string connectionId, byte[] data, IPEndPoint remoteEndpoint)
     {
-        if (_udpClient == null) return;
+        if (_udpClient == null)
+            return;
 
         var endpoint = new EndpointInfo
         {
@@ -370,7 +372,8 @@ public class UdpConnection : IConnection
 
     internal void OnDataReceived(byte[] packet)
     {
-        if (packet.Length < 5) return;
+        if (packet.Length < 5)
+            return;
 
         var seq = BitConverter.ToUInt32(packet, 1);
         var data = packet.AsSpan(5).ToArray();
@@ -390,7 +393,8 @@ public class UdpConnection : IConnection
 
     internal void OnAckReceived(byte[] packet)
     {
-        if (packet.Length < 5) return;
+        if (packet.Length < 5)
+            return;
         var seq = BitConverter.ToUInt32(packet, 1);
         _pendingAcks.TryRemove(seq, out _);
     }
@@ -436,7 +440,8 @@ public class UdpConnection : IConnection
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
 
         if (IsConnected)
