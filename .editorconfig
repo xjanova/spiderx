@@ -66,6 +66,16 @@ csharp_using_directive_placement = outside_namespace:warning
 # Namespace preferences
 csharp_style_namespace_declarations = file_scoped:warning
 
+# StyleCop rule suppressions for modern C# style
+# SA1200: Using directives must be placed correctly (conflicts with file-scoped namespaces)
+dotnet_diagnostic.SA1200.severity = none
+# SA1201: Elements should appear in the correct order (allow properties before constructors)
+dotnet_diagnostic.SA1201.severity = none
+# SA1516: Elements should be separated by blank line (too strict)
+dotnet_diagnostic.SA1516.severity = none
+# SA1633: File should have header (not required for this project)
+dotnet_diagnostic.SA1633.severity = none
+
 # Expression-level preferences
 csharp_style_var_for_built_in_types = false:suggestion
 csharp_style_var_when_type_is_apparent = true:suggestion
