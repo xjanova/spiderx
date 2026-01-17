@@ -180,7 +180,8 @@ public class ContactsViewModel : INotifyPropertyChanged
 
     private void LoadContacts()
     {
-        if (_spiderXService.Node == null) return;
+        if (_spiderXService.Node == null)
+            return;
 
         Contacts.Clear();
 

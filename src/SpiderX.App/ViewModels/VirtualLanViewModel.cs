@@ -155,7 +155,8 @@ public class VirtualLanViewModel : INotifyPropertyChanged
 
     private void RefreshPeers()
     {
-        if (_spiderXService.VirtualLan == null) return;
+        if (_spiderXService.VirtualLan == null)
+            return;
 
         ConnectedPeers.Clear();
 

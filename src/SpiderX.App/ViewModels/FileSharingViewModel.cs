@@ -153,7 +153,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
 
     private void LoadSharedFiles()
     {
-        if (_spiderXService.FileSharing == null) return;
+        if (_spiderXService.FileSharing == null)
+            return;
 
         MySharedFiles.Clear();
         foreach (var file in _spiderXService.FileSharing.SharedFiles.Values)
@@ -183,7 +184,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
                 PickerTitle = "Select a file to share"
             });
 
-            if (result == null) return;
+            if (result == null)
+                return;
 
             IsLoading = true;
             StatusMessage = "Sharing file...";
@@ -213,7 +215,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
         try
         {
             var result = await FolderPicker.Default.PickAsync(new CancellationToken());
-            if (result == null || !result.IsSuccessful) return;
+            if (result == null || !result.IsSuccessful)
+                return;
 
             IsLoading = true;
             StatusMessage = "Sharing folder...";
@@ -234,7 +237,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
 
     private void UnshareFile(SharedFileItem? item)
     {
-        if (item == null || _spiderXService.FileSharing == null) return;
+        if (item == null || _spiderXService.FileSharing == null)
+            return;
 
         _spiderXService.FileSharing.UnshareFile(item.FileHash);
         StatusMessage = $"Unshared: {item.Name}";
@@ -261,7 +265,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
 
     private void CancelDownload(DownloadItem? item)
     {
-        if (item == null || _spiderXService.FileSharing == null) return;
+        if (item == null || _spiderXService.FileSharing == null)
+            return;
 
         _spiderXService.FileSharing.CancelDownload(item.FileHash);
         MainThread.BeginInvokeOnMainThread(() =>
@@ -272,13 +277,15 @@ public class FileSharingViewModel : INotifyPropertyChanged
 
     private void PauseDownload(DownloadItem? item)
     {
-        if (item == null || _spiderXService.FileSharing == null) return;
+        if (item == null || _spiderXService.FileSharing == null)
+            return;
         _spiderXService.FileSharing.PauseDownload(item.FileHash);
     }
 
     private void ResumeDownload(DownloadItem? item)
     {
-        if (item == null || _spiderXService.FileSharing == null) return;
+        if (item == null || _spiderXService.FileSharing == null)
+            return;
         _spiderXService.FileSharing.ResumeDownload(item.FileHash);
     }
 
@@ -320,7 +327,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
     private void FilterFiles()
     {
         // Apply filters to available files
-        if (_spiderXService.FileSharing == null) return;
+        if (_spiderXService.FileSharing == null)
+            return;
 
         AvailableFiles.Clear();
 
@@ -349,7 +357,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
 
     private void OpenFile(SharedFileItem? item)
     {
-        if (item?.LocalPath == null) return;
+        if (item?.LocalPath == null)
+            return;
 
         try
         {
@@ -365,7 +374,8 @@ public class FileSharingViewModel : INotifyPropertyChanged
 
     private void OpenFolder(SharedFileItem? item)
     {
-        if (item?.LocalPath == null) return;
+        if (item?.LocalPath == null)
+            return;
 
         try
         {
