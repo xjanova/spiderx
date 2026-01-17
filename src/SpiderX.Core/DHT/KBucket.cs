@@ -14,12 +14,12 @@ public class KBucket
     private readonly object _lock = new();
 
     /// <summary>
-    /// Index of this bucket (0 = closest, 159 = farthest for 160-bit IDs)
+    /// Gets the index of this bucket (0 = closest, 159 = farthest for 160-bit IDs).
     /// </summary>
     public int Index { get; }
 
     /// <summary>
-    /// Number of nodes in this bucket
+    /// Gets the number of nodes in this bucket.
     /// </summary>
     public int Count
     {
@@ -33,7 +33,7 @@ public class KBucket
     }
 
     /// <summary>
-    /// Whether this bucket is full
+    /// Gets a value indicating whether this bucket is full.
     /// </summary>
     public bool IsFull => Count >= K;
 

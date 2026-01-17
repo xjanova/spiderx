@@ -67,7 +67,7 @@ public class SpiderNode : IDisposable
     public event EventHandler<(SpiderId Sender, Message Message)>? MessageReceived;
 
     /// <summary>
-    /// Creates a new SpiderX node with a random identity
+    /// Initializes a new instance of the <see cref="SpiderNode"/> class with a random identity.
     /// </summary>
     public SpiderNode(SpiderNodeOptions? options = null, ILogger<SpiderNode>? logger = null)
         : this(KeyPair.Generate(), options, logger)
@@ -75,7 +75,7 @@ public class SpiderNode : IDisposable
     }
 
     /// <summary>
-    /// Creates a new SpiderX node with an existing key pair
+    /// Initializes a new instance of the <see cref="SpiderNode"/> class with an existing key pair.
     /// </summary>
     public SpiderNode(KeyPair keyPair, SpiderNodeOptions? options = null, ILogger<SpiderNode>? logger = null)
     {
@@ -361,27 +361,27 @@ public class SpiderNodeOptions
     public int TcpPort { get; set; } = 45679;
 
     /// <summary>
-    /// Enable LAN discovery (mDNS/broadcast)
+    /// Gets or sets a value indicating whether LAN discovery (mDNS/broadcast) is enabled.
     /// </summary>
     public bool EnableLanDiscovery { get; set; } = true;
 
     /// <summary>
-    /// Bootstrap nodes to connect to on startup
+    /// Gets or sets the bootstrap nodes to connect to on startup.
     /// </summary>
     public List<string> BootstrapNodes { get; set; } = [];
 
     /// <summary>
-    /// Maximum number of peer connections
+    /// Gets or sets the maximum number of peer connections.
     /// </summary>
     public int MaxPeers { get; set; } = 50;
 
     /// <summary>
-    /// Keepalive interval for connections
+    /// Gets or sets the keepalive interval for connections.
     /// </summary>
     public TimeSpan KeepaliveInterval { get; set; } = TimeSpan.FromSeconds(30);
 
     /// <summary>
-    /// Connection timeout
+    /// Gets or sets the connection timeout.
     /// </summary>
     public TimeSpan ConnectionTimeout { get; set; } = TimeSpan.FromSeconds(10);
 }
