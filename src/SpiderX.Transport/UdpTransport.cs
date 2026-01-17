@@ -406,7 +406,7 @@ public class UdpConnection : IConnection
             await Task.Delay(100 * (1 << retries)); // Exponential backoff
             if (_pendingAcks.TryGetValue(sequence, out var pending))
             {
-                await _client.SendAsync(pending.Data, _remoteEndpoint);
+                await _client.SendAsync(pending.data, _remoteEndpoint);
                 retries++;
             }
         }
