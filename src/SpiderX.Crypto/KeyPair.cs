@@ -12,7 +12,14 @@ public sealed class KeyPair : IDisposable
     private readonly byte[] _publicKey;
     private bool _disposed;
 
+    /// <summary>
+    /// Gets the public key bytes.
+    /// </summary>
     public byte[] PublicKey => _publicKey.ToArray();
+
+    /// <summary>
+    /// Gets the SpiderId derived from this key pair.
+    /// </summary>
     public SpiderId Id { get; }
 
     private KeyPair(byte[] privateKey, byte[] publicKey)
@@ -138,7 +145,14 @@ internal sealed class Ed25519KeyPair : IDisposable
 {
     private readonly ECDsa _ecdsa;
 
+    /// <summary>
+    /// Gets the private key bytes.
+    /// </summary>
     public byte[] PrivateKey { get; }
+
+    /// <summary>
+    /// Gets the public key bytes.
+    /// </summary>
     public byte[] PublicKey { get; }
 
     public Ed25519KeyPair()
