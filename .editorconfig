@@ -123,6 +123,10 @@ dotnet_diagnostic.SA1615.severity = none
 dotnet_diagnostic.SA1616.severity = none
 # SA1617: Void return value should not be documented
 dotnet_diagnostic.SA1617.severity = none
+# SA1623: Property summary documentation should begin with standard text
+dotnet_diagnostic.SA1623.severity = none
+# SA1624: Property summary documentation should omit accessor descriptions
+dotnet_diagnostic.SA1624.severity = none
 # SA1204: Static elements should appear before instance elements
 dotnet_diagnostic.SA1204.severity = none
 # SA1206: Declaration keywords should follow order
