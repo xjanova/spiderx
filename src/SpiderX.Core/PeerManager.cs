@@ -564,6 +564,9 @@ public class PeerManager : IDisposable
 /// </summary>
 public class PeerEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the peer associated with this event.
+    /// </summary>
     public required Peer Peer { get; init; }
 }
 
@@ -572,9 +575,24 @@ public class PeerEventArgs : EventArgs
 /// </summary>
 public class PermissionRequestEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the peer requesting permission.
+    /// </summary>
     public required Peer Peer { get; init; }
+
+    /// <summary>
+    /// Gets the unique request identifier.
+    /// </summary>
     public required string RequestId { get; init; }
+
+    /// <summary>
+    /// Gets the type of permission being requested.
+    /// </summary>
     public required string PermissionType { get; init; }
+
+    /// <summary>
+    /// Gets the display name of the requester.
+    /// </summary>
     public string? DisplayName { get; init; }
 }
 
@@ -583,6 +601,13 @@ public class PermissionRequestEventArgs : EventArgs
 /// </summary>
 public class PeerDataEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the peer that sent the data.
+    /// </summary>
     public required Peer Peer { get; init; }
+
+    /// <summary>
+    /// Gets the message received.
+    /// </summary>
     public required Message Message { get; init; }
 }

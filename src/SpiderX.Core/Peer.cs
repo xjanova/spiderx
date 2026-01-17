@@ -245,7 +245,18 @@ public enum PermissionLevel
 /// </summary>
 public class PeerStatusChangedEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the peer whose status changed.
+    /// </summary>
     public required Peer Peer { get; init; }
+
+    /// <summary>
+    /// Gets the previous status.
+    /// </summary>
     public required PeerStatus OldStatus { get; init; }
+
+    /// <summary>
+    /// Gets the new status.
+    /// </summary>
     public required PeerStatus NewStatus { get; init; }
 }

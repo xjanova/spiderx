@@ -142,8 +142,19 @@ public enum DeliveryMode
 /// </summary>
 public class EndpointInfo
 {
+    /// <summary>
+    /// Gets the IP address or hostname.
+    /// </summary>
     public required string Address { get; init; }
+
+    /// <summary>
+    /// Gets the port number.
+    /// </summary>
     public required int Port { get; init; }
+
+    /// <summary>
+    /// Gets the transport type.
+    /// </summary>
     public TransportType TransportType { get; init; } = TransportType.Udp;
 
     public override string ToString() => $"{TransportType}://{Address}:{Port}";
@@ -176,6 +187,9 @@ public class EndpointInfo
 /// </summary>
 public class ConnectionEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the connection associated with this event.
+    /// </summary>
     public required IConnection Connection { get; init; }
 }
 
@@ -184,6 +198,13 @@ public class ConnectionEventArgs : EventArgs
 /// </summary>
 public class DataReceivedEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the data received.
+    /// </summary>
     public required byte[] Data { get; init; }
+
+    /// <summary>
+    /// Gets the connection that received the data.
+    /// </summary>
     public required IConnection Connection { get; init; }
 }
