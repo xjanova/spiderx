@@ -21,22 +21,22 @@ public class PeerManager : IDisposable
     private bool _disposed;
 
     /// <summary>
-    /// Local peer identity
+    /// Gets the local peer identity.
     /// </summary>
     public SpiderId LocalId => _localKeyPair.Id;
 
     /// <summary>
-    /// All known peers
+    /// Gets all known peers.
     /// </summary>
     public IReadOnlyCollection<Peer> Peers => _peers.Values.ToList();
 
     /// <summary>
-    /// Authorized (contact) peers
+    /// Gets the authorized (contact) peers.
     /// </summary>
     public IReadOnlyCollection<Peer> AuthorizedPeers => _authorizedPeers.Values.ToList();
 
     /// <summary>
-    /// Number of connected peers
+    /// Gets the number of connected peers.
     /// </summary>
     public int ConnectedCount => _peers.Values.Count(p => p.IsConnected);
 
@@ -535,7 +535,8 @@ public class PeerManager : IDisposable
 
     public void Dispose()
     {
-        if (_disposed) return;
+        if (_disposed)
+            return;
         _disposed = true;
 
         _lanDiscovery?.Dispose();
