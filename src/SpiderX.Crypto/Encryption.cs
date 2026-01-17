@@ -151,9 +151,24 @@ public static class Encryption
 /// </summary>
 public class EncryptedEnvelope
 {
+    /// <summary>
+    /// Gets the sender's SpiderId.
+    /// </summary>
     public required SpiderId SenderId { get; init; }
+
+    /// <summary>
+    /// Gets the sender's public key.
+    /// </summary>
     public required byte[] SenderPublicKey { get; init; }
+
+    /// <summary>
+    /// Gets the encrypted data.
+    /// </summary>
     public required byte[] EncryptedData { get; init; }
+
+    /// <summary>
+    /// Gets the signature of the data.
+    /// </summary>
     public required byte[] Signature { get; init; }
 
     public byte[] Serialize()

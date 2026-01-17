@@ -315,22 +315,22 @@ public class VoiceService : IDisposable
 public class VoiceServiceOptions
 {
     /// <summary>
-    /// Audio codec to use
+    /// Gets or sets the audio codec to use.
     /// </summary>
     public string Codec { get; set; } = "opus";
 
     /// <summary>
-    /// Sample rate in Hz
+    /// Gets or sets the sample rate in Hz.
     /// </summary>
     public int SampleRate { get; set; } = 48000;
 
     /// <summary>
-    /// Number of audio channels
+    /// Gets or sets the number of audio channels.
     /// </summary>
     public int Channels { get; set; } = 1;
 
     /// <summary>
-    /// Frame size in samples
+    /// Gets or sets the frame size in samples.
     /// </summary>
     public int FrameSize { get; set; } = 960; // 20ms at 48kHz
 }
@@ -342,16 +342,54 @@ public class VoiceCall
 {
     private int _sequence;
 
+    /// <summary>
+    /// Gets the unique call identifier.
+    /// </summary>
     public required string Id { get; init; }
+
+    /// <summary>
+    /// Gets the peer ID.
+    /// </summary>
     public required SpiderId PeerId { get; init; }
+
+    /// <summary>
+    /// Gets the call direction.
+    /// </summary>
     public required CallDirection Direction { get; init; }
+
+    /// <summary>
+    /// Gets or sets the call status.
+    /// </summary>
     public CallStatus Status { get; set; }
+
+    /// <summary>
+    /// Gets the call start time.
+    /// </summary>
     public required DateTime StartTime { get; init; }
+
+    /// <summary>
+    /// Gets or sets the time when the call was connected.
+    /// </summary>
     public DateTime? ConnectedTime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the time when the call ended.
+    /// </summary>
     public DateTime? EndTime { get; set; }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the call is muted.
+    /// </summary>
     public bool IsMuted { get; set; }
+
+    /// <summary>
+    /// Gets or sets the last received sequence number.
+    /// </summary>
     public int LastReceivedSequence { get; set; }
 
+    /// <summary>
+    /// Gets the call duration.
+    /// </summary>
     public TimeSpan? Duration => EndTime.HasValue && ConnectedTime.HasValue
         ? EndTime.Value - ConnectedTime.Value
         : ConnectedTime.HasValue

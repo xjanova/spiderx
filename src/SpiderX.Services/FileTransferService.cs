@@ -372,20 +372,74 @@ public class FileTransferService : IDisposable
 /// </summary>
 public class FileTransfer
 {
+    /// <summary>
+    /// Gets the unique transfer identifier.
+    /// </summary>
     public required string Id { get; init; }
+
+    /// <summary>
+    /// Gets the file name.
+    /// </summary>
     public required string FileName { get; init; }
+
+    /// <summary>
+    /// Gets or sets the local file path.
+    /// </summary>
     public string? FilePath { get; set; }
+
+    /// <summary>
+    /// Gets the file size in bytes.
+    /// </summary>
     public required long FileSize { get; init; }
+
+    /// <summary>
+    /// Gets the file hash.
+    /// </summary>
     public required string FileHash { get; init; }
+
+    /// <summary>
+    /// Gets the chunk size in bytes.
+    /// </summary>
     public required int ChunkSize { get; init; }
+
+    /// <summary>
+    /// Gets the total number of chunks.
+    /// </summary>
     public required int TotalChunks { get; init; }
+
+    /// <summary>
+    /// Gets the peer ID.
+    /// </summary>
     public required SpiderId PeerId { get; init; }
+
+    /// <summary>
+    /// Gets the transfer direction.
+    /// </summary>
     public required TransferDirection Direction { get; init; }
+
+    /// <summary>
+    /// Gets or sets the transfer status.
+    /// </summary>
     public TransferStatus Status { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of transferred chunks.
+    /// </summary>
     public int TransferredChunks { get; set; }
+
+    /// <summary>
+    /// Gets or sets the number of transferred bytes.
+    /// </summary>
     public long TransferredBytes { get; set; }
+
+    /// <summary>
+    /// Gets the set of received chunk indices.
+    /// </summary>
     public HashSet<int> ReceivedChunks { get; } = [];
 
+    /// <summary>
+    /// Gets the transfer progress (0-1).
+    /// </summary>
     public double Progress => TotalChunks > 0 ? (double)TransferredChunks / TotalChunks : 0;
 }
 
@@ -416,6 +470,9 @@ public enum TransferStatus
 /// </summary>
 public class FileOfferEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the file transfer.
+    /// </summary>
     public required FileTransfer Transfer { get; init; }
 }
 
@@ -424,7 +481,14 @@ public class FileOfferEventArgs : EventArgs
 /// </summary>
 public class FileProgressEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the file transfer.
+    /// </summary>
     public required FileTransfer Transfer { get; init; }
+
+    /// <summary>
+    /// Gets the progress value (0-1).
+    /// </summary>
     public required double Progress { get; init; }
 }
 
@@ -433,6 +497,9 @@ public class FileProgressEventArgs : EventArgs
 /// </summary>
 public class FileCompletedEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the completed file transfer.
+    /// </summary>
     public required FileTransfer Transfer { get; init; }
 }
 
@@ -441,6 +508,13 @@ public class FileCompletedEventArgs : EventArgs
 /// </summary>
 public class FileFailedEventArgs : EventArgs
 {
+    /// <summary>
+    /// Gets the failed file transfer.
+    /// </summary>
     public required FileTransfer Transfer { get; init; }
+
+    /// <summary>
+    /// Gets the error message.
+    /// </summary>
     public required string Error { get; init; }
 }

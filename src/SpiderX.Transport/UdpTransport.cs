@@ -17,11 +17,29 @@ public class UdpTransport : ITransport
     private readonly ConcurrentDictionary<string, UdpConnection> _connections = new();
     private int _localPort;
 
+    /// <summary>
+    /// Gets the transport type.
+    /// </summary>
     public TransportType Type => TransportType.Udp;
+
+    /// <summary>
+    /// Gets a value indicating whether the transport is active.
+    /// </summary>
     public bool IsActive => _udpClient != null;
+
+    /// <summary>
+    /// Gets the local endpoint information.
+    /// </summary>
     public EndpointInfo? LocalEndpoint { get; private set; }
 
+    /// <summary>
+    /// Event raised when a connection is received.
+    /// </summary>
     public event EventHandler<ConnectionEventArgs>? ConnectionReceived;
+
+    /// <summary>
+    /// Event raised when a connection is lost.
+    /// </summary>
     public event EventHandler<ConnectionEventArgs>? ConnectionLost;
 
     public Task StartAsync(int port, CancellationToken cancellationToken = default)
@@ -293,14 +311,44 @@ public class UdpConnection : IConnection
     private DateTime _lastPingTime;
     private bool _disposed;
 
+    /// <summary>
+    /// Gets the unique connection identifier.
+    /// </summary>
     public string ConnectionId { get; }
+
+    /// <summary>
+    /// Gets or sets the remote peer's SpiderId.
+    /// </summary>
     public SpiderId? RemotePeerId { get; set; }
+
+    /// <summary>
+    /// Gets the remote endpoint information.
+    /// </summary>
     public EndpointInfo RemoteEndpoint { get; }
+
+    /// <summary>
+    /// Gets the transport type.
+    /// </summary>
     public TransportType TransportType => TransportType.Udp;
+
+    /// <summary>
+    /// Gets a value indicating whether the connection is active.
+    /// </summary>
     public bool IsConnected { get; private set; }
+
+    /// <summary>
+    /// Gets the round-trip latency in milliseconds.
+    /// </summary>
     public int Latency { get; private set; }
 
+    /// <summary>
+    /// Event raised when data is received.
+    /// </summary>
     public event EventHandler<DataReceivedEventArgs>? DataReceived;
+
+    /// <summary>
+    /// Event raised when the connection is closed.
+    /// </summary>
     public event EventHandler? Disconnected;
 
     internal UdpConnection(string connectionId, EndpointInfo remoteEndpoint, UdpClient client, IPEndPoint ipEndpoint)
