@@ -134,7 +134,8 @@ public class ChatViewModel : INotifyPropertyChanged
 
     private async Task SendFileAsync()
     {
-        if (_peerSpiderId == null) return;
+        if (_peerSpiderId == null)
+            return;
 
         try
         {
@@ -162,7 +163,8 @@ public class ChatViewModel : INotifyPropertyChanged
 
     private async Task StartCallAsync()
     {
-        if (_peerSpiderId == null) return;
+        if (_peerSpiderId == null)
+            return;
 
         try
         {
@@ -182,10 +184,12 @@ public class ChatViewModel : INotifyPropertyChanged
 
     private void LoadMessages()
     {
-        if (_peerSpiderId == null) return;
+        if (_peerSpiderId == null)
+            return;
 
         var conversation = _spiderXService.Chat?.GetConversation(_peerSpiderId);
-        if (conversation == null) return;
+        if (conversation == null)
+            return;
 
         Messages.Clear();
 
@@ -204,7 +208,8 @@ public class ChatViewModel : INotifyPropertyChanged
 
     private void OnMessageReceived(object? sender, ChatMessageEventArgs e)
     {
-        if (e.Message.SenderId != _peerSpiderId) return;
+        if (e.Message.SenderId != _peerSpiderId)
+            return;
 
         MainThread.BeginInvokeOnMainThread(() =>
         {
@@ -223,7 +228,8 @@ public class ChatViewModel : INotifyPropertyChanged
 
     private void OnMessageSent(object? sender, ChatMessageEventArgs e)
     {
-        if (e.Message.RecipientId != _peerSpiderId) return;
+        if (e.Message.RecipientId != _peerSpiderId)
+            return;
 
         MainThread.BeginInvokeOnMainThread(() =>
         {

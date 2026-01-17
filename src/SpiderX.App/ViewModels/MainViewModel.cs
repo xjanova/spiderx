@@ -105,7 +105,8 @@ public class MainViewModel : INotifyPropertyChanged
 
     private void LoadConversations()
     {
-        if (_spiderXService.Chat == null) return;
+        if (_spiderXService.Chat == null)
+            return;
 
         Conversations.Clear();
         foreach (var conv in _spiderXService.Chat.Conversations.OrderByDescending(c => c.LastMessageTime))

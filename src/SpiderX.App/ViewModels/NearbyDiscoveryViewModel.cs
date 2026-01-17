@@ -71,7 +71,8 @@ public class NearbyDiscoveryViewModel : INotifyPropertyChanged
 
     private async Task ScanAsync()
     {
-        if (IsScanning) return;
+        if (IsScanning)
+            return;
 
         IsScanning = true;
         ScanProgress = 0;
@@ -134,7 +135,8 @@ public class NearbyDiscoveryViewModel : INotifyPropertyChanged
 
     private async Task ScanLanAsync(CancellationToken cancellationToken)
     {
-        if (_spiderXService.Node == null) return;
+        if (_spiderXService.Node == null)
+            return;
 
         try
         {
@@ -170,7 +172,8 @@ public class NearbyDiscoveryViewModel : INotifyPropertyChanged
 
     private async Task ScanKnownPeersAsync(CancellationToken cancellationToken)
     {
-        if (_spiderXService.Node == null) return;
+        if (_spiderXService.Node == null)
+            return;
 
         // Get peers from DHT routing table
         var dhtNodes = _spiderXService.Node.Peers.FindClosestPeers(_spiderXService.LocalId!, 50);
@@ -209,7 +212,8 @@ public class NearbyDiscoveryViewModel : INotifyPropertyChanged
 
     private void RefreshConnectedPeers()
     {
-        if (_spiderXService.Node == null) return;
+        if (_spiderXService.Node == null)
+            return;
 
         // Add currently connected peers
         foreach (var peer in _spiderXService.Node.Peers.Peers)
@@ -231,7 +235,8 @@ public class NearbyDiscoveryViewModel : INotifyPropertyChanged
     private void AddOrUpdatePeer(SpiderId peerId, EndpointInfo endpoint, string discoverySource, string? displayName = null, bool isConnected = false)
     {
         // Skip self
-        if (peerId == _spiderXService.LocalId) return;
+        if (peerId == _spiderXService.LocalId)
+            return;
 
         var existingPeer = NearbyPeers.FirstOrDefault(p => p.PeerId == peerId.Address);
         if (existingPeer != null)
@@ -265,7 +270,8 @@ public class NearbyDiscoveryViewModel : INotifyPropertyChanged
 
     private async Task ConnectToPeerAsync(NearbyPeerItem peerItem)
     {
-        if (_spiderXService.Node == null) return;
+        if (_spiderXService.Node == null)
+            return;
 
         peerItem.IsConnecting = true;
 
