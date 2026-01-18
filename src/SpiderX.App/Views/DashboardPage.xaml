@@ -87,15 +87,8 @@
                         <Label Text="🕷️" FontSize="50" HorizontalOptions="Center" VerticalOptions="Center" />
                     </Border>
 
-                    <!-- Title with Gradient Effect -->
-                    <Label Text="SpiderX" FontSize="42" FontAttributes="Bold" HorizontalTextAlignment="Center">
-                        <Label.TextColor>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                                <GradientStop Color="#F8FAFC" Offset="0.0" />
-                                <GradientStop Color="#E2E8F0" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Label.TextColor>
-                    </Label>
+                    <!-- Title -->
+                    <Label Text="SpiderX" FontSize="42" FontAttributes="Bold" TextColor="#F8FAFC" HorizontalTextAlignment="Center" />
 
                     <Label Text="Decentralized P2P Mesh Network" FontSize="16" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
 
