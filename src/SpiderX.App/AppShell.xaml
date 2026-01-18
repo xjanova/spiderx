@@ -14,32 +14,27 @@
         <ShellContent
             Title="Home"
             Route="Home"
-            ContentTemplate="{DataTemplate views:DashboardPage}"
-            Icon="home_icon.png" />
+            ContentTemplate="{DataTemplate views:DashboardPage}" />
 
         <ShellContent
             Title="Chats"
             Route="Chats"
-            ContentTemplate="{DataTemplate views:MainPage}"
-            Icon="chat_icon.png" />
+            ContentTemplate="{DataTemplate views:MainPage}" />
 
         <ShellContent
             Title="Nearby"
             Route="Nearby"
-            ContentTemplate="{DataTemplate views:NearbyDiscoveryPage}"
-            Icon="radar_icon.png" />
+            ContentTemplate="{DataTemplate views:NearbyDiscoveryPage}" />
 
         <ShellContent
             Title="Files"
             Route="Files"
-            ContentTemplate="{DataTemplate views:FileSharingPage}"
-            Icon="files_icon.png" />
+            ContentTemplate="{DataTemplate views:FileSharingPage}" />
 
         <ShellContent
             Title="Settings"
             Route="Settings"
-            ContentTemplate="{DataTemplate views:SettingsPage}"
-            Icon="settings_icon.png" />
+            ContentTemplate="{DataTemplate views:SettingsPage}" />
     </TabBar>
 
     <!-- Chat Detail Route -->
