@@ -116,7 +116,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     private async Task CopyIdAsync()
     {
         await Clipboard.Default.SetTextAsync(LocalId);
-        await Application.Current!.MainPage!.DisplayAlert("Copied", "ID copied to clipboard", "OK");
+        await Application.Current!.Windows[0].Page!.DisplayAlert("Copied", "ID copied to clipboard", "OK");
     }
 
     private async Task ShareIdAsync()
@@ -131,7 +131,7 @@ public class SettingsViewModel : INotifyPropertyChanged
     private async Task ShowQrCodeAsync()
     {
         // TODO: Implement QR code display
-        await Application.Current!.MainPage!.DisplayAlert(
+        await Application.Current!.Windows[0].Page!.DisplayAlert(
             "Your QR Code",
             "QR code generation coming soon!",
             "OK");
@@ -139,7 +139,7 @@ public class SettingsViewModel : INotifyPropertyChanged
 
     private async Task ExportIdentityAsync()
     {
-        var confirm = await Application.Current!.MainPage!.DisplayAlert(
+        var confirm = await Application.Current!.Windows[0].Page!.DisplayAlert(
             "Export Identity",
             "This will export your private key. Keep it safe and never share it!",
             "Export", "Cancel");
@@ -159,14 +159,14 @@ public class SettingsViewModel : INotifyPropertyChanged
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                await Application.Current!.Windows[0].Page!.DisplayAlert("Error", ex.Message, "OK");
             }
         }
     }
 
     private async Task ImportIdentityAsync()
     {
-        var privateKeyHex = await Application.Current!.MainPage!.DisplayPromptAsync(
+        var privateKeyHex = await Application.Current!.Windows[0].Page!.DisplayPromptAsync(
             "Import Identity",
             "Enter your private key (hex):",
             placeholder: "Enter hex key...");
@@ -182,14 +182,14 @@ public class SettingsViewModel : INotifyPropertyChanged
 
                 await SecureStorage.Default.SetAsync("spiderx_private_key", privateKeyHex);
 
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current!.Windows[0].Page!.DisplayAlert(
                     "Success",
                     "Identity imported. Please restart the app.",
                     "OK");
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+                await Application.Current!.Windows[0].Page!.DisplayAlert("Error", ex.Message, "OK");
             }
         }
     }
