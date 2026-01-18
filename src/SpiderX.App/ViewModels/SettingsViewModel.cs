@@ -9,13 +9,13 @@ public class SettingsViewModel : INotifyPropertyChanged
 {
     private readonly ISpiderXService _spiderXService;
 
-    private string _localId = "";
-    private string _shareableAddress = "";
+    private string _localId = string.Empty;
+    private string _shareableAddress = string.Empty;
     private bool _isConnected;
     private int _connectedPeers;
     private bool _enableLanDiscovery = true;
     private bool _enableNotifications = true;
-    private string _displayName = "";
+    private string _displayName = string.Empty;
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

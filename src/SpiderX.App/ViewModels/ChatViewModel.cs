@@ -14,10 +14,10 @@ public class ChatViewModel : INotifyPropertyChanged
     private readonly ISpiderXService _spiderXService;
     private SpiderId? _peerSpiderId;
 
-    private string _peerId = "";
-    private string _peerName = "";
+    private string _peerId = string.Empty;
+    private string _peerName = string.Empty;
     private bool _isOnline;
-    private string _messageText = "";
+    private string _messageText = string.Empty;
     private ObservableCollection<MessageItem> _messages = [];
     private bool _isLoading;
 

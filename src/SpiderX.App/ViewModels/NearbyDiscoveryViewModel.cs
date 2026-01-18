@@ -337,7 +337,7 @@ public class NearbyPeerItem : INotifyPropertyChanged
 {
     private bool _isConnected;
     private bool _isConnecting;
-    private string _discoverySource = "";
+    private string _discoverySource = string.Empty;
 
     public required string PeerId { get; init; }
     public required string DisplayName { get; init; }
