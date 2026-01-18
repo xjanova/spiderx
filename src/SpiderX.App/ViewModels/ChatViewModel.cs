@@ -82,7 +82,8 @@ public class ChatViewModel : INotifyPropertyChanged
 
     private async Task LoadChatAsync()
     {
-        if (string.IsNullOrEmpty(PeerId)) return;
+        if (string.IsNullOrEmpty(PeerId))
+            return;
 
         IsLoading = true;
 

@@ -263,16 +263,20 @@ public class VlanPeerItem
     private string GetJoinedTimeDisplay()
     {
         var diff = DateTime.UtcNow - JoinedAt;
-        if (diff.TotalMinutes < 1) return "Just joined";
-        if (diff.TotalHours < 1) return $"{(int)diff.TotalMinutes}m ago";
+        if (diff.TotalMinutes < 1)
+            return "Just joined";
+        if (diff.TotalHours < 1)
+            return $"{(int)diff.TotalMinutes}m ago";
         return $"{(int)diff.TotalHours}h ago";
     }
 
     private string GetCapabilitiesDisplay()
     {
         var caps = new List<string>();
-        if (HasBroadcastRelay) caps.Add("Broadcast");
-        if (HasGameDiscovery) caps.Add("Game Discovery");
+        if (HasBroadcastRelay)
+            caps.Add("Broadcast");
+        if (HasGameDiscovery)
+            caps.Add("Game Discovery");
         return caps.Count > 0 ? string.Join(", ", caps) : "Basic";
     }
 }

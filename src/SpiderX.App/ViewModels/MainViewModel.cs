@@ -177,10 +177,14 @@ public class ConversationItem
     private string GetTimeDisplay()
     {
         var diff = DateTime.UtcNow - LastMessageTime;
-        if (diff.TotalMinutes < 1) return "Now";
-        if (diff.TotalHours < 1) return $"{(int)diff.TotalMinutes}m";
-        if (diff.TotalDays < 1) return $"{(int)diff.TotalHours}h";
-        if (diff.TotalDays < 7) return $"{(int)diff.TotalDays}d";
+        if (diff.TotalMinutes < 1)
+            return "Now";
+        if (diff.TotalHours < 1)
+            return $"{(int)diff.TotalMinutes}m";
+        if (diff.TotalDays < 1)
+            return $"{(int)diff.TotalHours}h";
+        if (diff.TotalDays < 7)
+            return $"{(int)diff.TotalDays}d";
         return LastMessageTime.ToString("MMM d");
     }
 }

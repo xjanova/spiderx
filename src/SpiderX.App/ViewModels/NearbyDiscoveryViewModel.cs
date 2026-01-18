@@ -385,8 +385,10 @@ public class NearbyPeerItem : INotifyPropertyChanged
     {
         get
         {
-            if (IsConnected) return "Connected";
-            if (IsConnecting) return "Connecting...";
+            if (IsConnected)
+                return "Connected";
+            if (IsConnecting)
+                return "Connecting...";
             return $"via {DiscoverySource}";
         }
     }
@@ -395,8 +397,10 @@ public class NearbyPeerItem : INotifyPropertyChanged
     {
         get
         {
-            if (SignalStrength >= 80) return "signal_full.png";
-            if (SignalStrength >= 50) return "signal_medium.png";
+            if (SignalStrength >= 80)
+                return "signal_full.png";
+            if (SignalStrength >= 50)
+                return "signal_medium.png";
             return "signal_low.png";
         }
     }
