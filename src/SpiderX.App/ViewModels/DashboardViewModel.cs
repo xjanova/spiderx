@@ -312,7 +312,7 @@ public class DashboardViewModel : INotifyPropertyChanged
         }
 
         // Calculate average latency from connected peers
-        var peers = _spiderXService.Node.Peers.GetAllPeers().Where(p => p.IsConnected).ToList();
+        var peers = _spiderXService.Node.Peers.Peers.Where(p => p.IsConnected).ToList();
         if (peers.Count > 0)
         {
             AverageLatency = (int)peers.Average(p => p.Latency);
