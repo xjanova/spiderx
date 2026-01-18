@@ -21,6 +21,8 @@
     <!-- Workaround for source generator duplicate compilation in MAUI Windows -->
     <IncludeSourceGeneratorsInIntermediateXamlCompilation>false</IncludeSourceGeneratorsInIntermediateXamlCompilation>
     <EnablePreviewMsixTooling>false</EnablePreviewMsixTooling>
+    <!-- Disable code style enforcement during build for MAUI app due to ViewModel re-linking workaround -->
+    <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
   </PropertyGroup>
 
   <!-- Exclude ViewModels from Windows intermediate XAML compilation -->
