@@ -365,8 +365,10 @@ public class P2PFileSharingService : IDisposable
         {
             foreach (var peerId in knownProviders)
             {
-                if (SpiderId.TryParse(peerId, out var id))
+                if (SpiderId.TryParse(peerId, out var id) && id != null)
+                {
                     providers.Add(id);
+                }
             }
         }
 
@@ -375,10 +377,12 @@ public class P2PFileSharingService : IDisposable
             .SelectMany(c => c.Files)
             .FirstOrDefault(f => f.FileHash == fileHash);
 
-        if (file != null && SpiderId.TryParse(file.OwnerPeerId, out var ownerId))
+        if (file != null && SpiderId.TryParse(file.OwnerPeerId, out var ownerId) && ownerId != null)
         {
             if (!providers.Contains(ownerId))
+            {
                 providers.Add(ownerId);
+            }
         }
 
         // Ask connected peers if they have the file
