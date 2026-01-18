@@ -294,7 +294,8 @@ public class NearbyDiscoveryViewModel : INotifyPropertyChanged
                 var sendRequest = await Application.Current!.Windows[0].Page!.DisplayAlert(
                     "Add Contact?",
                     $"Would you like to add {peerItem.DisplayName} to your contacts?",
-                    "Yes", "No");
+                    "Yes",
+                    "No");
 
                 if (sendRequest)
                 {

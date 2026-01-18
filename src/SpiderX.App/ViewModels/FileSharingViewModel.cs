@@ -214,7 +214,7 @@ public class FileSharingViewModel : INotifyPropertyChanged
 
         try
         {
-            var result = await FolderPicker.Default.PickAsync(new CancellationToken());
+            var result = await FolderPicker.Default.PickAsync(default);
             if (result == null || !result.IsSuccessful)
                 return;
 
@@ -369,7 +369,9 @@ public class FileSharingViewModel : INotifyPropertyChanged
             };
             System.Diagnostics.Process.Start(psi);
         }
-        catch { }
+        catch
+        {
+        }
     }
 
     private void OpenFolder(SharedFileItem? item)
@@ -390,7 +392,9 @@ public class FileSharingViewModel : INotifyPropertyChanged
                 System.Diagnostics.Process.Start(psi);
             }
         }
-        catch { }
+        catch
+        {
+        }
     }
 
     private void OnFileShared(object? sender, SharedFile file)
