@@ -26,6 +26,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<ISpiderXService, SpiderXService>();
 
         // Register ViewModels
+        builder.Services.AddSingleton<DashboardViewModel>();
         builder.Services.AddSingleton<MainViewModel>();
         builder.Services.AddSingleton<ContactsViewModel>();
         builder.Services.AddSingleton<ChatViewModel>();
@@ -35,6 +36,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<FileSharingViewModel>();
 
         // Register Views
+        builder.Services.AddSingleton<DashboardPage>();
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<ContactsPage>();
         builder.Services.AddSingleton<ChatPage>();

@@ -12,32 +12,32 @@
 
     <TabBar>
         <ShellContent
+            Title="Home"
+            Route="Home"
+            ContentTemplate="{DataTemplate views:DashboardPage}"
+            Icon="home_icon.png" />
+
+        <ShellContent
             Title="Chats"
+            Route="Chats"
             ContentTemplate="{DataTemplate views:MainPage}"
             Icon="chat_icon.png" />
 
         <ShellContent
-            Title="Contacts"
-            ContentTemplate="{DataTemplate views:ContactsPage}"
-            Icon="contacts_icon.png" />
-
-        <ShellContent
             Title="Nearby"
+            Route="Nearby"
             ContentTemplate="{DataTemplate views:NearbyDiscoveryPage}"
             Icon="radar_icon.png" />
 
         <ShellContent
-            Title="LAN"
-            ContentTemplate="{DataTemplate views:VirtualLanPage}"
-            Icon="lan_icon.png" />
-
-        <ShellContent
             Title="Files"
+            Route="Files"
             ContentTemplate="{DataTemplate views:FileSharingPage}"
             Icon="files_icon.png" />
 
         <ShellContent
             Title="Settings"
+            Route="Settings"
             ContentTemplate="{DataTemplate views:SettingsPage}"
             Icon="settings_icon.png" />
     </TabBar>

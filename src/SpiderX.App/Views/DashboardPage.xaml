@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:SpiderX.App.ViewModels"
+             x:Class="SpiderX.App.Views.DashboardPage"
+             x:DataType="vm:DashboardViewModel"
+             Title="SpiderX"
+             Shell.NavBarIsVisible="False">
+
+    <ContentPage.Background>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+            <GradientStop Color="#050510" Offset="0.0" />
+            <GradientStop Color="#0A0A1A" Offset="0.3" />
+            <GradientStop Color="#10051A" Offset="0.7" />
+            <GradientStop Color="#0A1020" Offset="1.0" />
+        </LinearGradientBrush>
+    </ContentPage.Background>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="0" Padding="0">
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- HERO SECTION - Network Visualization -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <Grid HeightRequest="320" Margin="0,0,0,0">
+                <!-- Animated Background Orbs -->
+                <BoxView x:Name="Orb1" WidthRequest="200" HeightRequest="200"
+                         CornerRadius="100" Opacity="0.15"
+                         HorizontalOptions="Start" VerticalOptions="Start"
+                         Margin="-50,-30,0,0">
+                    <BoxView.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#7C3AED" Offset="0.0" />
+                            <GradientStop Color="Transparent" Offset="1.0" />
+                        </RadialGradientBrush>
+                    </BoxView.Background>
+                </BoxView>
+
+                <BoxView x:Name="Orb2" WidthRequest="180" HeightRequest="180"
+                         CornerRadius="90" Opacity="0.12"
+                         HorizontalOptions="End" VerticalOptions="Center"
+                         Margin="0,0,-40,0">
+                    <BoxView.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#EC4899" Offset="0.0" />
+                            <GradientStop Color="Transparent" Offset="1.0" />
+                        </RadialGradientBrush>
+                    </BoxView.Background>
+                </BoxView>
+
+                <BoxView x:Name="Orb3" WidthRequest="150" HeightRequest="150"
+                         CornerRadius="75" Opacity="0.1"
+                         HorizontalOptions="Center" VerticalOptions="End"
+                         Margin="0,0,0,-40">
+                    <BoxView.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#06B6D4" Offset="0.0" />
+                            <GradientStop Color="Transparent" Offset="1.0" />
+                        </RadialGradientBrush>
+                    </BoxView.Background>
+                </BoxView>
+
+                <!-- Hero Content -->
+                <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="16" Padding="24">
+
+                    <!-- Animated Logo -->
+                    <Border x:Name="LogoBorder" WidthRequest="100" HeightRequest="100" StrokeThickness="3" HorizontalOptions="Center">
+                        <Border.Stroke>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#7C3AED" Offset="0.0" />
+                                <GradientStop Color="#EC4899" Offset="0.5" />
+                                <GradientStop Color="#06B6D4" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Stroke>
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                <GradientStop Color="#1A0A2A" Offset="0.0" />
+                                <GradientStop Color="#0A1A2A" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="30" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="#7C3AED" Offset="0,0" Radius="30" Opacity="0.5" />
+                        </Border.Shadow>
+                        <Label Text="🕷️" FontSize="50" HorizontalOptions="Center" VerticalOptions="Center" />
+                    </Border>
+
+                    <!-- Title with Gradient Effect -->
+                    <Label Text="SpiderX" FontSize="42" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                        <Label.TextColor>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                <GradientStop Color="#F8FAFC" Offset="0.0" />
+                                <GradientStop Color="#E2E8F0" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Label.TextColor>
+                    </Label>
+
+                    <Label Text="Decentralized P2P Mesh Network" FontSize="16" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+
+                    <!-- Connection Status Pill -->
+                    <Border Padding="16,10" StrokeThickness="1" HorizontalOptions="Center" Margin="0,8,0,0">
+                        <Border.Stroke>
+                            <SolidColorBrush Color="{Binding StatusBorderColor}" />
+                        </Border.Stroke>
+                        <Border.Background>
+                            <SolidColorBrush Color="{Binding StatusBackgroundColor}" />
+                        </Border.Background>
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="20" />
+                        </Border.StrokeShape>
+                        <Border.Shadow>
+                            <Shadow Brush="{Binding StatusGlowColor}" Offset="0,0" Radius="15" Opacity="0.4" />
+                        </Border.Shadow>
+                        <HorizontalStackLayout Spacing="10">
+                            <Border x:Name="StatusDot" WidthRequest="12" HeightRequest="12" StrokeThickness="0">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{Binding StatusDotColor}" />
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="6" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="{Binding StatusDotColor}" Offset="0,0" Radius="8" Opacity="0.8" />
+                                </Border.Shadow>
+                            </Border>
+                            <Label Text="{Binding StatusText}" FontSize="14" FontAttributes="Bold" TextColor="{Binding StatusTextColor}" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- STATS CARDS - Network Statistics -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto" ColumnSpacing="12" RowSpacing="12" Padding="16,8,16,16">
+
+                <!-- Peers Online Card -->
+                <Border Grid.Row="0" Grid.Column="0" Padding="16" StrokeThickness="1" Stroke="#2A2A4A">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#12122A" Offset="0.0" />
+                            <GradientStop Color="#1A1A3A" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#7C3AED" Offset="0.0" />
+                                        <GradientStop Color="#9333EA" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Label Text="👥" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Peers" FontSize="14" TextColor="#94A3B8" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding PeerCount}" FontSize="36" FontAttributes="Bold" TextColor="#F8FAFC" />
+                        <Label Text="Connected" FontSize="12" TextColor="#22C55E" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Messages Card -->
+                <Border Grid.Row="0" Grid.Column="1" Padding="16" StrokeThickness="1" Stroke="#2A2A4A">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#12122A" Offset="0.0" />
+                            <GradientStop Color="#1A1A3A" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#EC4899" Offset="0.0" />
+                                        <GradientStop Color="#F43F5E" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Label Text="💬" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Messages" FontSize="14" TextColor="#94A3B8" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding MessageCount}" FontSize="36" FontAttributes="Bold" TextColor="#F8FAFC" />
+                        <Label Text="{Binding UnreadText}" FontSize="12" TextColor="#EC4899" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Files Shared Card -->
+                <Border Grid.Row="1" Grid.Column="0" Padding="16" StrokeThickness="1" Stroke="#2A2A4A">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#12122A" Offset="0.0" />
+                            <GradientStop Color="#1A1A3A" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#06B6D4" Offset="0.0" />
+                                        <GradientStop Color="#0EA5E9" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Label Text="📁" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Files" FontSize="14" TextColor="#94A3B8" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding FileCount}" FontSize="36" FontAttributes="Bold" TextColor="#F8FAFC" />
+                        <Label Text="{Binding FileSizeText}" FontSize="12" TextColor="#06B6D4" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Network Health Card -->
+                <Border Grid.Row="1" Grid.Column="1" Padding="16" StrokeThickness="1" Stroke="#2A2A4A">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="#12122A" Offset="0.0" />
+                            <GradientStop Color="#1A1A3A" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#22C55E" Offset="0.0" />
+                                        <GradientStop Color="#16A34A" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="12" />
+                                </Border.StrokeShape>
+                                <Label Text="📡" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Network" FontSize="14" TextColor="#94A3B8" VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+                        <Label Text="{Binding LatencyText}" FontSize="36" FontAttributes="Bold" TextColor="#F8FAFC" />
+                        <Label Text="Avg. Latency" FontSize="12" TextColor="#22C55E" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- QUICK ACTIONS -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <Border Margin="16,8" Padding="20" StrokeThickness="1" Stroke="#2A2A4A">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#12122A" Offset="0.0" />
+                        <GradientStop Color="#1A1A3A" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="16">
+                    <Label Text="Quick Actions" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" />
+
+                    <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="12">
+                        <!-- Scan QR -->
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0" HorizontalOptions="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#7C3AED" Offset="0.0" />
+                                        <GradientStop Color="#9333EA" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#7C3AED" Offset="0,4" Radius="12" Opacity="0.4" />
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ScanQRCommand}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="📷" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Scan" FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+
+                        <!-- Share ID -->
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0" HorizontalOptions="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#EC4899" Offset="0.0" />
+                                        <GradientStop Color="#F43F5E" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#EC4899" Offset="0,4" Radius="12" Opacity="0.4" />
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ShareIdCommand}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="🔗" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Share" FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+
+                        <!-- Find Peers -->
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0" HorizontalOptions="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#06B6D4" Offset="0.0" />
+                                        <GradientStop Color="#0EA5E9" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#06B6D4" Offset="0,4" Radius="12" Opacity="0.4" />
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding FindPeersCommand}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="📡" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Discover" FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+
+                        <!-- Send File -->
+                        <VerticalStackLayout Spacing="8" HorizontalOptions="Center">
+                            <Border WidthRequest="56" HeightRequest="56" StrokeThickness="0" HorizontalOptions="Center">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                        <GradientStop Color="#22C55E" Offset="0.0" />
+                                        <GradientStop Color="#16A34A" Offset="1.0" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="16" />
+                                </Border.StrokeShape>
+                                <Border.Shadow>
+                                    <Shadow Brush="#22C55E" Offset="0,4" Radius="12" Opacity="0.4" />
+                                </Border.Shadow>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SendFileCommand}" />
+                                </Border.GestureRecognizers>
+                                <Label Text="📤" FontSize="26" HorizontalOptions="Center" VerticalOptions="Center" />
+                            </Border>
+                            <Label Text="Send" FontSize="12" TextColor="#94A3B8" HorizontalTextAlignment="Center" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- YOUR SPIDERX ID -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <Border Margin="16,8" Padding="20" StrokeThickness="1" Stroke="#2A2A4A">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#12122A" Offset="0.0" />
+                        <GradientStop Color="#1A1A3A" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="12">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="🔐" FontSize="18" />
+                        <Label Text="Your SpiderX ID" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" />
+                    </HorizontalStackLayout>
+
+                    <Border Padding="16" StrokeThickness="1" Stroke="#3A2A5A" BackgroundColor="#0A0A1A">
+                        <Border.StrokeShape>
+                            <RoundRectangle CornerRadius="12" />
+                        </Border.StrokeShape>
+                        <Border.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CopyIdCommand}" />
+                        </Border.GestureRecognizers>
+                        <Grid ColumnDefinitions="*,Auto">
+                            <Label Text="{Binding LocalId}" FontSize="13" TextColor="#06B6D4" LineBreakMode="MiddleTruncation" FontFamily="Consolas" VerticalOptions="Center" />
+                            <Label Grid.Column="1" Text="📋" FontSize="18" VerticalOptions="Center" Margin="8,0,0,0" />
+                        </Grid>
+                    </Border>
+
+                    <Label Text="Tap to copy • Share this ID with others to connect" FontSize="12" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <!-- RECENT ACTIVITY -->
+            <!-- ═══════════════════════════════════════════════════════════════ -->
+            <Border Margin="16,8,16,24" Padding="20" StrokeThickness="1" Stroke="#2A2A4A">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="#12122A" Offset="0.0" />
+                        <GradientStop Color="#1A1A3A" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="8">
+                        <Label Text="⚡" FontSize="18" />
+                        <Label Text="Recent Activity" FontSize="18" FontAttributes="Bold" TextColor="#F8FAFC" />
+                    </HorizontalStackLayout>
+
+                    <CollectionView ItemsSource="{Binding RecentActivities}" HeightRequest="180">
+                        <CollectionView.EmptyView>
+                            <VerticalStackLayout Spacing="8" VerticalOptions="Center" HorizontalOptions="Center" Padding="20">
+                                <Label Text="🌐" FontSize="32" HorizontalTextAlignment="Center" />
+                                <Label Text="No recent activity" FontSize="14" TextColor="#64748B" HorizontalTextAlignment="Center" />
+                                <Label Text="Start connecting with peers!" FontSize="12" TextColor="#4B5563" HorizontalTextAlignment="Center" />
+                            </VerticalStackLayout>
+                        </CollectionView.EmptyView>
+
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="vm:ActivityItem">
+                                <Border Margin="0,4" Padding="12" StrokeThickness="0" BackgroundColor="#1A1A2E">
+                                    <Border.StrokeShape>
+                                        <RoundRectangle CornerRadius="12" />
+                                    </Border.StrokeShape>
+                                    <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                        <Border WidthRequest="40" HeightRequest="40" StrokeThickness="0">
+                                            <Border.Background>
+                                                <SolidColorBrush Color="{Binding IconBackground}" />
+                                            </Border.Background>
+                                            <Border.StrokeShape>
+                                                <RoundRectangle CornerRadius="10" />
+                                            </Border.StrokeShape>
+                                            <Label Text="{Binding Icon}" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center" />
+                                        </Border>
+                                        <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                            <Label Text="{Binding Title}" FontSize="14" FontAttributes="Bold" TextColor="#F8FAFC" />
+                                            <Label Text="{Binding Subtitle}" FontSize="12" TextColor="#94A3B8" LineBreakMode="TailTruncation" />
+                                        </VerticalStackLayout>
+                                        <Label Grid.Column="2" Text="{Binding TimeAgo}" FontSize="11" TextColor="#64748B" VerticalOptions="Center" />
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
