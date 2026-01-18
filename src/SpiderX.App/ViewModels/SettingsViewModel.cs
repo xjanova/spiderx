@@ -101,14 +101,14 @@ public class SettingsViewModel : INotifyPropertyChanged
     {
         if (_spiderXService.Node != null)
         {
-            LocalId = _spiderXService.LocalId?.Address ?? "";
+            LocalId = _spiderXService.LocalId?.Address ?? string.Empty;
             ShareableAddress = _spiderXService.Node.GetShareableAddress();
             IsConnected = _spiderXService.IsRunning;
             ConnectedPeers = _spiderXService.Node.Peers.ConnectedCount;
         }
 
         // Load saved settings
-        DisplayName = Preferences.Default.Get("display_name", "");
+        DisplayName = Preferences.Default.Get("display_name", string.Empty);
         EnableLanDiscovery = Preferences.Default.Get("enable_lan_discovery", true);
         EnableNotifications = Preferences.Default.Get("enable_notifications", true);
     }

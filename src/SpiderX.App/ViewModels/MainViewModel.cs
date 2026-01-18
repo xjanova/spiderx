@@ -115,7 +115,7 @@ public class MainViewModel : INotifyPropertyChanged
             {
                 PeerId = conv.PeerId.Address,
                 DisplayName = conv.Peer?.DisplayName ?? conv.PeerId.Address[..16],
-                LastMessage = conv.LastMessage?.Content ?? "",
+                LastMessage = conv.LastMessage?.Content ?? string.Empty,
                 LastMessageTime = conv.LastMessageTime,
                 UnreadCount = conv.UnreadCount,
                 IsOnline = conv.Peer?.IsConnected ?? false
