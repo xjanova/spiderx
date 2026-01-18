@@ -142,7 +142,8 @@ public class SettingsViewModel : INotifyPropertyChanged
         var confirm = await Application.Current!.Windows[0].Page!.DisplayAlert(
             "Export Identity",
             "This will export your private key. Keep it safe and never share it!",
-            "Export", "Cancel");
+            "Export",
+            "Cancel");
 
         if (confirm)
         {

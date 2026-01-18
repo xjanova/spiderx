@@ -159,7 +159,8 @@ public class ContactsViewModel : INotifyPropertyChanged
         var confirm = await Application.Current!.Windows[0].Page!.DisplayAlert(
             "Block Contact",
             $"Are you sure you want to block {contact.DisplayName}?",
-            "Block", "Cancel");
+            "Block",
+            "Cancel");
 
         if (confirm)
         {
