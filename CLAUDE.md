@@ -249,3 +249,177 @@ When working on this codebase:
    - NAT traversal may fail - provide fallback
    - UDP packets may be lost - implement retry
    - Mobile apps may be backgrounded - handle reconnection
+
+---
+
+## MANDATORY Code Style Rules
+
+**CRITICAL: These rules MUST be followed to avoid CI/CD failures.**
+
+### 1. Always Use Braces for Control Statements
+```csharp
+// WRONG - will fail CI
+if (condition)
+    DoSomething();
+
+// CORRECT
+if (condition)
+{
+    DoSomething();
+}
+```
+
+### 2. Use string.Empty Instead of ""
+```csharp
+// WRONG - SA1122 violation
+string name = "";
+return "";
+
+// CORRECT
+string name = string.Empty;
+return string.Empty;
+```
+
+### 3. XML Documentation Format
+```csharp
+// WRONG - missing period, wrong format
+/// <summary>
+/// Gets the peer name
+/// </summary>
+
+// CORRECT
+/// <summary>
+/// Gets the peer name.
+/// </summary>
+public string Name { get; }
+```
+
+### 4. Parameter Indentation (SA1116)
+```csharp
+// WRONG - first parameter on same line
+Task.Run(() =>
+{
+    DoWork();
+}, cancellationToken);
+
+// CORRECT - all parameters aligned
+Task.Run(
+    () =>
+    {
+        DoWork();
+    },
+    cancellationToken);
+```
+
+### 5. Handle Partial Reads from Streams
+```csharp
+// WRONG - assumes full read
+int bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length);
+
+// CORRECT - loop until all bytes read
+int totalRead = 0;
+while (totalRead < buffer.Length)
+{
+    int bytesRead = await stream.ReadAsync(
+        buffer,
+        totalRead,
+        buffer.Length - totalRead,
+        cancellationToken);
+    if (bytesRead == 0)
+    {
+        break; // End of stream
+    }
+
+    totalRead += bytesRead;
+}
+```
+
+### 6. MAUI: Avoid Deprecated APIs
+```csharp
+// WRONG - Application.MainPage is deprecated in .NET 8
+Application.Current.MainPage.DisplayAlert(...);
+
+// CORRECT - Use Windows collection
+Application.Current?.Windows[0]?.Page?.DisplayAlert(...);
+
+// Or in ViewModels, use injected IDialogService
+```
+
+### 7. Avoid Ambiguous Type References
+```csharp
+// WRONG - ambiguous between Microsoft.Maui.Controls.Application and Microsoft.UI.Xaml.Application
+public class App : Application
+
+// CORRECT - use fully qualified name or alias
+using MauiApp = Microsoft.Maui.Controls.Application;
+public class App : MauiApp
+```
+
+### 8. Private Fields Naming Convention
+```csharp
+// WRONG
+private readonly ILogger logger;
+private string peerName;
+
+// CORRECT - prefix with underscore
+private readonly ILogger _logger;
+private string _peerName;
+```
+
+### 9. Async Method Naming
+```csharp
+// WRONG
+public async Task Connect();
+public async Task<bool> SendMessage();
+
+// CORRECT - suffix with Async
+public async Task ConnectAsync();
+public async Task<bool> SendMessageAsync();
+```
+
+### 10. Dispose Pattern
+```csharp
+// CORRECT pattern for IDisposable
+public class MyClass : IDisposable
+{
+    private bool _disposed;
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            // Dispose managed resources
+        }
+
+        _disposed = true;
+    }
+}
+```
+
+---
+
+## Pre-Commit Checklist
+
+Before committing ANY code, verify:
+
+1. [ ] `dotnet build` - No errors or warnings
+2. [ ] `dotnet test` - All tests pass
+3. [ ] All `if/else/for/foreach/while` have braces `{}`
+4. [ ] No empty string literals `""` - use `string.Empty`
+5. [ ] All public members have XML documentation with period at end
+6. [ ] Private fields start with `_` underscore
+7. [ ] Async methods end with `Async` suffix
+8. [ ] No deprecated MAUI APIs (MainPage, etc.)
+9. [ ] Stream reads handle partial data correctly
+10. [ ] No ambiguous type references
