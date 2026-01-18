@@ -1,16 +1,10 @@
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 
 namespace SpiderX.App.WinUI;
 
-public partial class App : MauiWinUIApplication
+public static class Program
 {
-    public App()
-    {
-        InitializeComponent();
-    }
-
-    protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
-
     [STAThread]
     static void Main(string[] args)
     {
@@ -20,7 +14,7 @@ public partial class App : MauiWinUIApplication
             var context = new DispatcherQueueSynchronizationContext(
                 DispatcherQueue.GetForCurrentThread());
             SynchronizationContext.SetSynchronizationContext(context);
-            _ = new App();
+            new App();
         });
     }
 }
