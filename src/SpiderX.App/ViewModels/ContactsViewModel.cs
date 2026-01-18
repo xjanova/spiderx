@@ -252,9 +252,12 @@ public class ContactItem
     private string GetLastSeenText()
     {
         var diff = DateTime.UtcNow - LastSeen;
-        if (diff.TotalMinutes < 5) return "Just now";
-        if (diff.TotalHours < 1) return $"{(int)diff.TotalMinutes}m ago";
-        if (diff.TotalDays < 1) return $"{(int)diff.TotalHours}h ago";
+        if (diff.TotalMinutes < 5)
+            return "Just now";
+        if (diff.TotalHours < 1)
+            return $"{(int)diff.TotalMinutes}m ago";
+        if (diff.TotalDays < 1)
+            return $"{(int)diff.TotalHours}h ago";
         return LastSeen.ToString("MMM d");
     }
 }
