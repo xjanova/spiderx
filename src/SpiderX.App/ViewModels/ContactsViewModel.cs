@@ -87,7 +87,7 @@ public class ContactsViewModel : INotifyPropertyChanged
 
     private async Task AddContactAsync()
     {
-        var result = await Application.Current!.MainPage!.DisplayPromptAsync(
+        var result = await Application.Current!.Windows[0].Page!.DisplayPromptAsync(
             "Add Contact",
             "Enter SpiderX ID or scan QR code:",
             placeholder: "spx1...");
@@ -103,7 +103,7 @@ public class ContactsViewModel : INotifyPropertyChanged
                     // Send contact request
                     await _spiderXService.Node.RequestPermissionAsync(peer.Id, "contact");
 
-                    await Application.Current.MainPage.DisplayAlert(
+                    await Application.Current!.Windows[0].Page!.DisplayAlert(
                         "Request Sent",
                         "Contact request sent successfully!",
                         "OK");
@@ -113,7 +113,7 @@ public class ContactsViewModel : INotifyPropertyChanged
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert(
+                await Application.Current!.Windows[0].Page!.DisplayAlert(
                     "Error",
                     $"Failed to add contact: {ex.Message}",
                     "OK");
@@ -135,7 +135,7 @@ public class ContactsViewModel : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            await Application.Current!.MainPage!.DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current!.Windows[0].Page!.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
@@ -150,13 +150,13 @@ public class ContactsViewModel : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            await Application.Current!.MainPage!.DisplayAlert("Error", ex.Message, "OK");
+            await Application.Current!.Windows[0].Page!.DisplayAlert("Error", ex.Message, "OK");
         }
     }
 
     private async Task BlockContactAsync(ContactItem contact)
     {
-        var confirm = await Application.Current!.MainPage!.DisplayAlert(
+        var confirm = await Application.Current!.Windows[0].Page!.DisplayAlert(
             "Block Contact",
             $"Are you sure you want to block {contact.DisplayName}?",
             "Block", "Cancel");
@@ -172,7 +172,7 @@ public class ContactsViewModel : INotifyPropertyChanged
     private async Task ScanQrAsync()
     {
         // TODO: Implement QR scanning
-        await Application.Current!.MainPage!.DisplayAlert(
+        await Application.Current!.Windows[0].Page!.DisplayAlert(
             "Coming Soon",
             "QR scanning will be available soon!",
             "OK");
