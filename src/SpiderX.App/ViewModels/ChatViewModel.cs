@@ -121,7 +121,7 @@ public class ChatViewModel : INotifyPropertyChanged
             return;
 
         var content = MessageText.Trim();
-        MessageText = "";
+        MessageText = string.Empty;
 
         try
         {
@@ -220,7 +220,7 @@ public class ChatViewModel : INotifyPropertyChanged
                 Content = e.Message.Content,
                 IsOutgoing = false,
                 Timestamp = e.Message.Timestamp,
-                Status = ""
+                Status = string.Empty
             });
 
             _spiderXService.Chat?.MarkAsRead(_peerSpiderId!);
@@ -252,7 +252,7 @@ public class ChatViewModel : INotifyPropertyChanged
         MessageStatus.Delivered => "Delivered",
         MessageStatus.Read => "Read",
         MessageStatus.Failed => "Failed",
-        _ => ""
+        _ => string.Empty
     };
 
     protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)

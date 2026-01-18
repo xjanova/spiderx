@@ -13,7 +13,7 @@ public class FileSharingViewModel : INotifyPropertyChanged
 {
     private readonly ISpiderXService _spiderXService;
     private bool _isLoading;
-    private string _searchQuery = "";
+    private string _searchQuery = string.Empty;
     private FileCategory? _selectedCategory;
     private string _statusMessage = "Share and download files with your contacts";
     private ObservableCollection<SharedFileItem> _mySharedFiles = [];
