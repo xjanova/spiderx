@@ -89,7 +89,7 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.get_version.outputs.tag_name }}
           name: SpiderX ${{ steps.get_version.outputs.tag_name }}
@@ -134,7 +134,7 @@ jobs:
         run: Compress-Archive -Path ./publish/windows-x64/* -DestinationPath ./SpiderX-${{ needs.create-release.outputs.version }}-windows-x64.zip
 
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ needs.create-release.outputs.tag_name }}
           files: SpiderX-${{ needs.create-release.outputs.version }}-windows-x64.zip
